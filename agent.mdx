@@ -1,0 +1,82 @@
+---
+title: "Meet Your AI Agent"
+sidebarTitle: "Fere AI Agent"
+description: "Fere AI is the central intelligence you interact with — a conversational AI agent with its own loaded wallet that decomposes your requests, reasons, and acts."
+icon: "message"
+keywords: ["Fere AI agent", "AI trading assistant", "task decomposition", "multi-step execution", "AI crypto agent"]
+---
+
+Fere AI is the central intelligence you interact with. It's a conversational AI agent — you tell it what you want, it thinks through the problem, and takes action with its own loaded wallet.
+
+## How It Works
+
+The main interface is a chat. You'll see the **"Ask Fere Anything..."** input front and center, with your wallet always visible on the right. Below the input, you'll notice **trending topic suggestions** — these are AI-generated conversation starters based on what's happening in crypto right now. You can click any of them, or type your own message.
+
+When you send a message, Fere doesn't just pattern-match keywords and fire off a trade. It **decomposes your request into tasks**, reasons about each one, and executes them in the right order. If something is ambiguous, it asks you to clarify before acting.
+
+## What Can You Ask?
+
+<AccordionGroup>
+  <Accordion title="Simple — single-action requests">
+    *"Buy $50 of ETH on Base"* — Fere checks your wallet, finds the best route, estimates gas, and asks you to confirm before executing.
+  </Accordion>
+  <Accordion title="Intermediate — conditional with TP/SL">
+    *"Set a limit order to buy BRETT if it drops 15%. Set TP at +40% and SL at -20%."* — Fere fetches the current price, calculates your targets, places the limit order, and arms the take-profit and stop-loss.
+  </Accordion>
+  <Accordion title="Advanced — multi-step research + trade">
+    *"Scan Base for tokens between $500k-$2M market cap. Check their social sentiment on Twitter and Farcaster. If any scores above 80/100, buy $5 worth."* — Fere creates a multi-step plan and only executes a trade on candidates that pass your threshold.
+  </Accordion>
+</AccordionGroup>
+
+## Live: Multi-Step Execution
+
+Example message:
+
+```
+Set a limit order: buy $200 of BRETT if it drops 15% from current price.
+Set TP at +40%, SL at -20%.
+```
+
+**Agent execution log:**
+
+1. Parsing intent: conditional limit order + TP/SL
+2. Fetching current BRETT price on Base
+3. Current: $0.1847 — target entry: $0.1570 (-15%)
+4. Creating plan with 3 task(s)
+5. Task 1: Place limit order — $200 USDC → BRETT @ $0.1570
+6. Task 2: Set Take-Profit — sell at $0.2198 (+40%)
+7. Task 3: Set Stop-Loss — sell at $0.1256 (-20%)
+8. Limit order placed. Monitoring price
+9. TP/SL armed. Agent will execute autonomously
+
+## Task Decomposition & Planning
+
+Under the hood, Fere uses a state-of-the-art orchestration system that breaks your natural language message into discrete, ordered tasks. Each task is handled by a specialized sub-agent — one for market data, one for sentiment analysis, one for trade execution, and so on.
+
+This is what makes Fere different from bots that just execute a fixed command. Fere **plans**, **reasons**, and **adapts**. If the sentiment check comes back bearish, it won't blindly buy — it will tell you why it chose not to trade.
+
+<CardGroup cols={2}>
+  <Card title="Multi-Step Planning" icon="diagram-project">
+    Complex instructions are broken into ordered tasks, each executed by the right specialist agent.
+  </Card>
+  <Card title="Reasoning, Not Rules" icon="brain">
+    Fere adapts to what it finds. It makes decisions based on live data — not static if-else scripts.
+  </Card>
+  <Card title="Asks Before Acting" icon="circle-question">
+    If your message is ambiguous, Fere asks follow-up questions instead of guessing wrong.
+  </Card>
+  <Card title="Full Transparency" icon="eye">
+    Every step, every data point, every decision — logged in the execution trail for you to review.
+  </Card>
+  <Card title="Retries & Fallbacks" icon="rotate">
+    Failed route? Fere automatically retries with alternatives — no more lost trades during peak demand or hype periods.
+  </Card>
+</CardGroup>
+
+## Chat History
+
+Every conversation with Fere is saved. You'll see your past chats listed in the left sidebar under **Chats** — click any one to pick up where you left off.
+
+## Private Chat
+
+Need to do research without saving the conversation? Use **Private Chat** mode — your messages won't be stored in your chat history.

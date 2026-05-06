@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 32" width="160" height="32">
+  <g fill="#F2F2F2" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif">
+    <circle cx="16" cy="16" r="13" fill="#EBCB8B"/>
+    <path d="M11 9 h11 v3 h-7 v3 h6 v3 h-6 v6 h-4 z" fill="#0a0a0a"/>
+    <text x="38" y="21" font-size="16" font-weight="700" letter-spacing="-0.4">Fere AI</text>
+  </g>
+</svg>

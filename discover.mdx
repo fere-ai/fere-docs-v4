@@ -1,0 +1,104 @@
+---
+title: "Discover — Your AI-Curated Token Feed"
+sidebarTitle: "Discover"
+description: "Discover surfaces tokens worth a second look — pulled live from on-chain data and smart-money wallets across Solana, Base, Ethereum, Arbitrum, BNB Chain, and Polygon."
+icon: "compass"
+keywords: ["token discovery", "smart money", "AI curation", "onchain signals", "alpha tokens", "trending crypto"]
+---
+
+Discover surfaces tokens worth a second look — pulled live from on-chain data and smart-money wallets across Solana, Base, Ethereum, Arbitrum, BNB Chain, and Polygon. Every token here was flagged by Fere's agents for a reason. Buy or sell any of them in one tap — gasless, across all chains.
+
+## How It Works
+
+Fere's agents run continuously in the background, scanning the markets through two primary data layers:
+
+<CardGroup cols={2}>
+  <Card title="On-Chain Data" icon="link">
+    Real-time prices, volumes, liquidity, holder counts, transactions, and contract metadata — continuously ingested across all six chains.
+  </Card>
+  <Card title="Wallet Intelligence" icon="wallet">
+    Smart-money labels, institutional flows, and accumulation patterns — tracking what the sharpest wallets are doing before anyone else notices.
+  </Card>
+</CardGroup>
+
+The list refreshes every few seconds and is re-scored continuously. What's hot at 9 am may not be hot at 9:15. This is curation, not advice — Discover is a starting point for your own research.
+
+## Signals
+
+Discover uses 13 signals, grouped into two tiers based on typical risk profile. A token can qualify for multiple signals at once — more signals strengthens the case, but does not mean lower risk.
+
+### Lower-Risk Signals
+
+| Signal | What It Flags |
+| --- | --- |
+| **Safe Bets** | Established tokens with deep liquidity, strong holder counts, and proven track records. |
+| **Growth** | Tokens with consistent positive momentum across price, holders, and volume over time. |
+| **Vetted** | Tokens that pass automated checks: verified contract, no honeypot signals, locked liquidity. |
+| **Inst. Radar** | Tokens being accumulated by institutional or smart-money wallets. |
+| **Recovery** | Quality tokens that have bounced from local lows with renewed buying interest. |
+
+### Higher-Risk Signals
+
+| Signal | What It Flags |
+| --- | --- |
+| **Ignition** | Early breakout signs: volume surge, holder growth, on-chain accumulation in a short window. |
+| **Viral** | Tokens trending across social platforms with rapidly growing mentions and engagement. |
+| **LP Lock** | New launches where liquidity is locked — a basic anti-rug indicator on otherwise unproven tokens. |
+| **Alpha** | Under-the-radar tokens with unusual smart-money activity before broader market awareness. |
+| **Diverge** | Tokens where on-chain activity diverges from price action — quiet accumulation, or distribution into rallies. |
+| **Revival** | Older, dormant tokens seeing renewed activity and volume after extended periods of inactivity. |
+| **Social** | Tokens picking up specifically on Twitter and Farcaster among crypto-native accounts. |
+| **Contrarian** | Tokens where retail and smart-money flows are moving in opposite directions. |
+
+## Reading a Token Card
+
+Each card surfaces the essentials at a glance:
+
+<CardGroup cols={2}>
+  <Card title="Token Name & Address" icon="tag">
+    Tap the address to copy it. The icon is fetched live from on-chain metadata.
+  </Card>
+  <Card title="Signal Icons" icon="icons">
+    Small icons under the token name show every signal that flagged it. Hover any icon for the signal name.
+  </Card>
+  <Card title="Risk Badge" icon="shield-halved">
+    Low / Medium / High — factors in liquidity depth, holder concentration, contract age, audit status, and rug indicators. A quick gut-check, not a guarantee.
+  </Card>
+  <Card title="Mkt Cap & Liquidity" icon="chart-column">
+    Fully diluted market cap and total USD-denominated liquidity available across the token's primary pools.
+  </Card>
+</CardGroup>
+
+## Buying & Selling
+
+All buys and sells from Discover route through Fere's gasless execution layer. You don't need native gas tokens on any chain — Fere covers gas and settles in the token you're trading.
+
+**Supported on Discover:** Solana, Base, Ethereum, Arbitrum, BNB Chain, Polygon.
+
+<Tip>
+  **Slippage, Routing, Confirmation.** Slippage, priority fees, and routing are handled automatically. You see the quoted price before confirming and can cancel up to the moment of submission.
+</Tip>
+
+## Filters
+
+Filters narrow the list to tokens flagged with a specific signal. Multiple filters stack — selecting **Safe Bets** and **Growth** together shows only tokens that hit both, which tends to return a small, high-conviction list. Removing all filters shows every flagged token across all signals.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="How often does Discover update?">
+    Continuously. The "Updated Ns ago" indicator at the top right shows the last refresh — new signals can appear within seconds of meeting our thresholds.
+  </Accordion>
+  <Accordion title="Why is a token I expected not showing up?">
+    A token only appears if it currently meets the threshold for at least one of the 13 signals. Tokens that previously trended may have rolled off if their momentum or smart-money interest faded.
+  </Accordion>
+  <Accordion title="What's the difference between Discover and Market Pulse?">
+    Market Pulse summarizes overall market chatter and narratives. Discover surfaces specific tokens to consider. Pulse tells you what the market is talking about; Discover tells you which tokens are worth looking at right now.
+  </Accordion>
+  <Accordion title="Is Discover financial advice?">
+    No. Every signal is a data-driven flag, not a recommendation. Risk badges are heuristics, not guarantees. Always do your own research before trading, and never trade more than you can afford to lose.
+  </Accordion>
+  <Accordion title="Can I trade tokens not in Discover?">
+    Yes — use the Agent to research and trade any token directly by name or contract address, on any of our six supported chains.
+  </Accordion>
+</AccordionGroup>

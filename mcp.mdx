@@ -1,0 +1,110 @@
+---
+title: "MCP Support — Use Fere From Any AI Client"
+sidebarTitle: "MCP Support"
+description: "FereAI exposes a hosted MCP (Model Context Protocol) server, so you can drive on-chain research, swaps, and portfolio actions from Claude, ChatGPT, Cursor, Codex, Hermes, or Claude Code."
+icon: "plug"
+keywords: ["MCP", "Model Context Protocol", "Claude", "ChatGPT", "Cursor", "Codex", "Hermes", "Claude Code", "AI integrations"]
+---
+
+FereAI exposes a hosted MCP (Model Context Protocol) server, so you can drive on-chain research, swaps, and portfolio actions from Claude, ChatGPT, Cursor, Codex, Hermes, or Claude Code — wherever you already work.
+
+<Info>
+  **One URL, Every Client.** Point any MCP-aware client at `https://api.fereai.xyz/mcp`. Each provider handles OAuth its own way — usually a one-time browser sign-in linked to your Fere account. After that, the client can call Fere tools directly inside your conversations.
+</Info>
+
+## Pick Your Client
+
+<CardGroup cols={2}>
+  <Card title="Claude (Desktop & Web)" icon="message">
+    Add Fere as a **Connector**, paste the URL, and finish OAuth in the browser.
+  </Card>
+  <Card title="Claude Code" icon="terminal">
+    Drop the JSON config snippet into your MCP servers config.
+  </Card>
+  <Card title="ChatGPT" icon="robot">
+    Turn on **Developer Mode** in Apps, then add the URL as a custom MCP.
+  </Card>
+  <Card title="Hermes" icon="feather">
+    Paste the URL directly into a Hermes chat — it installs the MCP and prompts for OAuth.
+  </Card>
+  <Card title="Cursor" icon="code">
+    Add the JSON snippet under `mcpServers` in Cursor's MCP settings.
+  </Card>
+  <Card title="Codex" icon="bolt">
+    Use the **Streamable HTTP MCP** add flow and paste the URL.
+  </Card>
+</CardGroup>
+
+## Claude (Desktop & Web)
+
+In Claude, open **Settings → Connectors → Add custom connector** and paste the URL below. Claude will pop up an OAuth window to link your Fere account; once you approve, every new conversation can call Fere tools.
+
+```
+https://api.fereai.xyz/mcp
+```
+
+## Claude Code
+
+Add the following block to your Claude Code MCP config (typically `~/.claude.json` or your project-level `.mcp.json`). On first use, Claude Code will open the OAuth flow in your browser.
+
+```json
+{
+  "mcpServers": {
+    "FereAI MCP": {
+      "type": "http",
+      "url": "https://api.fereai.xyz/mcp",
+      "description": "FereAI MCP server for on-chain transactions."
+    }
+  }
+}
+```
+
+## ChatGPT
+
+ChatGPT exposes custom MCPs behind a developer flag. Enable it once, then add the Fere URL as a new app.
+
+<Steps>
+  <Step title="Enable Developer Mode">
+    Open **Settings → Apps & Connectors** and toggle **Developer Mode** on.
+  </Step>
+  <Step title="Add Custom MCP">
+    Click **Add custom MCP** and paste `https://api.fereai.xyz/mcp`.
+  </Step>
+  <Step title="Complete OAuth">
+    Complete the OAuth prompt to link your Fere account.
+  </Step>
+</Steps>
+
+## Hermes
+
+Hermes makes this the simplest of all — just paste the URL into any chat:
+
+```
+https://api.fereai.xyz/mcp
+```
+
+Hermes detects it as an MCP endpoint, installs the server, and walks you through OAuth inline. No config file needed.
+
+## Cursor
+
+Open **Settings → MCP** in Cursor and add an entry under `mcpServers`. Cursor will run OAuth in your browser the first time you invoke a Fere tool.
+
+```json
+{
+  "mcpServers": {
+    "FereAI MCP": {
+      "type": "http",
+      "url": "https://api.fereai.xyz/mcp",
+      "description": "FereAI MCP server for on-chain transactions."
+    }
+  }
+}
+```
+
+## Codex
+
+In Codex, open the MCP settings and choose **Add Streamable HTTP MCP**. Paste `https://api.fereai.xyz/mcp` as the endpoint and approve the OAuth handshake when prompted.
+
+<Warning>
+  **OAuth Is Handled By Your Client.** Fere never sees your client credentials. Each provider runs its own OAuth flow against your Fere account — the URL above is the only thing you ever paste. Revoke access anytime from your Fere account settings.
+</Warning>

@@ -1,0 +1,43 @@
+---
+title: "Wallet — Coinbase-Grade Security"
+sidebarTitle: "Wallet & Security"
+description: "Your wallet is always visible — showing balance, assets, and active orders in real time. Powered by Coinbase CDP Server Wallets, with private keys in hardware-isolated enclaves."
+icon: "wallet"
+keywords: ["wallet security", "Coinbase CDP", "TEE", "non-custodial", "private keys", "MetaMask", "Phantom", "wallet export"]
+---
+
+Your wallet is always visible on the right side of the screen — showing your balance, assets, and active orders in real time. Under the hood, it's powered by Coinbase's most advanced wallet infrastructure.
+
+## What You See
+
+The wallet panel is always visible on the right side of the Fere interface. At a glance, you can see:
+
+- **Total balance** — Your aggregate holdings across all chains.
+- **Wallet addresses** — Both your EVM address (for Base, Ethereum, Polygon, etc.) and your Solana address, each with a key icon to export your private key.
+- **Add Funds** — One-click deposit into your wallet.
+- **Assets tab** — Your token holdings with USD values, organized by chain. A "Hide dust" checkbox filters out tiny balances under $0.05.
+- **Limit Orders tab** — All your active limit orders in one place.
+- **TP/SL Orders** — Active take-profit and stop-loss positions appear right under the relevant token.
+- **Supported chains** — Shown at the bottom of the wallet panel.
+
+<Info icon="lock">
+  **Powered by Coinbase CDP Server Wallets.** Every Fere wallet is a Coinbase Developer Platform Server Wallet — the same infrastructure trusted by the world's largest crypto exchange. Private keys live inside Trusted Execution Environments (TEEs) and never leave the secure enclave.
+</Info>
+
+## You Own Your Wallet
+
+This is critical: **your wallet is fully owned by you.** Next to each wallet address in the panel, you'll see a key icon. Click it to reveal and export your private key. You can then import that key into any external wallet like MetaMask or Phantom — meaning your funds are never locked inside Fere.
+
+<Check>
+  **Full Key Ownership.** Your private key is yours. Export it anytime and use it in MetaMask (for EVM chains) or Phantom (for Solana). Fere is non-custodial — you can always access your funds independently. See the [FAQ](/faq) for step-by-step export instructions.
+</Check>
+
+## What Makes This Secure
+
+- **One wallet, every chain** — A single wallet identity works across all supported EVM chains and Solana.
+- **Keys never exposed** — Private keys are generated and stored inside hardware-isolated enclaves. Not even Coinbase or Fere can access them.
+- **Policy enforcement** — Transaction rules like spend limits and address allowlists are enforced at the enclave level.
+- **Sub-200ms signing** — Wallet creation takes under 500ms. Transaction signing under 200ms.
+- **Non-custodial** — Fere cannot seize, freeze, or move your funds. Period.
+
+**Infrastructure:** Coinbase CDP · Trusted Execution (TEE) · AWS Nitro Enclaves

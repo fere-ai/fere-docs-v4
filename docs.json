@@ -1,0 +1,179 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Fere AI",
+  "description": "Official Fere AI documentation: autonomous crypto trading agents, Market Pulse, recipes, strategies, Polymarket, cross-chain execution, wallet security, credits, and FAQ.",
+  "colors": {
+    "primary": "#EBCB8B",
+    "light": "#EBCB8B",
+    "dark": "#B8860B"
+  },
+  "favicon": "/favicon.ico",
+  "logo": {
+    "light": "https://storage.googleapis.com/fere-assets/logo/logo-dark.webp",
+    "dark": "https://storage.googleapis.com/fere-assets/logo/logo-light.webp",
+    "href": "https://www.fereai.xyz"
+  },
+  "appearance": {
+    "default": "dark"
+  },
+  "background": {
+    "color": {
+      "dark": "#050505",
+      "light": "#fafafa"
+    }
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get Started",
+        "pages": [
+          "index",
+          "agent"
+        ]
+      },
+      {
+        "group": "Features",
+        "pages": [
+          "market-pulse",
+          "recipes",
+          "strategies",
+          "polymarket",
+          "cross-chain",
+          "discover"
+        ]
+      },
+      {
+        "group": "Developer Tools",
+        "pages": [
+          "mcp"
+        ]
+      },
+      {
+        "group": "Your Wallet",
+        "pages": [
+          "wallet"
+        ]
+      },
+      {
+        "group": "Rewards",
+        "pages": [
+          "credits",
+          "refer-and-earn",
+          "points"
+        ]
+      },
+      {
+        "group": "Help",
+        "pages": [
+          "faq"
+        ]
+      },
+      {
+        "group": "Legal",
+        "pages": [
+          "legal/terms",
+          "legal/privacy",
+          "legal/security-policy"
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Website",
+        "href": "https://www.fereai.xyz"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Launch App",
+      "href": "https://fereai.xyz/app"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/fereai_xyz",
+      "website": "https://www.fereai.xyz"
+    },
+    "links": [
+      {
+        "header": "Product",
+        "items": [
+          {
+            "label": "Fere AI Agent",
+            "href": "/agent"
+          },
+          {
+            "label": "Market Pulse",
+            "href": "/market-pulse"
+          },
+          {
+            "label": "Strategies",
+            "href": "/strategies"
+          },
+          {
+            "label": "Discover",
+            "href": "/discover"
+          }
+        ]
+      },
+      {
+        "header": "Resources",
+        "items": [
+          {
+            "label": "FAQ",
+            "href": "/faq"
+          },
+          {
+            "label": "MCP Support",
+            "href": "/mcp"
+          },
+          {
+            "label": "Wallet & Security",
+            "href": "/wallet"
+          }
+        ]
+      },
+      {
+        "header": "Legal",
+        "items": [
+          {
+            "label": "Terms of Service",
+            "href": "/legal/terms"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "/legal/privacy"
+          },
+          {
+            "label": "Security Policy",
+            "href": "/legal/security-policy"
+          }
+        ]
+      }
+    ]
+  },
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "og:type": "website",
+      "og:site_name": "Fere AI",
+      "og:title": "Fere AI Documentation",
+      "og:description": "AI agents that actually trade. Documentation for Fere AI: autonomous trading, Market Pulse, strategies, cross-chain swaps, and wallet security.",
+      "twitter:card": "summary_large_image",
+      "twitter:site": "@fereai_xyz",
+      "robots": "index, follow"
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity"
+    ]
+  }
+}

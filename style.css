@@ -1,0 +1,33 @@
+/* Hide the navbar search input */
+#topbar-search,
+[data-testid="search-bar"],
+[aria-label="Search"],
+button[aria-label*="Search"],
+div[id*="search-button"],
+.cmdk-input,
+nav input[type="search"],
+nav input[placeholder*="Search"] {
+  display: none !important;
+}
+
+/* Add "FereAI" bold name next to logo image */
+#navbar a[href*="fereai.xyz"]:has(img),
+#navbar a[href="/"]:has(img),
+#sidebar a:has(img[alt*="logo" i]),
+header a:has(img[alt*="logo" i]) {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+#navbar a[href*="fereai.xyz"]:has(img)::after,
+#navbar a[href="/"]:has(img)::after,
+#sidebar a:has(img[alt*="logo" i])::after,
+header a:has(img[alt*="logo" i])::after {
+  content: "FereAI";
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--tw-prose-headings, currentColor);
+}

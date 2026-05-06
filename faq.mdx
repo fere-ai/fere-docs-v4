@@ -1,0 +1,147 @@
+---
+title: "Frequently Asked Questions"
+sidebarTitle: "FAQ"
+description: "Everything you need to know about using Fere AI — from wallet ownership to trading features."
+icon: "circle-question"
+keywords: ["Fere FAQ", "wallet export", "MetaMask", "Phantom", "TP/SL", "limit orders", "credits", "points"]
+---
+
+Everything you need to know about using Fere AI — from wallet ownership to trading features.
+
+## Wallet & Security
+
+<AccordionGroup>
+  <Accordion title="Do I own my wallet? Can Fere access my funds?">
+    **Yes, you fully own your wallet.** Fere uses Coinbase CDP Server Wallets, which are non-custodial. Your private keys live inside a Trusted Execution Environment (TEE) — a hardware-isolated enclave that neither Fere nor Coinbase can access.
+
+    You can export your private key at any time using the **key icon** next to your wallet address in the wallet panel. Once exported, you can import it into any external wallet like MetaMask or Phantom and access your funds completely independently of Fere.
+
+    Fere cannot seize, freeze, move, or view your private key. This is enforced by architecture, not just policy.
+  </Accordion>
+
+  <Accordion title="How do I export my private key to MetaMask?">
+    Use this to move your **EVM wallet** (Base, Ethereum, Polygon, Arbitrum, etc.) to MetaMask:
+
+    **Step 1:** In Fere, find your EVM wallet address in the right panel (starts with 0x). Click the key icon next to it to reveal your private key. Copy it.
+
+    **Step 2:** Open MetaMask (browser extension or mobile app).
+
+    **Step 3:** Click the account selector (circle icon at the top).
+
+    **Step 4:** Select **"Add account or hardware wallet"**, then choose **"Import account"**.
+
+    **Step 5:** Make sure "Private Key" is selected as the type. Paste your key and click **Import**.
+
+    Your Fere wallet will now appear in MetaMask with an "Imported" label. You can use both Fere and MetaMask to access the same funds.
+  </Accordion>
+
+  <Accordion title="How do I export my private key to Phantom?">
+    Use this to move your **Solana wallet** to Phantom:
+
+    **Step 1:** In Fere, find your Solana wallet address in the right panel (starts with a non-0x string). Click the key icon to reveal your Solana private key. Copy it.
+
+    **Step 2:** Open Phantom (browser extension or mobile app).
+
+    **Step 3:** Click your profile avatar in the upper-left corner.
+
+    **Step 4:** Click **"Add / Connect Wallet"** (or the pencil icon on mobile), then select **"Import Private Key"**.
+
+    **Step 5:** Enter a name for the account, select **Solana** as the network, paste your private key, and click **Import**.
+
+    Your Fere Solana wallet will now appear in Phantom. You can use both apps to access the same funds.
+  </Accordion>
+
+  <Accordion title="What is &quot;Hide dust&quot; in the wallet?">
+    The **"Hide dust (&lt;$0.05)"** checkbox in your wallet panel hides tokens with very small balances — typically leftover fragments from trades. This keeps your asset list clean and focused on your meaningful holdings. Uncheck it to see everything.
+  </Accordion>
+</AccordionGroup>
+
+## Trading
+
+<AccordionGroup>
+  <Accordion title="What happens if a trade fails?">
+    Fere has **intelligent retries and fallback routing** built in — so most failures that would stop a normal wallet are handled automatically. If a route fails due to slippage or liquidity, Fere retries with an alternative path before giving up. If it truly can't execute (e.g., a chain is down), it tells you exactly why and suggests what to do next. No funds leave your wallet on a failed transaction — everything is reverted on-chain.
+  </Accordion>
+
+  <Accordion title="What is TP/SL and how does it work?">
+    **TP (Take-Profit)** automatically sells your token when it rises to a price you set — locking in gains. **SL (Stop-Loss)** automatically sells when it drops to a price you set — limiting losses.
+
+    What makes Fere special is that you can set TP/SL on **any token**, including obscure memecoins and microcaps that other platforms can't support. Just tell Fere: *"Set TP at +50% and SL at -20% on my BRETT position"* and it's done. Active TP/SL orders appear right under the token in your wallet panel.
+  </Accordion>
+
+  <Accordion title="How do limit orders work on Fere?">
+    Limit orders let you set a price at which you want to buy or sell a token. Once the market reaches your target price, Fere executes the trade automatically. You can view all your active limit orders in the **Limit Orders** tab of your wallet panel.
+
+    Unlike centralized exchanges, Fere can place limit orders on any DEX token — even ones that aren't listed anywhere else.
+  </Accordion>
+
+  <Accordion title="Does Fere trade automatically?">
+    **Yes.** When you ask Fere to execute a trade, it automatically finds the best route with the lowest slippage and executes. Unlike manual wallet-based trading, Fere has **built-in retries and fallbacks** — if a route fails (common during high-traffic periods or token hype), the agent automatically retries with an alternative route instead of just showing you an error.
+
+    This is a major advantage over traditional wallets, where failed transactions during peak demand simply fail and you have to start over. Fere handles the retry logic intelligently so you don't miss opportunities.
+
+    **One caveat:** Fere can't fix chain-level performance issues. If a blockchain itself is congested or down, retries won't help — but Fere will tell you exactly what's happening.
+
+    For **automated strategies**, the agent executes autonomously based on the conditions you set — that's the whole point of automation. You can pause or stop any strategy at any time from the Strategies tab.
+  </Accordion>
+</AccordionGroup>
+
+## Strategies
+
+<AccordionGroup>
+  <Accordion title="Can I stop a strategy once it's running?">
+    **Yes, absolutely.** Click **Strategies** in the top navigation, find the strategy you want to stop, and pause or cancel it. It stops immediately — no lock-in, no waiting for the next cycle to complete. You can also restart it later if you change your mind.
+  </Accordion>
+
+  <Accordion title="What's the difference between a recipe and a strategy?">
+    A **recipe** is a pre-built, one-click workflow — think of it as a template that runs once. You configure it, hit run, and get results.
+
+    A **strategy** is any instruction (including custom ones you write yourself) set to run repeatedly on a timer — every hour, every day, etc. Strategies are more powerful because they're autonomous and ongoing, and the agent thinks fresh each cycle.
+  </Accordion>
+</AccordionGroup>
+
+## Credits & Rewards
+
+<AccordionGroup>
+  <Accordion title="How much does it cost to use Fere?">
+    Each AI agent conversation costs **15 credits**. A scheduled Market Pulse execution costs **70 credits**. You get 200 credits free at signup (valid for 14 days). Credit packs start at **$5 for 300 credits**, so a single agent query costs about $0.25. Larger packs give you more credits per dollar.
+  </Accordion>
+
+  <Accordion title="How do I get free credits?">
+    Two ways: **(1)** You get 200 credits free when you sign up — valid for 14 days. **(2)** Refer friends using your referral code — you earn **200 credits** (plus points) when each referred user reaches **$10 cumulative** eligible credit-pack spend, up to a lifetime referral-credit cap; after the cap you still earn points per successful referral.
+  </Accordion>
+
+  <Accordion title="Do credits expire?">
+    **Signup credits** expire 14 days after you create your account. **Purchased credits** (from credit packs) **never expire** — they stay in your account until you use them.
+
+    **Referral credits** are different: each grant is kept in its own batch and can expire **14 days after that grant** if you (the referrer) complete no agent queries in that window. Referral credits are also consumed **after** signup credits when you use Fere.
+  </Accordion>
+
+  <Accordion title="How do points differ from credits?">
+    **Credits** are the currency you spend to use Fere's features — they're consumed when the agent runs queries or scheduled tasks. **Points** are a reward metric earned through spend-volume actions: on-chain transactions, Polymarket trades, and credit purchases. They determine your position on the weekly leaderboard. Points refresh every Monday. Purchased credits never expire; signup credits expire after 14 days; referral credit batches can expire under the inactivity rule described on [Refer & Earn](/refer-and-earn).
+  </Accordion>
+</AccordionGroup>
+
+## General
+
+<AccordionGroup>
+  <Accordion title="What are the trending topic pills below the search bar?">
+    Those are **AI-generated suggestions** based on what's happening in crypto right now — things like "Liquidation & Fear Correlation" or "Dormant Whale BTC Buys". Click any one to start a conversation about that topic. They're updated regularly to reflect the current market narrative.
+  </Accordion>
+
+  <Accordion title="Which chains does Fere support?">
+    Fere currently supports **8 chains**: Ethereum, Base, Solana, Berachain, Monad, Optimism, Polygon, and Arbitrum. You can see all supported chains at the bottom of your wallet panel. New chains are added regularly.
+  </Accordion>
+
+  <Accordion title="How do I add funds to my wallet?">
+    Click the **"Add Funds"** button at the top of your wallet panel. You can deposit crypto directly to your Fere wallet addresses — send EVM tokens to your 0x address or SOL to your Solana address. Both addresses are visible in the wallet panel and can be copied with one click.
+  </Accordion>
+
+  <Accordion title="Is my trading data private?">
+    **Yes.** Your strategies, chat history, and trading activity are encrypted at rest and never shared with third parties. Fere does not use your data to train AI models unless you explicitly opt in via the Rewards Program. Your alpha stays private.
+  </Accordion>
+
+  <Accordion title="Can I see my past conversations?">
+    Yes. All your past conversations are saved and listed in the left sidebar under **Chats**. Click any conversation to reopen it and continue where you left off. This makes it easy to reference previous trades, strategies, or analysis.
+  </Accordion>
+</AccordionGroup>

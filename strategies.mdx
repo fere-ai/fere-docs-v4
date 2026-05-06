@@ -1,0 +1,93 @@
+---
+title: "Strategies — Trade While You Sleep"
+sidebarTitle: "Strategies"
+description: "Strategies let you automate any instruction — no matter how complex — and have Fere run it on repeat. Buy, rebalance, and watch the market while you do anything else."
+icon: "clock"
+keywords: ["trading strategies", "automated crypto", "DCA", "AI agent strategy", "scheduled trading", "autonomous strategies"]
+---
+
+Strategies let you automate any instruction — no matter how complex — and have Fere run it on repeat. Your strategies run on autopilot — buying, rebalancing, and watching the market while you do literally anything else. Describe what you want once, and Fere handles the rest every single cycle.
+
+## What Are Strategies?
+
+A strategy is an automated instruction that runs on repeat. You describe it in the chat at **/app**, tell Fere how often to run it, and sit back. Every cycle, the agent goes through the full reasoning process — scanning, analyzing, deciding, and (if conditions are met) trading.
+
+And here's what makes it powerful: **Fere remembers.**
+
+## Gets Smarter Over Time
+
+Every time a strategy runs, it carries forward what it found before. By day 7 of an hourly scan, your agent has a rich picture of every token it analyzed, every score it gave, every trade it made or skipped. It can spot things a stateless bot never would — like a token that scored 85 three days ago, dropped to 60 yesterday, and just came back to 82. That's a recovery signal, and Fere catches it because it was watching.
+
+<Tip>
+  **Context That Compounds.** Fere distills past runs into the signals that actually matter — not a wall of logs, but a smart research notebook that makes every cycle more informed than the last.
+</Tip>
+
+## How to Create a Strategy
+
+Go to the main chat at **/app** and describe what you want to automate. The AI sets it up and it appears in **/strategies**. A few examples to get you started:
+
+<CardGroup cols={2}>
+  <Card title="Trending Token Buyer" icon="arrow-trend-up">
+    *"Every 3 hours, buy trending tokens on Base under $5M mcap."*
+  </Card>
+  <Card title="DCA on a Schedule" icon="clock">
+    *"DCA $50 into ETH every Monday at 9am."*
+  </Card>
+</CardGroup>
+
+## Example: Hourly Token Scout
+
+> **Runs Every Hour**
+>
+> *"Go to Base chain and find tokens between $10M-$20M market cap. Analyze them on socials and technical analysis and give them a score based on performance. Buy a token if it scores 90/100."*
+
+**Every hour, Fere will:** scan the chain for candidates, run social and TA analysis on each, score them, and only execute a trade if the quality bar is met. Check the Strategies page after each run to see which tokens were found, what they scored, and whether any trades were made.
+
+## The Strategies Page
+
+Click **Strategies** in the top navigation bar. Here's what you'll see:
+
+- **Active / Paused tabs** — The page opens on Active. Switch to Paused to see anything you've stopped, with counts on each tab so you always know where you stand.
+- **Strategy cards** — Each card shows your original instruction, how often it runs, when it runs next (or last ran if paused), and how many times it's executed so far.
+- **Start a Strategy** — At the bottom of the page, pre-built templates let you launch a strategy in one click without typing anything.
+
+## Start a Strategy
+
+The **Start a Strategy** section inside the Strategies page has pre-built templates that get you running in one click. Pick one, fill in a few parameters, and Fere creates the full automated strategy for you.
+
+<CardGroup cols={3}>
+  <Card title="Trending Tokens" icon="fire">
+    Buy trending tokens on any chain — filtered for volume, liquidity, and safety — without writing a single message.
+  </Card>
+  <Card title="DCA on Frequency" icon="rotate">
+    Dollar-cost average into any token on a daily, weekly, or custom schedule.
+  </Card>
+  <Card title="Buy Token on Chain" icon="coins">
+    Buy a specific token on any supported chain with automatic routing and verification.
+  </Card>
+</CardGroup>
+
+## Strategy Detail Page
+
+Click any strategy card to open its detail page. You'll see the full history of past runs — what the agent found and what it decided — along with a sticky input bar to ask questions, modify the strategy, pause it, or cancel it. A banner at the top shows the next run time and total run count.
+
+<Info>
+  **Pause or Stop Anytime.** You're always in control. Go to the Strategies tab, find the strategy you want, and stop it whenever you like. No lock-in, no penalties — your agent pauses immediately.
+</Info>
+
+## More Strategy Ideas
+
+<CardGroup cols={2}>
+  <Card title="Morning Alpha Scout" icon="sun">
+    *"Every day at 7am, find the top 5 trending tokens on Solana and give me a sentiment report."*
+  </Card>
+  <Card title="Momentum Sniper" icon="bolt">
+    *"Every 30 min, check if any Base token gained 50%+ in the last hour with $100k+ volume. Buy $20."*
+  </Card>
+  <Card title="Portfolio Guardian" icon="shield-halved">
+    *"Every 4 hours, check my positions. If any dropped 25% from entry, sell and move to USDC."*
+  </Card>
+  <Card title="DCA With Brains" icon="chart-line">
+    *"Every Monday, buy $50 of ETH — but only if the 7-day RSI is below 40. Otherwise, skip."*
+  </Card>
+</CardGroup>
