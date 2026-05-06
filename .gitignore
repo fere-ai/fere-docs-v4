@@ -2,6 +2,8 @@
 .mintlify/
 .next/
 node_modules/
+export.zip
+_site/
 
 # Claude Code
 .claude/
