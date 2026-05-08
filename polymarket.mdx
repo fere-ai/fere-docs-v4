@@ -6,19 +6,19 @@ icon: "chart-pie"
 keywords: ["Polymarket", "prediction markets", "AI signals", "gasless", "take profit", "easy wins", "arbitrage"]
 ---
 
-Fere turns Polymarket into a complete trading product. Discover the right markets, read AI-generated analysis, place orders with take-profit attached, fund and withdraw gaslessly from any chain, and track every fill — all without leaving Fere.
+Fere turns Polymarket into a complete trading product. Discover the right markets, get AI-generated analysis, place orders with take-profit attached, fund and withdraw gaslessly from any chain, and track every fill — all without leaving Fere.
 
 ## What Is This?
 
-Polymarket is the leading prediction market platform — you bet on real-world outcomes across politics, crypto, sports, and world events. But trading it well is hard: thousands of markets, generic discovery, no built-in analysis, and onboarding that demands USDC on Polygon and a Polymarket-specific Safe wallet.
+Polymarket is the leading prediction market platform — you bet on real-world outcomes across politics, crypto, sports, and world events. But trading it well is hard: thousands of markets, generic discovery, and no built-in analysis.
 
 Fere collapses every one of those friction points. We curate the markets worth your attention, write the analysis, run the trade end-to-end, and handle all the on-chain plumbing — funding, bridging, orders, exits, and withdrawals — in the background.
 
 ## What You Get
 
 <CardGroup cols={2}>
-  <Card title="Six Curated Feeds" icon="layer-group">
-    Trending, Easy Wins, Arbitrage, Ending Soon, My Analysis, and History — each tuned to a different way of finding edge.
+  <Card title="Four Curated Feeds" icon="layer-group">
+    Trending, Easy Wins, Arbitrage, and Ending Soon — each tuned to a different way of finding edge. Plus My Analysis for custom research and History for your full trade log.
   </Card>
   <Card title="AI Trade Signals" icon="bullseye-arrow">
     Every market comes with a Fere verdict, a recommended position (Buy YES / Buy NO), a suggested entry price, and a take-profit target — with the reasoning written out.
@@ -38,26 +38,26 @@ Fere collapses every one of those friction points. We curate the markets worth y
 </CardGroup>
 
 <Tip>
-  **Why this beats trading on Polymarket directly.** On Polymarket you discover markets manually, source USDC.e on Polygon yourself, manage a Safe wallet, place orders without context, watch prices to exit, and bridge winnings out by hand. On Fere, every one of those steps is either automated or augmented with AI — and the take-profit alone has saved users from round-tripping winning trades.
+  **Why this beats trading on Polymarket directly.** On Polymarket you discover markets manually, source pUSD on Polygon yourself, manage a Safe wallet, place orders without context, watch prices to exit, and bridge winnings out by hand. On Fere, every one of those steps is either automated or augmented with AI — and the take-profit alone has saved users from round-tripping winning trades.
 </Tip>
 
 ## Setup — One Click, Once
 
-Polymarket requires a dedicated Safe wallet on Polygon to trade. Fere creates and manages it for you.
+Polymarket trading runs from a dedicated deposit wallet on Polygon. Fere deploys and manages it for you.
 
 <Steps>
   <Step title="Add at least $10 to your Fere wallet">
     Polymarket trading unlocks once your total Fere portfolio crosses $10 — across any chain, any token. If you're below that, Fere prompts you to add funds first (any chain, any token, all gasless).
   </Step>
   <Step title="Click Enable Trading">
-    Fere deploys your Polymarket Safe on Polygon, signs the required CLOB approvals, and stores the trading keys — all in one async task. Takes about 30 seconds.
+    Fere deploys your Polymarket deposit wallet on Polygon, signs the required CLOB approvals, and stores the trading keys — all in one async task. Takes about 30 seconds.
   </Step>
-  <Step title="Fund your Polymarket Safe">
-    Pick any token on any supported chain. Fere bridges → swaps → wraps into pUSD on Polygon and deposits it into your Safe. Gasless, single confirmation.
+  <Step title="Fund your Polymarket deposit wallet">
+    Pick any token on any supported chain. Fere bridges → swaps → wraps into pUSD on Polygon and deposits it into your deposit wallet. Gasless, single confirmation.
   </Step>
 </Steps>
 
-Your Polymarket Safe is self-custodial. The keys live in your Fere wallet — exportable from the wallet panel anytime.
+Your Polymarket deposit wallet is self-custodial. The keys live in your Fere wallet — exportable from the wallet panel anytime.
 
 ## The Six Feeds
 
@@ -113,7 +113,7 @@ Click any market and the right panel fills with everything you need to make a de
     The full AI narrative — Fere's verdict, what's happening, what the market is missing, a key-intel timeline, and catalysts & risks. The reasoning behind the signal.
   </Card>
   <Card title="Whales & Smart Money" icon="user-tie">
-    Buy/sell pressure, smart-money bias, and the top whale traders in the market — filtered to traders with >$2k lifetime PnL or ≥15% ROI on ≥$500 volume. Exited traders are dropped so you only see active conviction.
+    Buy/sell pressure, smart-money bias, and the top whale traders in the market — filtered to traders with >\$2k lifetime PnL or ≥15% ROI on ≥\$500 volume. Exited traders are dropped so you only see active conviction.
   </Card>
   <Card title="Quant Analysis" icon="chart-mixed">
     Microstructure metrics — VPIN, effective spread, KL divergence, trade clustering — plus a fair-values table flagging which outcomes are mispriced (rows tinted green for positive EV, red for negative).
@@ -141,7 +141,7 @@ The order modal handles every order shape you'd want, with built-in setup and fu
     The modal shows projected payout, profit in dollars, and ROI based on your inputs — calculated against either your take-profit price or a $1 win. Updates in real time as you edit the amount.
   </Card>
   <Card title="In-Modal Bridge" icon="bridge">
-    If your Safe is underfunded, Fere shows a "Bridge funds" callout right in the order modal — fund without losing your inputs. Holdings refresh as soon as the deposit clears and the modal becomes orderable.
+    If your deposit wallet is underfunded, Fere shows a "Bridge funds" callout right in the order modal — fund without losing your inputs. Holdings refresh as soon as the deposit clears and the modal becomes orderable.
   </Card>
 </CardGroup>
 
@@ -149,7 +149,7 @@ The order modal handles every order shape you'd want, with built-in setup and fu
   **Take profit is the unlock.** Polymarket has no native stop-loss or take-profit. Most traders babysit positions and exit too early or too late. With Fere, you set it once at order time and walk away — Fere handles the watch and the exit. It's the single biggest reason users prefer trading Polymarket here.
 </Tip>
 
-**Order minimums:** $1 minimum order size. CLOB price range $0.001–$0.999. Anything outside that range is rejected by Polymarket itself.
+**Order minimums:** \$1 minimum order size. CLOB price range \$0.001–\$0.999. Anything outside that range is rejected by Polymarket itself.
 
 ## Funding — Gasless, From Any Chain
 
