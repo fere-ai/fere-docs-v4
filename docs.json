@@ -12,7 +12,7 @@
   "logo": {
     "light": "https://storage.googleapis.com/fere-assets/logo/logo-dark.webp",
     "dark": "https://storage.googleapis.com/fere-assets/logo/logo-light.webp",
-    "href": "https://www.fereai.xyz"
+    "href": "/"
   },
   "appearance": {
     "default": "dark"
@@ -80,12 +80,6 @@
     ]
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Website",
-        "href": "https://www.fereai.xyz"
-      }
-    ],
     "primary": {
       "type": "button",
       "label": "Launch App",
@@ -171,9 +165,14 @@
     "options": [
       "copy",
       "view",
+      "assistant",
       "chatgpt",
       "claude",
-      "perplexity"
-    ]
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ],
+    "display": "header"
   }
 }
