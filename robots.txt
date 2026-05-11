@@ -1,0 +1,30 @@
+# Fere AI — Documentation (docs.fereai.xyz)
+# Product context for humans & AI crawlers: https://www.fereai.xyz/llms.txt
+# Extended machine-readable reference: https://www.fereai.xyz/llms-full.txt
+
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Google Search Console — submit this exact URL
+Sitemap: https://docs.fereai.xyz/sitemap.xml
