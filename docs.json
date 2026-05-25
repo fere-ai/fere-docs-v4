@@ -59,6 +59,7 @@
         "group": "Rewards",
         "pages": [
           "credits",
+          "subscriptions",
           "refer-and-earn",
           "points"
         ]

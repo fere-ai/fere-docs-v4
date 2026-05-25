@@ -1,0 +1,129 @@
+---
+title: "Subscriptions — Monthly Credits on Autopilot"
+sidebarTitle: "Subscriptions"
+description: "Subscribe to Lite, Pro, or Whale for a monthly credit allowance, better top-up bonuses, and recurring billing via Stripe. No subscription required to use Fere — top-ups and free signup credits work too."
+icon: "credit-card"
+keywords: ["Fere subscription", "Lite Pro Whale", "monthly credits", "Stripe billing", "pricing plans"]
+---
+
+Subscriptions give you a **recurring monthly credit allowance** on top of everything else Fere offers. You do not need a subscription to use the platform — signup bonus, referrals, and [credit packs](/credits) all work without one — but a plan is the best value if you chat, run strategies, or trade regularly.
+
+## Why Subscribe?
+
+<CardGroup cols={2}>
+  <Card title="Monthly credit allowance" icon="coins">
+    Each plan grants a fixed batch of credits **every month** — Lite, Pro, and Whale scale from casual use to power-user volume. Credits land automatically when your billing cycle renews.
+  </Card>
+  <Card title="Better value than one-off packs" icon="chart-line">
+    Subscription plans include **more credits per dollar** than buying individual [credit packs](/credits). Higher tiers multiply that advantage further.
+  </Card>
+  <Card title="Subscriber top-up bonus" icon="gift">
+    Active subscribers get an extra **bonus percent** on every credit top-up from the pricing page — useful when you burn through your monthly allocation mid-cycle.
+  </Card>
+  <Card title="2× points on subscription spend" icon="trophy">
+    Every subscription payment earns **2× points per USD** spent (see [Points & Leaderboard](/points)). Top-ups and on-chain activity earn points separately.
+  </Card>
+</CardGroup>
+
+<Tip>
+  **On-chain execution stays free.** Successful swaps, bridges, transfers, and Polymarket orders do not consume chat credits after execution completes — you still need enough credits to **start** the agent turn, but verified on-chain actions are waived.
+</Tip>
+
+## Plans
+
+Fere offers three tiers. Prices are shown live on the [**Pricing**](https://fereai.xyz/pricing) page (billed in USD via Stripe). Credit grants below are **per month** — even on annual billing, credits accrue monthly.
+
+| Tier | Credits / month | Best for |
+| --- | --- | --- |
+| **Lite** | 1,100 | Regular chat, light research, occasional strategies |
+| **Pro** | 4,200 | Daily agent use, Market Pulse, active Polymarket research |
+| **Whale** | 16,000 | Heavy automation, multiple strategies, high-volume trading |
+
+Each plan card on `/pricing` also lists tier-specific feature bullets (pulled from our catalog). **Pro** is marked *Most popular* for new subscribers.
+
+### Monthly vs annual
+
+Toggle **Monthly** or **Annual** at the top of the pricing page. Annual plans bill once per year (typically **~17% less** than paying monthly × 12). Credits still refresh **every month** on annual subscriptions — you do not receive the full year upfront.
+
+## How Subscription Credits Work
+
+Subscription credits live in a **separate bucket** from signup, referral, and purchased credits.
+
+**Spend order** (first drained → last):
+
+1. Signup bonus credits
+2. Referral credits
+3. **Subscription credits**
+4. Purchased / top-up credits
+
+**Monthly refresh — no rollover.** When your billing cycle renews, unused subscription credits from the previous period are replaced by your new monthly grant. You always start the new cycle with a fresh allocation (subject to your tier's balance cap).
+
+**Top-ups survive cancel.** If you cancel, only the subscription bucket is cleared at period end. Any credits you bought via [credit packs](/credits) stay in your account.
+
+**Balance cap.** Each tier caps how many subscription credits you can hold at once (roughly **2× your monthly grant**). Upgrading adds credits immediately; downgrades take effect at the end of the current billing period.
+
+<Info>
+  **No free trial.** Subscriptions bill through Stripe Checkout on day one. You can cancel anytime — access continues until the end of the paid period.
+</Info>
+
+## How to Subscribe
+
+<Steps>
+  <Step title="Open Pricing">
+    Go to [**/pricing**](https://fereai.xyz/pricing) from the top navigation (**Pricing**) while signed in.
+  </Step>
+  <Step title="Pick monthly or annual">
+    Use the **Monthly / Annual** toggle. Annual shows a savings badge when available.
+  </Step>
+  <Step title="Choose a tier">
+    Compare Lite, Pro, and Whale. Each card shows the live price, credits per month, and included features.
+  </Step>
+  <Step title="Subscribe">
+    Click **Subscribe** on your chosen plan. You must be signed in with a real email on file. Checkout opens in **Stripe** — pay with card.
+  </Step>
+  <Step title="Return to Fere">
+    After payment, Stripe redirects back to `/pricing`. Fere confirms your subscription and adds credits (usually within seconds). A success banner appears when active.
+  </Step>
+</Steps>
+
+<Warning>
+  **Wallet-only accounts.** If you signed up with a wallet and have a synthetic `@wallet.fereai` email, add a real email under **Settings** before subscribing so receipts and billing alerts reach you.
+</Warning>
+
+## Manage Your Subscription
+
+Once subscribed, the pricing page shows your **current plan**, next billing date, and card on file.
+
+| Action | How |
+| --- | --- |
+| **Update payment method** | **Manage subscription** → Stripe Billing Portal |
+| **Upgrade** | Click **Upgrade to …** on a higher tier — charges immediately; new credits arrive after payment confirms |
+| **Downgrade** | Click **Downgrade to …** — scheduled for end of current billing period; no refund for unused time |
+| **Switch to annual / monthly** | Same tier, different cadence — annual switches bill now; monthly-from-annual schedules at period end |
+| **Cancel** | Billing Portal → cancel at period end — benefits continue until the date shown |
+| **Resume** | If cancel is pending, **Resume subscription** on `/pricing` before the end date |
+| **Top up mid-cycle** | Scroll to **Top up credits** on `/pricing` for $5 / $10 / $20 packs with your subscriber bonus |
+
+Downgrades and cadence switches that schedule for later can be reversed with **Keep current plan** before they take effect.
+
+## Subscriptions vs Credit Packs
+
+You can use both — they are designed to work together.
+
+| | **Subscription** | **Credit pack (top-up)** |
+| --- | --- | --- |
+| **Billing** | Recurring (monthly or annual) | One-time |
+| **Credits** | Fixed monthly grant per tier | $5 → 300, $10 → 650, $20 → 1,400 |
+| **Expiry** | Refreshes each cycle (no rollover) | **Never expire** |
+| **Best when** | You use Fere every week | You need a one-off boost or prefer pay-as-you-go |
+| **Payment** | Card via Stripe Checkout | Card on `/pricing` (subscribers) or crypto via **Add Credits** in the app |
+
+<Note>
+  **Market Pulse pricing is separate.** Scheduled Market Pulse runs cost a fixed **40 credits (12h)** or **70 credits (24h)** per run, drawn from whichever credit bucket is next in the spend order.
+</Note>
+
+## Related
+
+- [Credits](/credits) — signup bonus, packs, and how credits are consumed
+- [Points & Leaderboard](/points) — earn 2× points on subscription payments
+- [Refer & Earn](/refer-and-earn) — referral credits stack with subscription credits
