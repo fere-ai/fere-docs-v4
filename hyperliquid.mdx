@@ -1,0 +1,222 @@
+---
+title: "Hyperliquid — Perpetual Futures from Fere"
+sidebarTitle: "Hyperliquid"
+description: "Set up Hyperliquid perp trading in Fere, fund and withdraw USDC from any chain, trade via chat with leverage and TP/SL, and use automated Day and Swing strategies."
+icon: "chart-line"
+keywords: ["Hyperliquid", "perps", "perpetual futures", "leverage", "Bridge2", "API wallet", "funding rates"]
+---
+
+Fere connects your existing EVM wallet to [Hyperliquid](https://hyperliquid.xyz) — the leading on-chain perpetuals exchange. Fund collateral from any chain, trade longs and shorts in chat with up to 50× leverage, manage positions from the wallet panel, and run automated Day or Swing strategies once you're set up.
+
+## What Is This?
+
+Hyperliquid is a decentralized perpetual futures venue. You trade BTC, ETH, SOL, and 100+ other assets with leverage, funding rates, and on-chain settlement — without leaving Fere.
+
+Fere handles the hard parts: linking an API trading key to your wallet, bridging USDC into HyperCore via Bridge2, executing orders through chat, and withdrawing back to any supported chain. Your **EVM wallet address is your Hyperliquid account** — there is no separate signup.
+
+## What You Get
+
+<CardGroup cols={2}>
+  <Card title="One-time setup + API wallet" icon="key">
+    Fere registers a managed API key so the agent can place perp orders on your behalf. Re-run or rotate keys anytime from **Settings → Hyperliquid**.
+  </Card>
+  <Card title="Fund from any chain" icon="hand-holding-dollar">
+    Pay with any token in your Fere holdings. We swap to native Arbitrum USDC and deposit via Hyperliquid Bridge2 (~1–3 minutes).
+  </Card>
+  <Card title="Trade in chat" icon="comments">
+    Open and close positions, set leverage, attach TP/SL, check funding rates, and scale out with limit orders — all through natural language.
+  </Card>
+  <Card title="Wallet-native withdraw" icon="arrow-up-from-line">
+    Cash out **USDC (Hyperliquid)** from the wallet panel. Bridge back to Arbitrum, then optionally swap to USDC on Ethereum, Base, Polygon, or other supported chains.
+  </Card>
+  <Card title="Position tracking" icon="chart-mixed">
+    Open perps and HyperCore USDC show under **Assets** with Hyperliquid branding. Tap a perp to open the market on Hyperliquid; use **Sell** to close or withdraw.
+  </Card>
+  <Card title="Strategy automation" icon="robot">
+    **Day Trading** and **Swing Trading** strategies (Settings) require Hyperliquid funding before they can run scheduled perp checks.
+  </Card>
+</CardGroup>
+
+<Tip>
+  **Your EVM wallet = your Hyperliquid account.** The same address you see in the wallet panel is credited on HyperCore. Fere never creates a separate Hyperliquid login — setup only adds an API key for automated trading.
+</Tip>
+
+## Minimum Amounts & Fees
+
+| Item | Amount | Notes |
+| --- | --- | --- |
+| **Minimum deposit (Fere)** | **$50 USD** | Enforced in the Fund Hyperliquid modal and API. |
+| **Bridge2 protocol floor** | **$5 USDC** | Hyperliquid's on-chain minimum per Bridge2 transfer. Fere's product minimum is higher ($50) for safety. |
+| **First-deposit activation** | **~$1 USDC** | HyperCore deducts a one-time activation fee on the first inbound transfer to a new EOA. Your tradable balance is slightly less than the gross deposit. |
+| **Minimum withdraw** | **$6 USD gross** | **$1** Hyperliquid Bridge2 fee + **$5** minimum net to Arbitrum. You cannot withdraw your exact full balance — leave room for the fee. |
+| **Minimum perp trade (chat)** | **~$10.50 notional** | `size × price` must meet this before the agent opens a position (small slippage buffer). |
+
+<Warning>
+  **Do not send less than $5 to Bridge2 directly.** Deposits below Hyperliquid's protocol minimum can be lost. Always use Fere's **Fund Hyperliquid** flow so we enforce the correct floors.
+</Warning>
+
+## Setup — Enable, Then Fund
+
+Hyperliquid trading is a two-step flow: link the API wallet, then add USDC collateral.
+
+<Steps>
+  <Step title="Open Fund Hyperliquid">
+    Launch the setup modal from any of these entry points:
+
+    - **Settings → Day Trading** or **Swing Trading** — tap **Fund Hyperliquid** on the banner
+    - **Wallet panel → Assets** — when prompted for Hyperliquid collateral (strategy or trading flows)
+
+    The modal opens to **Enable** if you have not completed setup yet, or straight to **Fund** if the API wallet is already linked.
+  </Step>
+  <Step title="Enable Hyperliquid trading">
+    Click **Enable**. Fere queues a background task that registers a Fere-managed API wallet with Hyperliquid. This usually takes about a minute.
+
+    If setup fails with a "not funded" error, continue to the fund step first — some accounts need an initial Bridge2 deposit before the API key can be approved.
+  </Step>
+  <Step title="Fund your perp account">
+    On the **Fund Hyperliquid** screen:
+
+    1. **Pay with** — pick any token from your holdings on a supported chain (Polymarket cash is excluded).
+    2. **Amount** — enter at least **$50 USD**. The UI shows a conversion preview for your selected token.
+    3. Confirm — Fere swaps to native Arbitrum USDC, sends it to Hyperliquid Bridge2, and waits for HyperCore credit.
+
+    After the bridge confirms, Fere may run a chained **approve agent** step if this was your first fund. You'll see "Hyperliquid funded and ready to trade" when complete.
+  </Step>
+  <Step title="Verify in Settings (optional)">
+    Go to **Settings → Hyperliquid** to confirm:
+
+    - Account activated on Hyperliquid
+    - Fere setup complete
+    - **Trading keys** list (Fere-managed keys vs any external keys on the same address)
+
+    Use **Re-run setup** if the key is missing or **Rotate** to refresh a Fere-managed key.
+  </Step>
+</Steps>
+
+<Info>
+  **First deposit timing.** Bridge2 credits typically land in **1–3 minutes**. The fund modal keeps polling until your account is ready. Withdrawals can take **several minutes** end-to-end (Hyperliquid settlement + optional swap to your destination chain).
+</Info>
+
+## Withdraw — From HyperCore Back to Your Wallet
+
+Withdrawals are done from the **wallet panel**, not chat.
+
+<Steps>
+  <Step title="Find USDC (Hyperliquid) in Assets">
+    Open the wallet panel → **Assets**. Look for **USDC (Hyperliquid)** — this is your HyperCore collateral balance, not an open perp position.
+  </Step>
+  <Step title="Tap Sell / Withdraw">
+    Click **Sell** on the USDC (Hyperliquid) row. The modal title reads **Withdraw from Hyperliquid**.
+  </Step>
+  <Step title="Choose amount and destination">
+    - Enter at least **$6 USD** (covers the **$1** Hyperliquid fee and **$5** net minimum).
+    - Pick a **destination chain and token** (e.g. USDC on Base or Ethereum). Fere bridges from HyperCore → Arbitrum, then swaps if needed.
+  </Step>
+  <Step title="Confirm and wait">
+    Settlement can take a few minutes. Do not close the modal while the task is in progress — holdings may refresh mid-flow.
+  </Step>
+</Steps>
+
+To **close an open perp** (not withdraw collateral), use **Sell** on the perp row in Assets (e.g. BTC on Hyperliquid) or ask the agent in chat to close the position.
+
+## Trade via Chat
+
+Once funded, talk to the agent like you would a trading desk. The **perp_trading** skill handles Hyperliquid execution — opens, closes, leverage, TP/SL, funding analysis, and order management.
+
+### What the agent can do
+
+| You ask for… | What happens |
+| --- | --- |
+| Open a long or short | Confirms size, side, and leverage (default **1× cross**), then submits a market order |
+| Close a position | Full or partial close via `close_perp_position` |
+| Take profit / stop loss on an **existing** position | Attaches reduce-only triggers — **not** a second position |
+| Scale out at a limit price | Places a reduce-only limit order at your target |
+| Change leverage or margin mode | Updates cross vs isolated per asset |
+| Check funding rates | Surfaces who pays whom before you open |
+| List positions & PnL | Reads holdings filtered to `protocol == "Hyperliquid"` |
+
+### Example prompts
+
+```
+Long $100 of BTC at 2x on Hyperliquid
+```
+
+```
+What's my Hyperliquid ETH position?
+```
+
+```
+Set take profit at $95,000 and stop loss at $88,000 on my BTC perp
+```
+
+```
+Close my SOL short
+```
+
+```
+Show funding rates for BTC and ETH
+```
+
+```
+Sell half my DOGE perp at $0.18
+```
+
+<Warning>
+  **Leverage risk.** The agent warns on leverage above **10×**. Liquidation is real — confirm size and leverage before executing large positions.
+</Warning>
+
+<Tip>
+  **Fund and withdraw stay in the UI.** Deposits and Bridge2 withdrawals go through **Fund Hyperliquid** and the wallet **Sell** flow. Chat is for **trading** — opens, closes, TP/SL, and market analysis — not for moving collateral in or out.
+</Tip>
+
+### Chat vs UI — quick reference
+
+| Action | Where |
+| --- | --- |
+| First-time setup (API wallet) | **Fund Hyperliquid** modal → Enable |
+| Deposit USDC collateral | **Fund Hyperliquid** modal |
+| Withdraw USDC collateral | Wallet → **USDC (Hyperliquid)** → Sell |
+| Open / close / TP/SL perps | **Chat** |
+| Close perp from UI | Wallet → perp row → Sell |
+| Manage API keys | **Settings → Hyperliquid** |
+| Day / Swing automation | **Settings** (requires funded HL account) |
+
+## Automated Strategies
+
+**Day Trading** and **Swing Trading** under Settings run scheduled checks against your Hyperliquid account. Each shows a **Fund Hyperliquid** CTA until setup and collateral are in place.
+
+These strategies use the same API wallet and collateral as manual chat trading. Keep enough USDC on HyperCore for margin, and review open positions in the wallet panel or by asking the agent.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Setup failed — add funds first" icon="circle-exclamation">
+    Error code **HYPERLIQUID_NOT_FUNDED** means Hyperliquid needs an initial Bridge2 deposit before the API wallet can be approved. Complete **Fund Hyperliquid** ($50+), then tap **Re-run setup** in Settings.
+  </Accordion>
+
+  <Accordion title="Deposit below $50 rejected" icon="dollar-sign">
+    Fere enforces a **$50 minimum** deposit. Hyperliquid's Bridge2 accepts $5 on-chain, but smaller amounts through Fere are blocked to avoid failed or uneconomical flows.
+  </Accordion>
+
+  <Accordion title="Withdraw below $6 rejected" icon="arrow-up-from-line">
+    Minimum gross withdraw is **$6** — **$1** goes to Hyperliquid's Bridge2 fee; at least **$5** must reach Arbitrum. Try a higher amount or leave collateral on HyperCore for trading.
+  </Accordion>
+
+  <Accordion title="Chat says trade is too small" icon="chart-line">
+    Perp opens need **~$10.50 notional** (`size × price`). Ask for a larger notional (e.g. "$15 of BTC") or increase leverage after confirming risk.
+  </Accordion>
+
+  <Accordion title="Position not showing after chat trade" icon="clock">
+    Hyperliquid writes are async. Wait **~5 seconds** and ask again, or refresh holdings in the wallet panel. The agent may say "submitted" until read-back confirms the fill.
+  </Accordion>
+
+  <Accordion title="External API key on my address" icon="key">
+    Settings lists **all** API wallets Hyperliquid recognizes for your EOA. Non-Fere keys show a warning. Fere cannot revoke third-party keys surgically — use **Rotate** on Fere-managed keys only, or manage external bots directly on Hyperliquid.
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+- [Wallet & Security](/wallet) — addresses, holdings, and the Assets panel
+- [Strategies](/strategies) — scheduled automation and strategy detail pages
+- [Credits](/credits) — chat credits; on-chain execution is waived after verified trades complete

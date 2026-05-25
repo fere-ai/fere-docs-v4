@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Fere AI",
-  "description": "Official Fere AI documentation: autonomous crypto trading agents, Market Pulse, recipes, strategies, Polymarket, cross-chain execution, wallet security, credits, and FAQ.",
+  "description": "Official Fere AI documentation: autonomous crypto trading agents, Market Pulse, recipes, strategies, Polymarket, Hyperliquid perps, cross-chain execution, wallet security, credits, and FAQ.",
   "colors": {
     "primary": "#EBCB8B",
     "light": "#EBCB8B",
@@ -39,6 +39,7 @@
           "recipes",
           "strategies",
           "polymarket",
+          "hyperliquid",
           "cross-chain",
           "discover"
         ]
