@@ -27,11 +27,23 @@ Every time a strategy runs, it carries forward what it found before. By day 7 of
 Go to the main chat at **/app** and describe what you want to automate. The AI sets it up and it appears in **/strategies**. A few examples to get you started:
 
 <CardGroup cols={2}>
-  <Card title="Trending Token Buyer" icon="arrow-trend-up">
-    *"Every 3 hours, buy trending tokens on Base under $5M mcap."*
+  <Card title="Whale-Gated Entry" icon="arrow-trend-up">
+    *"Every hour, scan Base and Solana for $10M–$100M mcap tokens. Only buy if whale net-buy exceeds $200k in 24h and the score is above 85."*
   </Card>
-  <Card title="DCA on a Schedule" icon="clock">
-    *"DCA $50 into ETH every Monday at 9am."*
+  <Card title="Polymarket Farming Autopilot" icon="chart-line">
+    *"Every hour, check my Polymarket balance and daily credit usage. Scan macro and entertainment markets, cap exposure at $100, and place $5 limit buys 2% below market when conditions pass."*
+  </Card>
+  <Card title="High-Frequency YES Entry" icon="bolt">
+    *"Every 5 minutes, verify Polymarket cash is above $20, scan politics and geopolitics markets (no sports), buy $10 YES, and set a 10% take-profit limit sell."*
+  </Card>
+  <Card title="Portfolio Drawdown Manager" icon="shield-halved">
+    *"Every 4 hours, check open positions. If any drops 20% from entry, reduce by half and set a re-entry alert at -10% from current price."*
+  </Card>
+  <Card title="Morning Alpha Brief" icon="sun">
+    *"Daily at 5:30am, surface the 3 highest-conviction asymmetric setups across all chains. Score by sentiment plus on-chain signal. Report only — no trades."*
+  </Card>
+  <Card title="Silent Background Runner" icon="moon">
+    *"Every 5 minutes, run my Polymarket entry rules in the background. Execute trades when conditions are met but do not post chat responses unless something fails."*
   </Card>
 </CardGroup>
 
@@ -41,7 +53,7 @@ Go to the main chat at **/app** and describe what you want to automate. The AI s
 >
 > *"Go to Base chain and find tokens between $10M-$20M market cap. Analyze them on socials and technical analysis and give them a score based on performance. Buy a token if it scores 90/100."*
 
-**Every hour, Fere will:** scan the chain for candidates, run social and TA analysis on each, score them, and only execute a trade if the quality bar is met. Check the Strategies page after each run to see which tokens were found, what they scored, and whether any trades were made.
+**Every hour, Fere will:** scan the chain for candidates, run social and TA analysis on each, score them, and only execute a trade if the quality bar is met. Open the strategy detail page after a run to read the executive summary, inspect past runs in the sidebar, and review any trades or files the agent produced.
 
 ## The Strategies Page
 
@@ -69,25 +81,77 @@ The **Start a Strategy** section inside the Strategies page has pre-built templa
 
 ## Strategy Detail Page
 
-Click any strategy card to open its detail page. You'll see the full history of past runs — what the agent found and what it decided — along with a sticky input bar to ask questions, modify the strategy, pause it, or cancel it. A banner at the top shows the next run time and total run count.
+Click any strategy card to open its detail page at **/strategies/[id]**. This is your command center for one strategy — what it has done, what it traded, what it produced, and what you want it to do next.
+
+### Executive summary
+
+At the top of the page, a summary card shows:
+
+- **Strategy name and description** — the label Fere assigned plus your original instruction.
+- **Executive summary** — an AI-generated rollup of recent runs, key findings, open positions, and what changed since the last cycle. It refreshes after each completed run so you can skim the latest state without reading every run log.
+
+If a run just finished, you may briefly see *"Updating summary after the latest run…"* while the new summary is generated.
+
+### Strategy chat
+
+Below the summary is **Strategy chat** — your follow-up conversation with this strategy. This is separate from scheduled runs:
+
+- Ask clarifying questions (*"Why did you skip the last trade?"*)
+- Request changes (*"Raise the score threshold to 90 and cap buys at $25"*)
+- Pause or stop the strategy in plain language
+
+Older messages load on scroll (newest at the bottom), so long-running strategies stay fast even after dozens of runs and follow-ups.
+
+### Run status bar and input
+
+A sticky bar at the bottom of the page shows:
+
+- **Run count** — how many scheduled cycles have completed.
+- **Next run** — when the strategy fires again (hidden while paused).
+
+Just below that, the input bar accepts new instructions. Type `@` to mention another active or paused strategy when you want to reference or coordinate across automations.
+
+### Right sidebar — Past Runs, Transactions, Artifacts
+
+On desktop, a sidebar on the right replaces the generic Files panel while you are on a strategy detail page. It stays visible for that strategy. If you open the wallet drawer, the sidebar shifts left — it is never hidden behind the wallet.
+
+Three collapsible sections stack vertically. Drag the dividers to resize them, and your layout is remembered per strategy:
+
+| Section | What you see |
+| --- | --- |
+| **Past Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. |
+| **Transactions** | Swaps, buys, sells, and other trades this strategy executed. Tap a row to expand full details inline. |
+| **Artifacts** | Files the agent generated across runs — reports, charts, exports. Click to preview or download. |
+
+On mobile, tap the floating **Strategy** button to open a bottom sheet with **Runs**, **Txns**, and **Files** tabs containing the same data.
+
+<Tip>
+  **Deep-link to a run or message.** Links from notifications and run history can scroll you directly to the relevant chat message or run in the detail page.
+</Tip>
 
 <Info>
-  **Pause or Stop Anytime.** You're always in control. Go to the Strategies tab, find the strategy you want, and stop it whenever you like. No lock-in, no penalties — your agent pauses immediately.
+  **Pause or stop anytime.** You are always in control. Pause from the Strategies list, or tell the agent in the detail input (*"Pause this strategy until Monday"*). No lock-in, no penalties — the agent stops on the next safe boundary.
 </Info>
 
 ## More Strategy Ideas
 
 <CardGroup cols={2}>
-  <Card title="Morning Alpha Scout" icon="sun">
-    *"Every day at 7am, find the top 5 trending tokens on Solana and give me a sentiment report."*
+  <Card title="Volatility-Adjusted Rebalance" icon="rotate">
+    *"Every Sunday, check portfolio dominance. If ETH exceeds 55% of holdings, rotate 20% of alts to USDC. If BTC exceeds 60%, move 50% to stables."*
+  </Card>
+  <Card title="Smart Money Mirror" icon="users">
+    *"Every 3 hours, monitor tracked wallets. If any opens a new position above $50k, mirror up to $1,000 with take-profit at +40%."*
   </Card>
   <Card title="Momentum Sniper" icon="bolt">
-    *"Every 30 min, check if any Base token gained 50%+ in the last hour with $100k+ volume. Buy $20."*
-  </Card>
-  <Card title="Portfolio Guardian" icon="shield-halved">
-    *"Every 4 hours, check my positions. If any dropped 25% from entry, sell and move to USDC."*
+    *"Every 30 minutes, check if any Base token gained 50%+ in the last hour with $100k+ volume. Buy $20."*
   </Card>
   <Card title="DCA With Brains" icon="chart-line">
     *"Every Monday, buy $50 of ETH — but only if the 7-day RSI is below 40. Otherwise, skip."*
+  </Card>
+  <Card title="Polymarket Risk Sweep" icon="shield-halved">
+    *"Every hour, exit Polymarket positions held longer than 7 days (3 days for high-risk markets). Enforce take-profit and stop-loss guardrails before scanning for new entries."*
+  </Card>
+  <Card title="Cross-Chain Sentiment Scout" icon="globe">
+    *"Every day at 7am, find the top 5 trending tokens on Solana and Base. Cross-check Twitter and Farcaster sentiment. Deliver a ranked report with scores — no trades."*
   </Card>
 </CardGroup>
