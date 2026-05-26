@@ -83,14 +83,19 @@ The **Start a Strategy** section inside the Strategies page has pre-built templa
 
 Click any strategy card to open its detail page at **/strategies/[id]**. This is your command center for one strategy — what it has done, what it traded, what it produced, and what you want it to do next.
 
-### Executive summary
+### Executive briefing
 
-At the top of the page, a summary card shows:
+At the top of the page, a briefing card shows:
 
 - **Strategy name and description** — the label Fere assigned plus your original instruction.
-- **Executive summary** — an AI-generated rollup of recent runs, key findings, open positions, and what changed since the last cycle. It refreshes after each completed run so you can skim the latest state without reading every run log.
+- **Health and headline** — whether the strategy is on track, degraded, blocked, paused, or research-only, plus a one-line verdict.
+- **Key metrics** — run success rate, trade outcomes, and next scheduled run.
+- **Since last update** — bullet changes since the previous briefing (incremental window).
+- **Top positions** — largest holdings when portfolio data is available (hidden for research-only agents).
+- **Recommended actions** — evidence-backed cards (now / soon / later) with numbered concrete steps you can take in Fere (for example via Strategy chat), category labels, and optional evidence details. Generated from past trades, holdings, errors, your strategy text, and workspace scripts when present — separate from the narrative briefing. Steps focus on trading and schedule changes, not manual Python editing.
+- **Narrative sections** — at-a-glance, recent performance, and since-last-update prose grounded in verified run and trade data.
 
-If a run just finished, you may briefly see *"Updating summary after the latest run…"* while the new summary is generated.
+A compatibility markdown summary is still stored for exports and older clients. The briefing refreshes after each completed run. Recommendations refresh on the same schedule (parallel background job). If a run just finished, you may briefly see *"Updating briefing after the latest run…"* or *"Updating recommendations after the latest run…"* while new content is generated. Use **Refresh recommendations** to enqueue a new pass on demand.
 
 ### Strategy chat
 
