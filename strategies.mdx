@@ -92,7 +92,7 @@ At the top of the page, a briefing card shows:
 - **Key metrics** — run success rate, trade outcomes, and next scheduled run.
 - **Since last update** — bullet changes since the previous briefing (incremental window).
 - **Top positions** — largest holdings when portfolio data is available (hidden for research-only agents).
-- **Recommended actions** — evidence-backed cards (now / soon / later) with numbered concrete steps you can take in Fere (for example via Strategy chat), category labels, and optional evidence details. Generated from past trades, holdings, errors, your strategy text, and workspace scripts when present — separate from the narrative briefing. Steps focus on trading and schedule changes, not manual Python editing.
+- **Recommended actions** — evidence-backed cards (now / soon / later) with direct imperative steps, category labels, and optional evidence details. **Accept** sends the action to Strategy chat; **Decline** removes it from your list. Generated from past trades, holdings, errors, your strategy text, and workspace scripts when present — separate from the narrative briefing.
 - **Narrative sections** — at-a-glance, recent performance, and since-last-update prose grounded in verified run and trade data.
 
 A compatibility markdown summary is still stored for exports and older clients. The briefing refreshes after each completed run. Recommendations refresh on the same schedule (parallel background job). If a run just finished, you may briefly see *"Updating briefing after the latest run…"* or *"Updating recommendations after the latest run…"* while new content is generated. Use **Refresh recommendations** to enqueue a new pass on demand.
