@@ -221,6 +221,160 @@ On mobile, tap the floating **Strategy** button to open a bottom sheet with **Ru
   </Card>
 </CardGroup>
 
+<!-- FERE_TOOLS_REF_START -->
+## Strategy system capabilities (`fere_tools`)
+
+Scheduled strategies and the **strategy_builder** skill run Python in an isolated sandbox. Fere injects **`fere_tools`** — a single synchronous SDK that mirrors the gateway tool registry (`/v1/tools`). Use it to align automation with what Fere can actually execute: market data, analysis, wallet reads, on-chain writes, Polymarket, and Hyperliquid perps.
+
+<Info>
+  This catalog lists **69** sandbox-allowed tools (20 write money or on-chain/Polymarket/perp state). **Scheduling** (`create_scheduled_task`, `modify_scheduled_task`, `cancel_scheduled_task`) is **not** in the sandbox — create or change schedules from Strategy chat or the UI, not from `fere_tools`.
+</Info>
+
+### Client API (module methods)
+
+Every tool below is invoked the same way. Prefer **keyword arguments only** — positional args are not supported. Never pass `user_id`, `agent_id`, or `chat_id`; the gateway derives identity from the signed sandbox session.
+
+| Method | Return type | Description |
+| --- | --- | --- |
+| `fere_tools.call(name, **kwargs)` | Tool logical result (`dict`, `list`, or scalar) | Canonical invoke by registry name. Unwraps the gateway envelope and JSON-decodes string results when applicable. |
+| `fere_tools.<tool_name>(**kwargs)` | Same as `call` | Attribute sugar — e.g. `F.current_prices_tool(token_names=["ETH"])`. |
+| `fere_tools.call_raw(name, **kwargs)` | `dict` envelope | Full `{"status", "tool_name", "result", "error"}` response. Use for debugging or telemetry only. |
+| `fere_tools.catalog(category=None)` | `list[dict]` | Compact catalog: each entry has `name`, `category`, `read_only`, `destructive`. Optional `category` filter (`market_data`, `analysis`, `wallet`, …). |
+| `fere_tools.describe(name)` | `dict` | Full descriptor: `description`, `input_schema`, `category`, `read_only`, `destructive`. |
+| `fere_tools.FereToolError` | Exception | Raised on tool-level failure (`tool`, `message` attributes). Transport errors use `RuntimeError`. |
+
+```python
+import fere_tools as F
+
+# Discovery
+F.catalog("polymarket")
+meta = F.describe("get_polymarket_safe_cash_usd")
+
+# Invoke (unwrapped result)
+cash = F.get_polymarket_safe_cash_usd()
+prices = F.call("current_prices_tool", token_names=["ETH", "SOL"])
+```
+
+<Tip>
+  **Async writes:** Swaps, transfers, limit orders, Polymarket orders, and perp opens return `task_id`(s). Poll with `poll_transaction_status(task_ids=[...], tool_name="<tool_that_created_them>")` before treating the cycle as complete.
+</Tip>
+
+<Warning>
+  **Writes state = Yes** means the tool can move funds or place/cancel orders. Preflight read-only tools (`get_holdings`, `get_polymarket_safe_cash_usd`) before spends. For Polymarket, use **`spendable_cash_usd`** from `get_polymarket_safe_cash_usd` — not EOA USDC.e from `get_holdings`.
+</Warning>
+
+### Tool catalog
+
+<AccordionGroup>
+  <Accordion title="Market data (14 tools)" icon="chart-line">
+
+| Tool | Writes state | Description | Return type |
+| --- | --- | --- | --- |
+| `available_cryptocurrency_categories_and_chains` | No | Available Cryptocurrency Categories And chains supported by coingecko. These categories are useful for fetching `search_coins_by_category` present in a category from coingecko (www.coingecko.com). | CategoryResponse: A list of categories (category id and category name) and a map of chains (chain name to its networkId) supported by coingecko. |
+| `current_prices_tool` | No | Fetch current USD price + market data for one or more tokens (CoinGecko). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `get_perp_funding_rates` | No | Get funding rates for a Hyperliquid perp asset. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `get_perp_market_overview` | No | Get overview of all Hyperliquid perp markets. | dict with status, meta, asset_ctxs (list). Not iterable as flat markets. For mark price in scripts, prefer current_prices_tool. |
+| `get_trending_coins` | No | Fetch trending coins/tokens sorted by trending score. Can be filtered by chain or return cross-chain results. | CryptocurrencyList: List of trending tokens with name, symbol, price, volume, market cap, and other metrics. |
+| `get_trending_coins_by_chain` | No | Fetch trending coins on a specific blockchain using Codex data. | CryptocurrencyList: Trending coins with market data and metrics. |
+| `global_market_cap_and_volume` | No | Fetch global market cap and volume. Uses the Coingecko Global Market Cap and Volume API to fetch relevant details for a given number of days. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `historical_prices_tool` | No | Fetch historical prices for a list of tokens. | CryptocurrencyList with historical price data in historical_data field for each token. |
+| `merged_trending_coins` | No | Fetch Trending coins (note that trending coins are not top coins by market cap) across chains, uses coingecko trending coins. Use `get_trending_coins_by_chain` tool only if user asks for trending on a specific chain. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `search_coin_by_name` | No | Search cryptocurrency by name and get relevant coins with thier coingecko coin id, coigecko symbol, market cap, liquidity, volume, etc. | A list of crypto currency with its coingecko coin id market cap, liquidity, volume, etc relevant to the search query. If no relevant coins are found, returns None. |
+| `search_coins` | No | Search coins either by query or category (with optional filters). | - Query mode: dict[str, CryptocurrencyList] mapping each query string to its search results - Category mode: CryptocurrencyList with filtered results, or error string if invalid categories provided |
+| `search_coins_by_category` | No | Fetch cryptocurrency coins/tokens present in a category or chain and get its market cap, liquidity, volume, etc. from CoinGecko (www.coingecko.com/category). Not meant for historical data analysis. | CryptocurrencyList: A list of cryptocurrencies with their market cap, liquidity, volume, etc. in that particular category. |
+| `token_holders` | No | Get token holders for a given contract address. | dict: Token holders with addresses, balances, and ownership percentages. |
+| `trending_pools` | No | Fetch trending pools for a given chain identifier or sorts by volume if not specified. Uses the Coingecko Trending Pools API to fetch relevant details for a given chain identifier. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+
+  </Accordion>
+  <Accordion title="Analysis (5 tools)" icon="magnifying-glass-chart">
+
+| Tool | Writes state | Description | Return type |
+| --- | --- | --- | --- |
+| `calculate_historical_investment_tool` | No | Calculate historical investment performance for a cryptocurrency. | Tuple of (final_value, profit_loss, percent_change, price_data) or None. |
+| `contract_security_check_tool` | No | Batch check token contract security using RugCheck (Solana) or Honeypot.is (EVM). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `ohlcv_history_tool` | No | Fetch OHLCV (Open, High, Low, Close, Volume) candle data. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `technical_analysis_tool` | No | Fetch OHLCV data and calculate technical indicators for a token. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `token_risk_analysis_tool` | No | Comprehensive token risk analysis with multi-dimensional scoring. | JSON string with risk scores, levels, breakdowns, and flags. |
+
+  </Accordion>
+  <Accordion title="Social (8 tools)" icon="hashtag">
+
+| Tool | Writes state | Description | Return type |
+| --- | --- | --- | --- |
+| `casts_from_channel_tool` | No | Get casts from a Farcaster channel. | SocialPosts: Casts from the channel with content and engagement. |
+| `casts_from_user` | No | Fetch casts from a Farcaster user. | SocialPosts: Casts from the user with content and engagement. |
+| `keyword_search_for_casts` | No | Performs keyword search for casts. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `news_searches` | No | Search news for multiple keywords. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `semantic_search_for_casts` | No | Performs semantic search for casts. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `top_tweeters` | No | Get top creators/influencers for a topic on social platforms. | Creators: List of top creators with follower counts and influence metrics. |
+| `top_tweets_tool` | No | Get top tweets from Twitter/X for cryptocurrency tokens. | SocialPosts: Top tweets with content, author, engagement metrics. |
+| `tweets_from_users` | No | Get tweets from specific Twitter/X users. | SocialPosts: Tweets from the users with content and engagement. |
+
+  </Accordion>
+  <Accordion title="Web research (7 tools)" icon="globe">
+
+| Tool | Writes state | Description | Return type |
+| --- | --- | --- | --- |
+| `combined_search_tool` | No | Perform a combined internet search and social media lookup. | InternetSearchResponse Structured response containing: |
+| `exa_answer` | No | Generate an answer to a question using Exa Search API. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `exa_find_similar` | No | Find similar pages to the given URL using Exa Search API. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `exa_search` | No | Perform a web search using Exa Search API. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `extract_text_from_pdf_url` | No | Downloads a PDF from a URL and extracts the text content. | The extracted text from the PDF. Raises: |
+| `scrape_firecrawl` | No | Scrape a web page with Firecrawl. | WebCrawlItems: The scraped web page |
+| `web_search` | No | Web search with Parallel as primary, then Firecrawl, then Exa as fallback. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+
+  </Accordion>
+  <Accordion title="Wallet & on-chain (24 tools)" icon="wallet">
+
+| Tool | Writes state | Description | Return type |
+| --- | --- | --- | --- |
+| `aave_operation` | Yes | Run Aave operation, with runtime-injected user and context. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `cancel_limit_order` | Yes | Cancel an active limit order. | dict: Result of the cancellation operation with status, message, and limit_order_id. |
+| `cancel_perp_order` | Yes | Cancel an open limit/stop perp order on Hyperliquid (not a position close). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `close_perp_position` | Yes | Close a perpetual futures position on Hyperliquid. | dict with status, task_id, message. Poll with poll_transaction_status(tool_name='close_perp_position'). |
+| `create_limit_order` | Yes | Create limit orders with auto-fetched holdings and balance validation. | - On all success: {"status": "success", "task_ids": [...]} - On partial success: {"status": "partial_success", "task_ids": [...], "failed_orders": [...]} |
+| `ens_to_address` | No | Convert ENS name to Ethereum wallet address. | str: The resolved Ethereum address (0x...). |
+| `get_holdings` | No | Get the holdings of a wallet on all supported chains. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `get_limit_orders` | No | Get all limit orders for a user, optionally filtered by status. | list: List of limit order details including limit_order_id, status, tokens, amounts, and trigger prices. |
+| `get_perp_open_orders` | No | List open Hyperliquid perp orders for this user (order ids for cancel). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `get_wallet_positions` | No | Get wallet positions for any wallet address. | WalletPosition: Token holdings with balances and values. |
+| `open_perp_position` | Yes | Open a perpetual futures position on Hyperliquid. | dict with status, task_id, message. Async — poll with poll_transaction_status(tool_name='open_perp_position'). |
+| `place_perp_limit_order` | Yes | Place a single limit order on a Hyperliquid perp (default reduce-only). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `poll_transaction_status` | No | Poll and wait for blockchain transaction completion. | {"status": "success"\|"partial"\|"failed", "results": [...]} Each result has: task_id, status, success, txn_url, error. |
+| `recharge_user_credits` | Yes | Recharge user credits (product credits) by bridging tokens to fee wallet. | - On success: {"status": "success", "task_ids": [...], "message": "Recharge initiated successfully"} |
+| `set_hooks_for_holding` | Yes | Set stop loss and take profit hooks for existing holdings. | dict: Result of the set hooks operation. |
+| `set_perp_tp_sl` | Yes | Attach reduce-only TP/SL trigger orders to an existing perp position. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `stake_tokens` | Yes | Stake or unstake ETH, with runtime-injected user and context. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `supported_chains` | No | Get the list of supported chains for swap/trade. | list[ChainfeatureMatrix]: List of supported chains. |
+| `supported_chains_for_bridging` | No | This function returns the list of supported source and destination chains for bridging tokens. | dict: { "supported_source_chains": list of supported source chains, |
+| `trade_tokens` | Yes | Trade tokens (swap or bridge) with auto-fetched holdings and balance validation. | - On all success: {"status": "success", "task_ids": [...]} |
+| `transfer_tokens` | Yes | Transfer multiple tokens to multiple recipient wallet addresses on behalf of the user. | dict: Result of the transfer operation containing task IDs. |
+| `update_perp_leverage` | Yes | Update leverage (cross or isolated) for a Hyperliquid perp market. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `update_perp_margin` | Yes | Add or remove isolated margin on a Hyperliquid perp position. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `wallet_info` | No | Gets wallet addresses for a user. | dict: The wallet addresses for the user. |
+
+  </Accordion>
+  <Accordion title="Polymarket (11 tools)" icon="scale-balanced">
+
+| Tool | Writes state | Description | Return type |
+| --- | --- | --- | --- |
+| `get_polymarket_safe_cash_usd` | No | Return spendable Polymarket Safe cash (USD) — the UI "Cash Balance". | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_cancel_order` | Yes | Cancel Polymarket order(s). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_fund_safe` | Yes | Fund the user's Polymarket Safe with USDC.e. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_get_markets` | No | Browse Polymarket markets using the same discovery feeds as the UI. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_get_orderbook` | No | Get the orderbook for a Polymarket outcome token. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_get_positions` | No | Get the authenticated user's Polymarket positions. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_get_trades` | No | Get the authenticated user's Polymarket trade history. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_place_order` | Yes | Place a Polymarket limit-style order on the CLOB. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_setup` | Yes | Trigger Polymarket Safe wallet setup (deploy + approvals). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_setup_status` | No | Check if Polymarket setup is complete for the authenticated user. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `polymarket_withdraw` | Yes | Withdraw USDC.e from the user's Polymarket Safe. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+
+  </Accordion>
+</AccordionGroup>
+
+<!-- FERE_TOOLS_REF_END -->
+
 <Info>
   **Day and Swing Trading strategies** (Settings) automate Hyperliquid perp checks. They require [Hyperliquid setup and funding](/hyperliquid) before the first scheduled run.
 </Info>
