@@ -92,10 +92,51 @@ At the top of the page, a briefing card shows:
 - **Key metrics** — run success rate, trade outcomes, and next scheduled run.
 - **Since last update** — bullet changes since the previous briefing (incremental window).
 - **Top positions** — largest holdings when portfolio data is available (hidden for research-only agents).
-- **Recommended actions** — evidence-backed cards (now / soon / later) with direct imperative steps, category labels, and optional evidence details. **Accept** sends the action to Strategy chat; **Decline** removes it from your list. Generated from past trades, holdings, errors, your strategy text, and workspace scripts when present — separate from the narrative briefing.
 - **Narrative sections** — at-a-glance, recent performance, and since-last-update prose grounded in verified run and trade data.
 
-A compatibility markdown summary is still stored for exports and older clients. The briefing refreshes after each completed run. Recommendations refresh on the same schedule (parallel background job). If a run just finished, you may briefly see *"Updating briefing after the latest run…"* or *"Updating recommendations after the latest run…"* while new content is generated. Use **Refresh recommendations** to enqueue a new pass on demand.
+A compatibility markdown summary is still stored for exports and older clients. The briefing refreshes after each completed run. If a run just finished, you may briefly see *"Updating briefing after the latest run…"* while new content is generated.
+
+### Recommendations
+
+**Recommended actions** sit in the same briefing card, directly under the metrics and positions. They are separate from the narrative briefing: short, actionable cards tuned for *what to do next*, not a prose recap of the last run.
+
+#### What you see on each card
+
+Each recommendation includes:
+
+- **Priority** — **Now** (urgent), **Soon**, or **Later**, so you know what to tackle first.
+- **Category** — **Execution**, **Risk**, **Logic**, **Config**, or **Research**.
+- **Title and why** — a plain-language summary and the reason Fere surfaced it.
+- **Steps** — one to five direct imperatives (for example, *"Extend the schedule for 3 more runs"* or *"Set a take profit at 5% above entry"*). Steps are written for you as the owner, not as developer instructions.
+- **Evidence** (when shown) — pointers to the run, trade, signal, or script behavior that supported the suggestion.
+
+Fere shows up to five recommendations at a time. If nothing new is warranted, the section may be empty.
+
+#### What you can do
+
+| Action | What happens |
+| --- | --- |
+| **Accept** | Sends the recommendation (title + steps) into **Strategy chat** at the bottom of the page. Fere treats it like your own instruction and can update the strategy workspace, schedule settings, or trading logic as needed. |
+| **Decline** | Removes the card from your list. Declined items are remembered — they will not reappear after the next automatic refresh or when you tap **Refresh recommendations**. |
+| **Refresh recommendations** | Enqueues a new generation pass on demand. The link is enabled when recommendations are **stale** (a run finished after the last recommendations update). |
+
+While a new pass is running after a completed run, you may see *"Updating recommendations after the latest run…"* with no cards yet. That is normal; reload or wait a moment for the job to finish.
+
+<Tip>
+  **Accept vs. typing in chat.** Accept is a shortcut: it pre-fills Strategy chat with the same steps you would paste yourself. You can still edit the message before sending, or ask follow-ups in the same thread.
+</Tip>
+
+#### How recommendations are generated (high level)
+
+Recommendations are produced by a **dedicated background job** that runs in parallel with the executive briefing — not copied from the briefing text.
+
+1. **Gather evidence** — Fere assembles a structured snapshot of your strategy: recent and older scheduled runs, trade outcomes, holdings, error patterns (with extra weight on *recent* failures), your active strategy text, saved workspace scripts when present, optimizer metrics if enabled, and your past Strategy chat follow-ups.
+2. **Detect signals** — Rule-based checks flag themes worth addressing (for example, repeated run failures, stale errors that are already resolved, or script-specific trading context on Hyperliquid or Polymarket).
+3. **Generate cards** — An AI model reads only that evidence and outputs structured recommendations. Each card must cite supporting evidence; invented balances, prices, or trade counts are not allowed.
+4. **Sanitize for product context** — Post-processing drops generic coding advice (logging, refactoring, *"edit your `.py` file"*). Steps stay in owner language: schedule changes, risk guardrails, notifications, and workspace updates via Fere — aligned with how strategies actually run (saved scripts and `strategy_builder`, not manual IDE edits).
+5. **Respect your choices** — Declined recommendations are stored so refresh passes do not suggest the same intent again.
+
+The executive briefing and recommendations share the same trigger (after a completed run) but serve different jobs: the briefing explains *what happened*; recommendations suggest *what to do next*.
 
 ### Strategy chat
 
