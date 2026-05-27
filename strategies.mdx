@@ -227,7 +227,7 @@ On mobile, tap the floating **Strategy** button to open a bottom sheet with **Ru
 Scheduled strategies and the **strategy_builder** skill run Python in an isolated sandbox. Fere injects **`fere_tools`** — a single synchronous SDK that mirrors the gateway tool registry (`/v1/tools`). Use it to align automation with what Fere can actually execute: market data, analysis, wallet reads, on-chain writes, [Hyperliquid perps](/hyperliquid), and Polymarket.
 
 <Info>
-  This catalog lists **69** sandbox-allowed tools (20 write money or on-chain/Polymarket/perp state). **Scheduling** (`create_scheduled_task`, `modify_scheduled_task`, `cancel_scheduled_task`) is **not** in the sandbox — create or change schedules from Strategy chat or the UI, not from `fere_tools`.
+  This catalog lists **69** sandbox-allowed tools (20 write money or on-chain/Polymarket/perp state). **Examples** appear only for wallet on-chain, Polymarket, and Hyperliquid perp tools (37 tools). **Scheduling** (`create_scheduled_task`, `modify_scheduled_task`, `cancel_scheduled_task`) is **not** in the sandbox — create or change schedules from Strategy chat or the UI, not from `fere_tools`.
 </Info>
 
 ### Client API (module methods)
@@ -265,121 +265,3165 @@ prices = F.call("current_prices_tool", token_names=["ETH", "SOL"])
 
 ### Tool catalog
 
-<AccordionGroup>
-  <Accordion title="Market data (12 tools)" icon="chart-line">
+### Market data
 
-| Tool | Writes state | Description | Return type |
+Discovery — prices, search, trending, pools.
+
+_12 tools._
+
+#### `available_cryptocurrency_categories_and_chains`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Available Cryptocurrency Categories And chains supported by coingecko. These categories are useful for fetching `search_coins_by_category` present in a category from coingecko (www.coingecko.com).
+
+Returns:
+  CategoryResponse: A list of categories (category id and category name) and a map of chains (chain name to its networkId) supported by coingecko.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+```text
+CategoryResponse: A list of categories (category id and category name) and a map of chains (chain name to its networkId) supported by coingecko.
+```
+
+#### `current_prices_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch current USD price + market data for one or more tokens (CoinGecko).
+
+Args:
+  token_names: List of token symbols/names (e.g. ``["ETH", "SOL"]``).
+  remove_optional: Drop the bulky ``tickers`` field (exchange-by-
+    exchange data). Keep ``True`` unless you truly need per-exchange
+    price data; if you must, limit token_names to ≤ 10 per call.
+
+Returns (``CryptocurrencyList`` serialized as dict) — already unwrapped
+when called via ``F.current_prices_tool(...)``. **Top-level key is
+``currencies``, not ``cryptocurrencies``.** Field names match the
+``Cryptocurrency`` pydantic model in
+``friday/airflow/dags/friday/libs/tokens/schema.py`` — snake_case,
+``current_price`` / ``market_cap`` / ``total_volume`` with **no
+``_usd`` suffix** (values are in USD by default). Concrete shape::
+
+    {
+      "currencies": [
+        {
+          "id": "ethereum",
+          "symbol": "eth",                   # lowercase; upper() to compare
+          "name": "Ethereum",
+          "market_cap_rank": 2,
+          "current_price": 3456.78,          # USD
+          "market_cap": 416_000_000_000,     # USD
+          "total_volume": 15_000_000_000,    # USD, 24h
+          "high_24h": 3478.55,
+          "low_24h": 3390.22,
+          "price_change_24h": -42.3,
+          "price_change_percentage_24h": -1.23,
+          "price_change_percentage_7d": 4.56,
+          "price_change_percentage_1h": 0.12,
+          "ath": 4878.26,                    # NOT ath_usd
+          "atl": 0.4327,                     # NOT atl_usd
+          "circulating_supply": 120_000_000.0,
+          "total_supply": 120_000_000.0,
+          "contract": "0x...",               # contract on motherchain
+          "motherchain": 1,                  # numeric chain id
+          "chains": {"ethereum": {"contract": "0x...", "decimals": 18}, ...},
+          # Many optional fields (``links``, ``description``,
+          # ``sparkline_in_7d``, social/interaction metrics, etc.)
+          # may be present — check one row with list(c.keys()) if you
+          # need a rarely-used field.
+          # "tickers": [...]  only when remove_optional=False
+        },
+        ...
+      ]
+    }
+
+Index by symbol::
+
+    by_symbol = {c["symbol"].upper(): c for c in prices["currencies"]}
+    eth_price = by_symbol["ETH"]["current_price"]
+
+On upstream failure this returns a **plain string** error message
+(no ``currencies`` key) — guard with ``isinstance(prices, dict) and
+"currencies" in prices``.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `available_cryptocurrency_categories_and_chains` | No | Available Cryptocurrency Categories And chains supported by coingecko. These categories are useful for fetching `search_coins_by_category` present in a category from coingecko (www.coingecko.com). | CategoryResponse: A list of categories (category id and category name) and a map of chains (chain name to its networkId) supported by coingecko. |
-| `current_prices_tool` | No | Fetch current USD price + market data for one or more tokens (CoinGecko). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `get_trending_coins` | No | Fetch trending coins/tokens sorted by trending score. Can be filtered by chain or return cross-chain results. | CryptocurrencyList: List of trending tokens with name, symbol, price, volume, market cap, and other metrics. |
-| `get_trending_coins_by_chain` | No | Fetch trending coins on a specific blockchain using Codex data. | CryptocurrencyList: Trending coins with market data and metrics. |
-| `global_market_cap_and_volume` | No | Fetch global market cap and volume. Uses the Coingecko Global Market Cap and Volume API to fetch relevant details for a given number of days. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `historical_prices_tool` | No | Fetch historical prices for a list of tokens. | CryptocurrencyList with historical price data in historical_data field for each token. |
-| `merged_trending_coins` | No | Fetch Trending coins (note that trending coins are not top coins by market cap) across chains, uses coingecko trending coins. Use `get_trending_coins_by_chain` tool only if user asks for trending on a specific chain. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `search_coin_by_name` | No | Search cryptocurrency by name and get relevant coins with thier coingecko coin id, coigecko symbol, market cap, liquidity, volume, etc. | A list of crypto currency with its coingecko coin id market cap, liquidity, volume, etc relevant to the search query. If no relevant coins are found, returns None. |
-| `search_coins` | No | Search coins either by query or category (with optional filters). | - Query mode: dict[str, CryptocurrencyList] mapping each query string to its search results - Category mode: CryptocurrencyList with filtered results, or error string if invalid categories provided |
-| `search_coins_by_category` | No | Fetch cryptocurrency coins/tokens present in a category or chain and get its market cap, liquidity, volume, etc. from CoinGecko (www.coingecko.com/category). Not meant for historical data analysis. | CryptocurrencyList: A list of cryptocurrencies with their market cap, liquidity, volume, etc. in that particular category. |
-| `token_holders` | No | Get token holders for a given contract address. | dict: Token holders with addresses, balances, and ownership percentages. |
-| `trending_pools` | No | Fetch trending pools for a given chain identifier or sorts by volume if not specified. Uses the Coingecko Trending Pools API to fetch relevant details for a given chain identifier. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `token_names` | `any` | Yes | typing.Annotated[list[str], 'List of token names'] |
+| `remove_optional` | `any` | No | typing.Annotated[bool, 'Remove optional fields like tickers. Tickers contains the exchange details, ticker symbols, price and more. Note that tickers information can be huge if used for more than 10 coins, might go beyond your context limits, so set this to False only when you really need it. If more than 10 coins are available, break this call into two with separate lists and remove_optional as False.'] |
 
-  </Accordion>
-  <Accordion title="Analysis (5 tools)" icon="magnifying-glass-chart">
+**Returns**
 
-| Tool | Writes state | Description | Return type |
+Returns JSON-compatible tool output.
+
+#### `get_trending_coins`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch trending coins/tokens sorted by trending score. Can be filtered by chain or return cross-chain results.
+
+Data Provider: Codex (on-chain data aggregator)
+
+Args:
+    chain_name (str): Optional. The blockchain network name. If empty, returns trending coins across ALL chains. Supported chains: `abstract`, `abstract testnet`, `apechain`, `aptos`, `arbitrum`, `arbitrum nova`, `astar`, `aurora`, `avalanche`, `avalanche dfk`, `base`, `base sepolia`, `blast`, `blast sepolia`, `bnb chain`, `boba`, `callisto`, `canto`, `celo`, `cheesechain`, `chiliz`, `conflux`, `conwai`, `core`, `cronos`, `degen chain`, `dogechain`, `echelon`, `echos`, `elastos`, `energi`, `energy web`, `ethereum`, `ethereum sepolia`, `evmos`, `fantom`, `flow evm`, `flow evm testnet`, `fuse`, `goerli`, `gravity alpha`, `ham`, `harmony`, `heco`, `hoo smart chain`, `hyperevm`, `immutable`, `ink`, `iotex`, `kardiachain`, `klaytn`, `kucoin community chain`, `manta`, `mantle`, `meld`, `meter`, `metis`, `milkomeda`, `mode`, `moonbeam`, `moonriver`, `oasis emerald`, `odyssey chain`, `oec`, `opbnb`, `optimism`, `over protocol`, `plasma`, `plume`, `plume legacy`, `polis`, `polygon`, `polygon mumbai`, `polygon zkevm`, `pulsechain`, `re.al`, `ronin`, `saigon`, `sanko`, `sanko sepolia`, `scroll`, `sei`, `sei arctic`, `shibarium`, `shiden`, `smartbch`, `solana`, `somnia`, `somnia shannon testnet`, `sonic`, `sophon`, `starknet`, `story`, `story aeneid testnet`, `story iliad`, `sui`, `superposition`, `swellchain`, `syscoin`, `taraxa`, `telos`, `treasure`, `tron`, `unichain`, `vana`, `vector`, `velas`, `wanchain`, `world chain`, `xai`, `xdai`, `yominet`, `zircuit`, `zksync`, `zora`, `zyx`
+    score_interval (str): Trending score time window. One of "5m", "1h", "4h", "12h", "24h". Default is "24h".
+    limit (int): Number of trending coins to return. Default is 20, max 100.
+    custom_filters (dict, optional): Custom filters to apply on top of trending tokens response. Defaults to None to use Codex's predefined trending filters.
+
+        **Safety Floor Filters (always enforced):**
+        The following minimum thresholds are always applied to prevent scam/honeypot tokens from appearing in results.
+        They are enforced as minimum thresholds for each field:
+        - `liquidity`: >= $100,000  (minimum pool liquidity)
+        - `holders`: >= 50          (minimum unique holders)
+        - `uniqueBuys24`: >= 30     (minimum unique buyers in 24h)
+        - `uniqueSells24`: >= 10    (minimum unique sellers in 24h)
+        You can set stricter values in `custom_filters`, but you cannot set lower minimums than these floors.
+
+        When specified, custom_filters should be a dictionary with filter parameters. Supported filters include:
+
+        **Time Interval Convention**:
+        Field suffixes indicate time windows: `5m` = 5 minutes, `1` = 1 hour, `4` = 4 hours, `12` = 12 hours, `24` = 24 hours.
+        For example, `volume5m` is volume in the past 5 minutes, `buyCount1` is buy count in the past hour, `change24` is price change over 24 hours.
+
+        **Numeric Filters** (accept dict with operators or single value):
+
+        *Timestamp Fields:*
+        - `createdAt`: Unix timestamp for the creation of the token's first pair
+        - `lastTransaction`: Unix timestamp for the token's last transaction
+
+        *Price & Market Data:*
+        - `priceUSD`: The token price in USD
+        - `marketCap`: The market cap of circulating supply
+        - `circulatingMarketCap`: The circulating market cap
+        - `liquidity`: The amount of liquidity in the token's top pair
+
+        *Volume (Total):*
+        - `volume5m`: Trade volume in USD in the past 5 minutes
+        - `volume1`: Trade volume in USD in the past hour
+        - `volume4`: Trade volume in USD in the past 4 hours
+        - `volume12`: Trade volume in USD in the past 12 hours
+        - `volume24`: Trade volume in USD in the past 24 hours
+
+        *Buy Volume:*
+        - `buyVolume5m`: Buy volume in USD in the past 5 minutes
+        - `buyVolume1`: Buy volume in USD in the past hour
+        - `buyVolume4`: Buy volume in USD in the past 4 hours
+        - `buyVolume12`: Buy volume in USD in the past 12 hours
+        - `buyVolume24`: Buy volume in USD in the past 24 hours
+
+        *Sell Volume:*
+        - `sellVolume5m`: Sell volume in USD in the past 5 minutes
+        - `sellVolume1`: Sell volume in USD in the past hour
+        - `sellVolume4`: Sell volume in USD in the past 4 hours
+        - `sellVolume12`: Sell volume in USD in the past 12 hours
+        - `sellVolume24`: Sell volume in USD in the past 24 hours
+
+        *Price Changes (decimal format, e.g., 0.5 for 50%):*
+        - `change5m`: Percent price change in the past 5 minutes
+        - `change1`: Percent price change in the past hour
+        - `change4`: Percent price change in the past 4 hours
+        - `change12`: Percent price change in the past 12 hours
+        - `change24`: Percent price change in the past 24 hours
+
+        *Volume Changes (decimal format):*
+        - `volumeChange5m`: Percent volume change in the past 5 minutes
+        - `volumeChange1`: Percent volume change in the past hour
+        - `volumeChange4`: Percent volume change in the past 4 hours
+        - `volumeChange12`: Percent volume change in the past 12 hours
+        - `volumeChange24`: Percent volume change in the past 24 hours
+
+        *High Prices:*
+        - `high5m`: Highest price in USD in the past 5 minutes
+        - `high1`: Highest price in USD in the past hour
+        - `high4`: Highest price in USD in the past 4 hours
+        - `high12`: Highest price in USD in the past 12 hours
+        - `high24`: Highest price in USD in the past 24 hours
+
+        *Low Prices:*
+        - `low5m`: Lowest price in USD in the past 5 minutes
+        - `low1`: Lowest price in USD in the past hour
+        - `low4`: Lowest price in USD in the past 4 hours
+        - `low12`: Lowest price in USD in the past 12 hours
+        - `low24`: Lowest price in USD in the past 24 hours
+
+        *Transaction Counts:*
+        - `txnCount5m`: Number of transactions in the past 5 minutes
+        - `txnCount1`: Number of transactions in the past hour
+        - `txnCount4`: Number of transactions in the past 4 hours
+        - `txnCount12`: Number of transactions in the past 12 hours
+        - `txnCount24`: Number of transactions in the past 24 hours
+
+        *Buy Counts:*
+        - `buyCount5m`: Number of buys in the past 5 minutes
+        - `buyCount1`: Number of buys in the past hour
+        - `buyCount4`: Number of buys in the past 4 hours
+        - `buyCount12`: Number of buys in the past 12 hours
+        - `buyCount24`: Number of buys in the past 24 hours
+
+        *Sell Counts:*
+        - `sellCount5m`: Number of sells in the past 5 minutes
+        - `sellCount1`: Number of sells in the past hour
+        - `sellCount4`: Number of sells in the past 4 hours
+        - `sellCount12`: Number of sells in the past 12 hours
+        - `sellCount24`: Number of sells in the past 24 hours
+
+        *Unique Transactions:*
+        - `uniqueTransactions5m`: Unique number of transactions in the past 5 minutes
+        - `uniqueTransactions1`: Unique number of transactions in the past hour
+        - `uniqueTransactions4`: Unique number of transactions in the past 4 hours
+        - `uniqueTransactions12`: Unique number of transactions in the past 12 hours
+        - `uniqueTransactions24`: Unique number of transactions in the past 24 hours
+
+        *Unique Buys:*
+        - `uniqueBuys5m`: Unique number of buys in the past 5 minutes
+        - `uniqueBuys1`: Unique number of buys in the past hour
+        - `uniqueBuys4`: Unique number of buys in the past 4 hours
+        - `uniqueBuys12`: Unique number of buys in the past 12 hours
+        - `uniqueBuys24`: Unique number of buys in the past 24 hours
+
+        *Unique Sells:*
+        - `uniqueSells5m`: Unique number of sells in the past 5 minutes
+        - `uniqueSells1`: Unique number of sells in the past hour
+        - `uniqueSells4`: Unique number of sells in the past 4 hours
+        - `uniqueSells12`: Unique number of sells in the past 12 hours
+        - `uniqueSells24`: Unique number of sells in the past 24 hours
+
+        *Wallet Statistics:*
+        - `walletAgeAvg`: Average age of the wallets that traded in the last 24 hours
+        - `walletAgeStd`: Standard deviation of age of the wallets that traded in the last 24 hours
+        - `swapPct1dOldWallet`: Percentage of wallets that are less than 1 day old that have traded in the last 24 hours
+        - `swapPct7dOldWallet`: Percentage of wallets that are less than 7 days old that have traded in the last 24 hours
+
+        *Other Metrics:*
+        - `holders`: Number of different wallets holding the token
+
+        *Launchpad Metrics:*
+        - `launchpadGraduationPercent`: The graduation percentage for the launchpad
+        - `launchpadCompletedAt`: Unix timestamp when the launchpad was completed
+        - `launchpadMigratedAt`: Unix timestamp when the launchpad was migrated
+
+        **Numeric Filter Operators:**
+        Numeric filters can be specified as:
+        - Comparison dict: `{"priceUSD": {"gt": 0.001, "lt": 1}}`
+        - Operators: `gt` (>), `gte` (>=), `lt` (<), `lte` (<=)
+
+        **IMPORTANT: Filters compare against constant numeric values only, NOT against other fields.**
+        - CORRECT: `{"buyCount24": {"gte": 100}}` - compares buyCount24 against the number 100
+        - INCORRECT: `{"buyCount24": {"gt": "sellCount24"}}` - comparing against another field name is NOT supported
+
+        **Handling "more buyers than sellers" or similar field-to-field comparisons:**
+        For queries like "tokens with more buyers than sellers", you CANNOT use filters directly.
+        Instead, fetch the data without such filters (buyCount24 and sellCount24 will be in the response),
+        then compare the values in the returned tokens yourself to filter out tokens where buyCount24 <= sellCount24.
+
+        **Boolean Filters:**
+        - `potentialScam`: Filter tokens flagged as potential scams. Set to `True` to show only potential scams, `False` to exclude them
+        - `includeScams`: Whether to include tokens that have been flagged as scams. Default is `False`
+        - `isVerified`: Only include verified tokens when set to `True`. Not set by default. Use this only if explicitly mentioned in the user query.
+        - `isTestnet`: Filter for tokens on testnet networks. `True` for testnet tokens only, `False` for mainnet tokens only, `None` (default) for both
+        - `launchpadCompleted`: Filter tokens where the launchpad is completed
+        - `launchpadMigrated`: Filter tokens where the launchpad has migrated
+        - `freezable`: Filter tokens that are freezable
+        - `mintable`: Filter tokens that are mintable
+
+        **List Filters:**
+        - `exchangeId`: List of exchange contract IDs to filter by. Applied in conjunction with network filter using an OR condition
+        - `exchangeAddress`: List of exchange contract addresses to filter by
+        - `launchpadProtocol`: List of launchpad protocols to filter by
+        - `launchpadName`: List of launchpad names to filter by
+
+        **String Filters:**
+        - `creatorAddress`: Address of the token creator / dev to filter by
+
+        Example usage:
+        ```python
+          custom_filters = {
+              "priceUSD": {"gt": 0.0001, "lt": 1},  # Price between $0.0001 and $1
+              "volume24": {"gte": 10000},            # 24h volume >= $10k
+              "marketCap": {"gt": 100000, "lt": 10000000},  # Market cap $100k to $10M
+              "change24": {"gt": 0.1},               # 24h price change > 10%
+              "liquidity": {"gte": 50000},           # Liquidity >= $50k
+              "buyCount24": {"gte": 100},            # At least 100 buys in last 24h
+              "sellCount24": {"lte": 50},            # At most 50 sells in last 24h (more buyers than sellers)
+              "holders": {"gte": 100},               # At least 100 holders
+              "isVerified": True,                      # Only verified tokens
+              "includeScams": False                    # Exclude scams
+          }
+        ```
+
+Returns:
+    CryptocurrencyList: List of trending tokens with name, symbol, price, volume, market cap, and other metrics.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `calculate_historical_investment_tool` | No | Calculate historical investment performance for a cryptocurrency. | Tuple of (final_value, profit_loss, percent_change, price_data) or None. |
-| `contract_security_check_tool` | No | Batch check token contract security using RugCheck (Solana) or Honeypot.is (EVM). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `ohlcv_history_tool` | No | Fetch OHLCV (Open, High, Low, Close, Volume) candle data. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `technical_analysis_tool` | No | Fetch OHLCV data and calculate technical indicators for a token. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `token_risk_analysis_tool` | No | Comprehensive token risk analysis with multi-dimensional scoring. | JSON string with risk scores, levels, breakdowns, and flags. |
+| `chain_name` | `string` | No | Optional. The blockchain network name (e.g., 'solana', 'base', 'ethereum'). Empty string for cross-chain trending. |
+| `score_interval` | `string` | No | Trending score time window: '5m', '1h', '4h', '12h', or '24h'. Default is '24h'. |
+| `limit` | `integer` | No | Number of trending coins to return. Default is 20, max is 100. |
+| `custom_filters` | `object` | No | Custom filters to apply. See get_trending_coins_description for full list of supported filters. |
 
-  </Accordion>
-  <Accordion title="Social (8 tools)" icon="hashtag">
+**Returns**
 
-| Tool | Writes state | Description | Return type |
+```text
+CryptocurrencyList: List of trending tokens with name, symbol, price, volume, market cap, and other metrics.
+```
+
+#### `get_trending_coins_by_chain`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch trending coins on a specific blockchain using Codex data.
+
+Use for discovering trending tokens on a specific chain. Preferred over
+merged_trending_coins when you want chain-specific trending data.
+
+Args:
+    chain_name: Blockchain name (e.g., 'solana', 'base', 'ethereum').
+    score_interval: Time window for trending score ('5m', '1h', '4h', '12h', '24h').
+    top_k: Number of trending coins to return (default 10, max 100).
+    custom_filters: Optional filters for price, volume, liquidity, etc.
+
+Returns:
+    CryptocurrencyList: Trending coins with market data and metrics.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `casts_from_channel_tool` | No | Get casts from a Farcaster channel. | SocialPosts: Casts from the channel with content and engagement. |
-| `casts_from_user` | No | Fetch casts from a Farcaster user. | SocialPosts: Casts from the user with content and engagement. |
-| `keyword_search_for_casts` | No | Performs keyword search for casts. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `news_searches` | No | Search news for multiple keywords. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `semantic_search_for_casts` | No | Performs semantic search for casts. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `top_tweeters` | No | Get top creators/influencers for a topic on social platforms. | Creators: List of top creators with follower counts and influence metrics. |
-| `top_tweets_tool` | No | Get top tweets from Twitter/X for cryptocurrency tokens. | SocialPosts: Top tweets with content, author, engagement metrics. |
-| `tweets_from_users` | No | Get tweets from specific Twitter/X users. | SocialPosts: Tweets from the users with content and engagement. |
+| `chain_name` | `any` | Yes | &lt;class 'str'> |
+| `score_interval` | `any` | No | typing.Annotated[str, 'Trending score time window. One of `"5m"`, `"1h"`, `"4h"`, `"12h"` or `"24h"`. Default this to `"24h"` if an interval is not explicitly mentioned.'] |
+| `top_k` | `any` | No | typing.Annotated[int, 'Number of top trending coins to return. By default it is 10.'] |
+| `custom_filters` | `any` | No | typing.Annotated[dict, 'Custom filters to apply on top of trending tokens response. Defaults to None to use Codex defined parameters for trending'] |
 
-  </Accordion>
-  <Accordion title="Web research (7 tools)" icon="globe">
+**Returns**
 
-| Tool | Writes state | Description | Return type |
+```text
+CryptocurrencyList: Trending coins with market data and metrics.
+```
+
+#### `global_market_cap_and_volume`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch global market cap and volume. Uses the Coingecko Global Market Cap and Volume API to fetch relevant details for a given number of days.
+
+Args:
+  days: Get data for these many days. Default is 7.
+  vs_currency: The base currency. Default is "usd".
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `combined_search_tool` | No | Perform a combined internet search and social media lookup. | InternetSearchResponse Structured response containing: |
-| `exa_answer` | No | Generate an answer to a question using Exa Search API. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `exa_find_similar` | No | Find similar pages to the given URL using Exa Search API. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `exa_search` | No | Perform a web search using Exa Search API. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `extract_text_from_pdf_url` | No | Downloads a PDF from a URL and extracts the text content. | The extracted text from the PDF. Raises: |
-| `scrape_firecrawl` | No | Scrape a web page with Firecrawl. | WebCrawlItems: The scraped web page |
-| `web_search` | No | Web search with Parallel as primary, then Firecrawl, then Exa as fallback. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `days` | `any` | No | typing.Annotated[int, 'Get data for these many days'] |
+| `vs_currency` | `any` | No | typing.Annotated[str, 'The base currency'] |
 
-  </Accordion>
-  <Accordion title="Wallet & on-chain (16 tools)" icon="wallet">
+**Returns**
 
-| Tool | Writes state | Description | Return type |
+Returns JSON-compatible tool output.
+
+#### `historical_prices_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch historical prices for a list of tokens.
+
+Contract addresses are the preferred method. For native tokens (BTC, ETH, SOL, etc.) that don't have contract addresses, use token_names instead.
+
+Args:
+  contract_addresses: List of token contract addresses (not pool addresses). Preferred method.
+  token_names: List of token names for native tokens. Only used if contract_addresses is not provided.
+  days: Number of days for which historical data to be fetched. Default is 7.
+
+Returns:
+  CryptocurrencyList with historical price data in historical_data field for each token.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `aave_operation` | Yes | Run Aave operation, with runtime-injected user and context. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `cancel_limit_order` | Yes | Cancel an active limit order. | dict: Result of the cancellation operation with status, message, and limit_order_id. |
-| `create_limit_order` | Yes | Create limit orders with auto-fetched holdings and balance validation. | - On all success: \{"status": "success", "task_ids": [...]\} - On partial success: \{"status": "partial_success", "task_ids": [...], "failed_orders": [...]\} |
-| `ens_to_address` | No | Convert ENS name to Ethereum wallet address. | str: The resolved Ethereum address (0x...). |
-| `get_holdings` | No | Get the holdings of a wallet on all supported chains. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `get_limit_orders` | No | Get all limit orders for a user, optionally filtered by status. | list: List of limit order details including limit_order_id, status, tokens, amounts, and trigger prices. |
-| `get_wallet_positions` | No | Get wallet positions for any wallet address. | WalletPosition: Token holdings with balances and values. |
-| `poll_transaction_status` | No | Poll and wait for blockchain transaction completion. | \{"status": "success"\|"partial"\|"failed", "results": [...]\} Each result has: task_id, status, success, txn_url, error. |
-| `recharge_user_credits` | Yes | Recharge user credits (product credits) by bridging tokens to fee wallet. | - On success: \{"status": "success", "task_ids": [...], "message": "Recharge initiated successfully"\} |
-| `set_hooks_for_holding` | Yes | Set stop loss and take profit hooks for existing holdings. | dict: Result of the set hooks operation. |
-| `stake_tokens` | Yes | Stake or unstake ETH, with runtime-injected user and context. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `supported_chains` | No | Get the list of supported chains for swap/trade. | list[ChainfeatureMatrix]: List of supported chains. |
-| `supported_chains_for_bridging` | No | This function returns the list of supported source and destination chains for bridging tokens. | dict: \{ "supported_source_chains": list of supported source chains, |
-| `trade_tokens` | Yes | Trade tokens (swap or bridge) with auto-fetched holdings and balance validation. | - On all success: \{"status": "success", "task_ids": [...]\} |
-| `transfer_tokens` | Yes | Transfer multiple tokens to multiple recipient wallet addresses on behalf of the user. | dict: Result of the transfer operation containing task IDs. |
-| `wallet_info` | No | Gets wallet addresses for a user. | dict: The wallet addresses for the user. |
+| `contract_addresses` | `any` | No | typing.Annotated[list[str], 'List of token contract addresses to fetch historical prices for. Preferred method. Leave empty for native tokens.'] |
+| `token_names` | `any` | No | typing.Annotated[list[str], "List of token names for native tokens that don't have contract addresses. Only used if contract_addresses is empty."] |
+| `days` | `any` | No | typing.Annotated[float, 'Number of days for which historical data to be fetched'] |
 
-  </Accordion>
-  <Accordion title="Hyperliquid perps (10 tools)" icon="chart-line">
+**Returns**
 
-Perpetual futures on [Hyperliquid](/hyperliquid) — setup, funding, leverage, and TP/SL. Day and Swing **strategies** in Settings require Hyperliquid funding before their first scheduled perp run.
+```text
+CryptocurrencyList with historical price data in historical_data field for each token.
+```
 
-| Tool | Writes state | Description | Return type |
+#### `merged_trending_coins`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch Trending coins (note that trending coins are not top coins by market cap) across chains, uses coingecko trending coins. Use `get_trending_coins_by_chain` tool only if user asks for trending on a specific chain.
+
+Note: Trending coins are different from top coins. Trending coins are the coins that are currently trending on the market. Top coins are the coins that are the highest market cap coins.
+
+Args:
+  category_ids: List of Category ids to filter the trending coins on. Category id are often different from category name, due to similarity in names. Always confirm if you are using the correct category id by cross-referencing with the `available_cryptocurrency_categories_and_chains` tool.
+  chain_id: Chain identifier (name or ID). None for all chains. Chain id are often different from chain name, due to similarity in names. Always confirm if you are using the correct chain id by cross-referencing with the `available_cryptocurrency_categories_and_chains` tool.
+  include_attributes: Comma-separated attributes to include in API response
+  fetch_all: Whether to fetch all available data
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `cancel_perp_order` | Yes | Cancel an open limit/stop perp order on Hyperliquid (not a position close). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `close_perp_position` | Yes | Close a perpetual futures position on Hyperliquid. | dict with status, task_id, message. Poll with poll_transaction_status(tool_name='close_perp_position'). |
-| `get_perp_funding_rates` | No | Get funding rates for a Hyperliquid perp asset. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `get_perp_market_overview` | No | Get overview of all Hyperliquid perp markets. | dict with status, meta, asset_ctxs (list). Not iterable as flat markets. For mark price in scripts, prefer current_prices_tool. |
-| `get_perp_open_orders` | No | List open Hyperliquid perp orders for this user (order ids for cancel). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `open_perp_position` | Yes | Open a perpetual futures position on Hyperliquid. | dict with status, task_id, message. Async — poll with poll_transaction_status(tool_name='open_perp_position'). |
-| `place_perp_limit_order` | Yes | Place a single limit order on a Hyperliquid perp (default reduce-only). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `set_perp_tp_sl` | Yes | Attach reduce-only TP/SL trigger orders to an existing perp position. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `update_perp_leverage` | Yes | Update leverage (cross or isolated) for a Hyperliquid perp market. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `update_perp_margin` | Yes | Add or remove isolated margin on a Hyperliquid perp position. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `category_ids` | `any` | No | typing.Annotated[list[str], 'List of Category ids to filter the trending coins on'] |
+| `chain_id` | `any` | No | typing.Annotated[str, 'Chain identifier (name or ID). None for all chains'] |
+| `include_attributes` | `any` | No | typing.Annotated[str, 'Comma-separated attributes to include in API response'] |
+| `fetch_all` | `any` | No | typing.Annotated[bool, 'Whether to fetch all available data'] |
 
-  </Accordion>
-  <Accordion title="Polymarket (11 tools)" icon="scale-balanced">
+**Returns**
 
-| Tool | Writes state | Description | Return type |
+Returns JSON-compatible tool output.
+
+#### `search_coin_by_name`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Search cryptocurrency by name and get relevant coins with thier coingecko coin id, coigecko symbol, market cap, liquidity, volume, etc.
+
+RULE:
+1. Whenever this tool is used, the chat must be terminated by asking the user which Contract Address they want to use.
+0. This rule takes precedence over anything else.
+
+Args:
+  query: Coin name to search for. [Instructions and Rules for query parameter start] Users might refer to crypto currency as coin or token and the word coin / token might not be present in the name itself. For example if user says `give me analysis on xyz coin`, it means the query must be `xyz` and not `xyz coin`. Whereas for example if the user had said `give me analysis on xyzcoin` then the coin_name has to be `xyzcoin`. Rule: Never add 'coin' or 'token' after a space. If 'coin'/'token' is part of the name, it must be joined without a space. Before assigning the query, take a step back and understand the structure of user's query and then apply the instructions and rules specified above to assign an appropriate query.[Instructions and Rules for query parameter end]
+  remove_optional: Remove optional fields like tickers and exchange info.
+  top_k_results: The top k results you want from the search results. By defaults kept at 5
+
+Returns:
+  A list of crypto currency with its coingecko coin id market cap, liquidity, volume, etc relevant to the search query.
+  If no relevant coins are found, returns None.
+
+Note:
+  Each coin result will also reveal it coingecko coin id and coigecko symbol which can be used to use other coingecko tools where coin id / symbol is required.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `get_polymarket_safe_cash_usd` | No | Return spendable Polymarket Safe cash (USD) — the UI "Cash Balance". | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_cancel_order` | Yes | Cancel Polymarket order(s). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_fund_safe` | Yes | Fund the user's Polymarket Safe with USDC.e. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_get_markets` | No | Browse Polymarket markets using the same discovery feeds as the UI. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_get_orderbook` | No | Get the orderbook for a Polymarket outcome token. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_get_positions` | No | Get the authenticated user's Polymarket positions. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_get_trades` | No | Get the authenticated user's Polymarket trade history. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_place_order` | Yes | Place a Polymarket limit-style order on the CLOB. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_setup` | Yes | Trigger Polymarket Safe wallet setup (deploy + approvals). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_setup_status` | No | Check if Polymarket setup is complete for the authenticated user. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `polymarket_withdraw` | Yes | Withdraw USDC.e from the user's Polymarket Safe. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `query` | `any` | Yes | typing.Annotated[str, 'Search String'] |
+| `remove_optional` | `any` | No | typing.Annotated[bool, 'Remove optional fields like tickers and exchange info.'] |
+| `top_k_results` | `any` | No | typing.Annotated[int, 'The top k results you want from the search results. By defaults kept at 5'] |
 
-  </Accordion>
-</AccordionGroup>
+**Returns**
+
+```text
+A list of crypto currency with its coingecko coin id market cap, liquidity, volume, etc relevant to the search query.
+  If no relevant coins are found, returns None.
+
+Note:
+  Each coin result will also reveal it coingecko coin id and coigecko symbol which can be used to use other coingecko tools where coin id / symbol is required.
+```
+
+#### `search_coins`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Search coins either by query or category (with optional filters).
+
+Args:
+  query: Optional list of coin names, symbols, or contract addresses. Contract addresses preferred.
+  category: Optional list of category IDs from available_cryptocurrency_categories_and_chains (like memcoins, ai-tokens, stablecoins etc).
+            If provided, searches for coins in these categories and returns a list of coins in that category sorted in descending order of score. Use category IDs, not names.
+  filters: Optional filters for category search.
+  include_exchange_info: If True, includes exchange tickers and token holders data.
+            WARNING: Exchange ticker data can be large in volume (potentially MBs).
+            Only request this data when you actually need exchange/pair information.
+            Do not query just for the sake of more data. Defaults to False.
+
+Returns:
+  - Query mode: dict[str, CryptocurrencyList] mapping each query string to its search results
+  - Category mode: CryptocurrencyList with filtered results, or error string if invalid categories provided
+
+Returns market data, coin metadata, supply data, historical prices, and social metrics.
+If include_exchange_info is True, also returns exchange tickers and token holders.
+
+For category search, call available_cryptocurrency_categories_and_chains first to get valid category IDs.
+Category IDs differ from names. Invalid categories are filtered with suggestions provided.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `query` | `any` | No | typing.Annotated[list[str], 'Optional. Coin names, symbols, or contract addresses. Contract addresses preferred.'] |
+| `category` | `any` | No | typing.Annotated[list[str], 'Optional. Category IDs from available_cryptocurrency_categories_and_chains. Not category names.'] |
+| `filters` | `any` | No | typing.Annotated[dict, 'Optional. Filters for category search. Only used when category is provided. Can be omitted. Supported keys: market_cap_min: Minimum market cap in USD, market_cap_max: Maximum market cap in USD, fdv_min: Minimum fully diluted valuation in USD, fdv_max: Maximum fully diluted valuation in USD, circulating_supply_percentage_min: Minimum circulating supply as percentage of total supply, circulating_supply_percentage_max: Maximum circulating supply as percentage of total supply, volume_min: Minimum 24h trading volume in USD, network: List of network IDs to filter by (chain IDs), order: Ordering: market_cap_asc, market_cap_desc, volume_asc, volume_desc, price_change_percentage: Price change duration: 1h, 24h, 7d, 14d, 30d, 200d, 1y, count: Number of coins to return per category'] |
+| `include_exchange_info` | `any` | No | typing.Annotated[bool, 'Whether to include exchange tickers and token holders data. WARNING: Exchange data can be large (MBs). Only enable if you need exchange/pair information. Defaults to False.'] |
+
+**Returns**
+
+```text
+- Query mode: dict[str, CryptocurrencyList] mapping each query string to its search results
+  - Category mode: CryptocurrencyList with filtered results, or error string if invalid categories provided
+
+Returns market data, coin metadata, supply data, historical prices, and social metrics.
+If include_exchange_info is True, also returns exchange tickers and token holders.
+
+For category search, call available_cryptocurrency_categories_and_chains first to get valid category IDs.
+Category IDs differ from names. Invalid categories are filtered with suggestions provided.
+```
+
+#### `search_coins_by_category`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch cryptocurrency coins/tokens present in a category or chain and get its market cap, liquidity, volume, etc. from CoinGecko (www.coingecko.com/category). Not meant for historical data analysis.
+
+  Before calling this, make sure to choose one or more appropriate category or chain id from the `available_cryptocurrency_categories` tool.
+  It only returns last 7 days data. For more than 7 days, use the token ids from this response in historical_prices_tool.
+
+Note:
+  1. There may be many categories which represent the same theme. You must pick all the categories in such cases to get a comprehensive list of tokens.
+  2. Send the chain-id only when you believe it has been asked.
+
+Args:
+  categories: List of category ids. Category id are often different from category name, due to similarity in names. Always confirm if you are using the correct category id by cross-referencing with the `available_cryptocurrency_categories_and_chains` tool.
+  chain_id (Optional): Chain id. Chain id are often different from chain name, due to similarity in names. Always confirm if you are using the correct chain id by cross-referencing with the `available_cryptocurrency_categories_and_chains` tool. Default is None.
+  market_cap_min(Optional): Minimum market cap. Default is None.
+  market_cap_max(Optional): Maximum market cap. Default is None.
+  fdv_min(Optional): Minimum fdv. Default is None.
+  fdv_max(Optional): Maximum fdv. Default is None.
+  circulating_supply_percentage_min(Optional): Minimum circulating supply percentage. Default is None.
+  circulating_supply_percentage_max(Optional): Maximum circulating supply percentage. Default is None.
+  total_volume(Optional): Total volume traded. Default is None.
+  order(Optional): Ordering of results. Default is "market_cap_desc".
+  count(Optional): Count of results. Default is 10.
+  price_change_percentage(Optional): Price change percentage duration. Default is "24h".
+  sparkline(Optional): Show spark line. Default is False.
+
+Returns:
+  CryptocurrencyList: A list of cryptocurrencies with their market cap, liquidity, volume, etc. in that particular category.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `categories` | `any` | Yes | typing.Annotated[list[str], 'The category-id(s) in which coins are search for'] |
+| `chain_id` | `any` | No | typing.Annotated[str, 'The chain-id of the chain on which to filter tokensIf user asks for a specific chain (with or without category), then use this field.'] |
+| `market_cap_min` | `any` | No | typing.Annotated[int, 'Minimum Market Cap filter'] |
+| `market_cap_max` | `any` | No | typing.Annotated[int, 'Maximum Market Cap filter'] |
+| `fdv_min` | `any` | No | typing.Annotated[int, 'Fully Diluted Value minimum filter'] |
+| `fdv_max` | `any` | No | typing.Annotated[int, 'Fully Diluted Value maximum filter'] |
+| `circulating_supply_percentage_min` | `any` | No | typing.Annotated[int, 'Min Circulating supply as a percentage of total supply filter'] |
+| `circulating_supply_percentage_max` | `any` | No | typing.Annotated[int, 'Max circulating supply as a percentage of total supply filter'] |
+| `total_volume` | `any` | No | typing.Annotated[int, 'Total Volume Traded'] |
+| `order` | `any` | No | typing.Annotated[typing.Literal['market_cap_asc', 'market_cap_desc', 'volume_asc', 'volume_desc'], 'Ordering of results'] |
+| `count` | `any` | No | &lt;class 'int'> |
+| `price_change_percentage` | `any` | No | typing.Annotated[typing.Literal['1h', '24h', '7d', '14d', '30d', '200d', '1y'], 'price change percentage Duration'] |
+| `sparkline` | `any` | No | typing.Annotated[bool, 'Show Spark Line'] |
+
+**Returns**
+
+```text
+CryptocurrencyList: A list of cryptocurrencies with their market cap, liquidity, volume, etc. in that particular category.
+```
+
+#### `token_holders`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get token holders for a given contract address.
+
+Returns the top holders of a token with their balances and percentages.
+Useful for analyzing token distribution and whale concentration.
+
+Args:
+    chain: Blockchain network (e.g., 'ethereum', 'base', 'polygon').
+    contract_address: The token's contract address.
+    total_supply: Total supply of the token.
+    limit: Number of top holders to return (default 10).
+
+Returns:
+    dict: Token holders with addresses, balances, and ownership percentages.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `chain` | `any` | Yes | typing.Annotated[typing.Literal['arbitrum', 'avalanche', 'base', 'bsc', 'eth', 'fantom', 'flare', 'gnosis', 'linea', 'optimism', 'polygon', 'polygon_zkevm', 'rollux', 'scroll', 'stellar', 'syscoin'], 'Blockchain on which the contract exists'] |
+| `contract_address` | `any` | Yes | typing.Annotated[str, 'Contract Address'] |
+| `total_supply` | `any` | Yes | typing.Annotated[int, 'Total Supply'] |
+| `limit` | `any` | No | typing.Annotated[int, 'Count of holders to return'] |
+
+**Returns**
+
+```text
+dict: Token holders with addresses, balances, and ownership percentages.
+```
+
+#### `trending_pools`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch trending pools for a given chain identifier or sorts by volume if not specified. Uses the Coingecko Trending Pools API to fetch relevant details for a given chain identifier.
+
+Args:
+  chain_id: Optional chain name or ID to filter pools for a specific blockchain network, pass empty string when not applicable
+  include_attributes: Optional comma-separated string of attributes to include in response, e.g., 'base_token,quote_token,dex', pass empty string when not applicable
+  count: Number of trending pools to return
+  fetch_all: Fetch all pages if True; otherwise fetch only the first page
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `chain_id` | `any` | No | typing.Annotated[str, 'Optional chain name or ID to filter pools for a specific blockchain network, pass empty string when not applicable'] |
+| `include_attributes` | `any` | No | typing.Annotated[str, "Optional comma-separated string of attributes to include in response, e.g., 'base_token,quote_token,dex', pass empty string when not applicable"] |
+| `count` | `any` | No | typing.Annotated[int, 'Number of trending pools to return'] |
+| `fetch_all` | `any` | No | typing.Annotated[bool, 'Fetch all pages if True; otherwise fetch only the first page'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+### Analysis
+
+TA, OHLCV, risk, and contract security.
+
+_5 tools._
+
+#### `calculate_historical_investment_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Calculate historical investment performance for a cryptocurrency.
+
+Simulates what an investment would be worth if made X days ago.
+Useful for backtesting and understanding historical returns.
+
+Args:
+    coin_id: CoinGecko coin ID (e.g., 'bitcoin', 'ethereum').
+    vs_currency: Currency to calculate against (e.g., 'usd').
+    initial_investment: Initial investment amount.
+    duration: Number of days to look back.
+
+Returns:
+    Tuple of (final_value, profit_loss, percent_change, price_data) or None.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `coin_id` | `any` | Yes | typing.Annotated[str, "The ID of the cryptocurrency (e.g., 'bitcoin')"] |
+| `vs_currency` | `any` | Yes | typing.Annotated[str, "The currency to evaluate against (e.g., 'usd')"] |
+| `initial_investment` | `any` | Yes | typing.Annotated[float, 'The initial investment amount'] |
+| `duration` | `any` | Yes | typing.Annotated[int, 'Duration in days to look back'] |
+
+**Returns**
+
+```text
+Tuple of (final_value, profit_loss, percent_change, price_data) or None.
+```
+
+#### `contract_security_check_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Batch check token contract security using RugCheck (Solana) or Honeypot.is (EVM).
+
+This tool validates token contract safety by checking for:
+- Honeypot contracts (tokens you can buy but not sell)
+- Extreme sell taxes (>30%)
+- Low liquidity (<$50k)
+- Known rug pull patterns (Solana via RugCheck)
+
+Args:
+  tokens: List of dicts with 'token_address' (str) and 'chain_id' (int or str)
+          Chain IDs: 1=Ethereum, 8453=Base, 7565164=Solana, 42161=Arbitrum, etc.
+          Chain names also accepted: 'ethereum', 'base', 'solana', 'arbitrum'
+
+Returns JSON string with:
+  - results: list of per-token results with fields:
+      - token_address: str
+      - chain_id: int
+      - allowed: bool (whether token passed checks)
+      - status: str (passed | failed | warning | api_unavailable | unsupported_chain | skipped)
+      - reason: str | null (explanation of issues)
+      - provider: str (rugcheck | honeypot_is)
+      - risk_details: dict | null (full provider response)
+  - summary: dict with counts:
+      - total: int
+      - passed: int
+      - failed: int
+      - warning: int
+      - api_unavailable: int
+
+Status guidance:
+  - passed: Token is clean, include normally in analysis
+  - failed: High risk/honeypot - exclude from recommendations
+  - warning: Medium risk/low liquidity/high tax - include with warning
+  - api_unavailable: Check couldn't run - include with note
+
+Example:
+  contract_security_check_tool([
+    {"token_address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", "chain_id": 8453},
+    {"token_address": "So11111111111111111111111111111111111111112", "chain_id": "solana"}
+  ])
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tokens` | list[`object`] | Yes | List of tokens to check, each with 'token_address' and 'chain_id' keys. Example: [\{'token_address': '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', 'chain_id': 8453\}, \{'token_address': 'So11111111111111111111111111111111111111112', 'chain_id': 'solana'\}] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `ohlcv_history_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch OHLCV (Open, High, Low, Close, Volume) candle data.
+
+Use when you need full candle data (not just close prices) — price
+tables, wick/pattern analysis, backtests.
+
+Args:
+  token_identifier: Token name (``"ETH"``) or contract address.
+  interval: Candle interval. One of ``"1"`` (1min), ``"5"``, ``"60"``,
+    ``"240"``, ``"1D"`` (day). Defaults to ``"1D"``.
+  limit: Number of candles to return (max 100). Defaults to 30.
+
+Returns (dict) — already unwrapped and JSON-decoded when called via
+``F.ohlcv_history_tool(...)``. The wrapper emits exactly two keys on
+success — no ``token`` or ``interval`` echo, no extra metadata::
+
+    {
+      "count": 30,
+      "candles": [
+        {
+          "timestamp": "1729000000",       # unix seconds, STRING
+          "open": 3412.10,
+          "high": 3478.55,
+          "low": 3390.22,
+          "close": 3456.78,
+          "volume": 15234567.89,
+        },
+        ...
+      ],
+    }
+
+On failure, the wrapper emits a dict with **only** ``{"error":
+"<reason>"}`` and no ``candles`` key — guard with
+``if "candles" in result`` before iterating.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token_identifier` | `string` | Yes | Token name (e.g. 'ETH', 'BTC') or contract address. |
+| `interval` | `string` | No | Candle interval. Options: '1' (1min), '5' (5min), '60' (1hr), '240' (4hr), '1D' (1day). Defaults to '1D'. |
+| `limit` | `integer` | No | Number of candles to return (max 100). Defaults to 30. |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `technical_analysis_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch OHLCV data and calculate technical indicators for a token.
+
+Contract address is the preferred method. For native tokens (BTC, ETH, SOL, etc.) that don't have contract addresses, use token_name instead.
+
+Parameters:
+    contract_address (str, optional): The token contract address (not pool address). Preferred method.
+    token_name (str, optional): Token name for native tokens (because contract_address are not available for native tokens).
+    interval (str): Candle Interval. Available options are `15m`, `1hr`, `4hr`, `1day`. If not specified use `4hr` by default.
+    indicators (list): list of indicators to calculate. By default ALL indicators are calculated for comprehensive analysis.
+
+Fallback Mechanism:
+      After retrieving OHLCV data points, if the data points are less than 50 for a particular interval, try the same with a adjancently lower / higher interval and give that annalysis if feasible
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `contract_address` | `any` | No | typing.Annotated[str, 'The token contract address to fetch data for. Preferred method. Leave empty for native tokens.'] |
+| `token_name` | `any` | No | typing.Annotated[str, 'Token name. Use this for native tokens because contract_address are not available for native tokens.'] |
+| `indicators` | `any` | No | typing.Annotated[collections.abc.Sequence[typing.Literal['rsi14', 'macd', 'ema9', 'ema21', 'ema50', 'ema200', 'bb_width20', 'atr14', 'adx14', 'stoch_rsi', 'stochastic', 'obv', 'vwap', 'support_resistance']], 'indicators (list): list of indicators to calculate.
+          Available options:
+          - "rsi14" - Relative Strength Index
+          - "macd" - MACD line, signal, histogram
+          - "ema9", "ema21", "ema50", "ema200" - Exponential Moving Averages
+          - "bb_width20" - Bollinger Bands width percentage
+          - "atr14" - Average True Range (volatility)
+          - "adx14" - Average Directional Index with +DI/-DI (trend strength)
+          - "stoch_rsi" - Stochastic RSI (momentum)
+          - "stochastic" - Stochastic Oscillator %K/%D
+          - "obv" - On-Balance Volume with SMA(20)
+          - "vwap" - Volume Weighted Average Price
+          - "support_resistance" - Pivot-based S1-S3, R1-R3 levels
+          - By default calculate ALL indicators for comprehensive analysis'] |
+| `interval` | `any` | No | typing.Annotated[str, 'Candle Interval. Available options are `15m`, `1hr`, `4hr`, `1day`. If not specified use `4hr` by default.'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `token_risk_analysis_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Comprehensive token risk analysis with multi-dimensional scoring.
+
+Analyzes tokens across 6 risk dimensions and produces a composite
+risk score (0-100):
+- Contract Security (35%): honeypot, mintable, proxy, taxes via GoPlus
+- Holder Concentration (20%): top-10 whale %, largest holder via Ankr
+- Technical Structure (20%): swing points, break price, trend health
+- Token Age (10%): maturity score based on trading history
+- Volume Health (10%): spike/low volume anomaly detection
+- Macro (5%): BTC regime (risk-on vs risk-off)
+
+Risk levels: LOW (75-100), MEDIUM (50-75), HIGH (25-50), VERY_HIGH (0-25)
+
+Use cases:
+- "Analyze my holdings" -> analyzes all tokens (leave token_name empty)
+- "Risk analysis for Useless" -> token_name="Useless"
+- "How risky is official trump" -> token_name="Official Trump"
+
+Args:
+    user_id: User ID (always required for context).
+    token_name: Token name to analyze. Leave empty for all holdings.
+
+Returns:
+    JSON string with risk scores, levels, breakdowns, and flags.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token_name` | `any` | No | typing.Annotated[str, "Token name to analyze (e.g., 'useless', 'official trump', 'debridge'). Leave empty to analyze all user holdings."] |
+
+**Returns**
+
+```text
+JSON string with risk scores, levels, breakdowns, and flags.
+```
+
+### Social
+
+Twitter/X and Farcaster research.
+
+_8 tools._
+
+#### `casts_from_channel_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get casts from a Farcaster channel.
+
+Retrieves recent posts from a specific Farcaster channel.
+
+Args:
+    channel: Farcaster channel ID (e.g., 'ethereum', 'base').
+
+Returns:
+    SocialPosts: Casts from the channel with content and engagement.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `channel` | `any` | Yes | typing.Annotated[str, 'Channel ID'] |
+
+**Returns**
+
+```text
+SocialPosts: Casts from the channel with content and engagement.
+```
+
+#### `casts_from_user`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Fetch casts from a Farcaster user.
+
+Retrieves recent posts from a specific Farcaster username.
+
+Args:
+    username: Farcaster username.
+    limit: Number of casts to fetch (default 50).
+
+Returns:
+    SocialPosts: Casts from the user with content and engagement.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `username` | `any` | Yes | &lt;class 'str'> |
+| `limit` | `any` | No | typing.Annotated[int, 'No. of casts to be fetched. By default 50.'] |
+
+**Returns**
+
+```text
+SocialPosts: Casts from the user with content and engagement.
+```
+
+#### `keyword_search_for_casts`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Performs keyword search for casts.
+
+It prepends $ to the token name. It passes the original token list
+and the updated token list to the farcaster function.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token` | `any` | Yes | typing.Annotated[list[str], 'Symbol of cryptocurrencies'] |
+| `duration` | `any` | No | typing.Annotated[int, 'Number of days to look back'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `news_searches`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Search news for multiple keywords.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `queries` | `any` | Yes | typing.Annotated[list[str], 'List of token names or symbol names to search for news'] |
+| `time_hrs` | `any` | No | typing.Annotated[int, 'Time in hours to look back'] |
+| `max_calls_per_second` | `any` | No | typing.Annotated[int, 'Maximum calls per second'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `semantic_search_for_casts`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Performs semantic search for casts.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `query` | `any` | Yes | typing.Annotated[str, 'User query as it is'] |
+| `duration` | `any` | No | typing.Annotated[int, 'Number of days to look back'] |
+| `channels` | `any` | No | typing.Annotated[list[str], 'List of farcaster channels'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `top_tweeters`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get top creators/influencers for a topic on social platforms.
+
+Find influential voices on a topic. Combine with tweets_from_users
+to get their specific content.
+
+Args:
+    topic: Topic to search for (e.g., 'bitcoin', 'defi').
+    social_network: Platform ('twitter', 'youtube', 'tiktok').
+
+Returns:
+    Creators: List of top creators with follower counts and influence metrics.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `topic` | `any` | Yes | typing.Annotated[str, 'The topic to search for'] |
+| `social_network` | `any` | No | typing.Annotated[str, 'The social network to search on. Supported values are: youtube, tiktok, twitter'] |
+
+**Returns**
+
+```text
+Creators: List of top creators with follower counts and influence metrics.
+```
+
+#### `top_tweets_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get top tweets from Twitter/X for cryptocurrency tokens.
+
+BATCH multiple tokens in single call for efficiency.
+Example: ['BTC', 'ETH', 'SOL'] instead of separate calls.
+
+Args:
+    tokens: List of token symbols (e.g., ['BTC', 'ETH']).
+    duration: Days to look back (-1 for all available time).
+
+Returns:
+    SocialPosts: Top tweets with content, author, engagement metrics.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `tokens` | `any` | Yes | typing.Annotated[list[str], 'Symbols of cryptocurrency'] |
+| `duration` | `any` | No | typing.Annotated[int, 'Number of days to look back'] |
+
+**Returns**
+
+```text
+SocialPosts: Top tweets with content, author, engagement metrics.
+```
+
+#### `tweets_from_users`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get tweets from specific Twitter/X users.
+
+Retrieve recent tweets from specified usernames.
+Tries LunarCrush first; falls back to TwitterAPI.io
+if LunarCrush returns no results.
+
+Args:
+    users: List of Twitter usernames (without @).
+
+Returns:
+    SocialPosts: Tweets from the users with content and engagement.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `users` | `any` | Yes | typing.Annotated[list[str], 'The user(s) whose tweets you want to fetch'] |
+
+**Returns**
+
+```text
+SocialPosts: Tweets from the users with content and engagement.
+```
+
+### Web research
+
+Web search, Exa, Firecrawl, PDF extract.
+
+_7 tools._
+
+#### `combined_search_tool`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Perform a combined internet search and social media lookup.
+
+This tool gathers web search results ranked by reasoning utility
+along with social insights from Twitter and Farcaster when a subject
+keyword is provided.
+
+The search uses objective-based ranking: results are scored by how
+useful they are to your stated research goal, not by keyword match.
+Results are automatically deduplicated by URL.
+
+Usage Guidelines:
+-----------------
+- The `objective` drives result ranking. Name the entity and aspect
+  precisely — e.g. "Arbitrum Stylus smart contract performance" not
+  "Arbitrum info". Specify source preferences and exclusions relevant
+  to crypto research.
+
+- The `query` list should cover 2-5 distinct angles. Each query should
+  surface a different type of source or information. If you already have
+  results for one angle, don't rephrase it — pick a new angle.
+
+- If the queries involve a specific subject, include the subject in
+  the `socials` parameter as a one-word keyword.
+    - Example: `socials=["bitcoin"]`, `socials=["Polymarket"]`.
+  This will gather **both web results and social intelligence**.
+
+- If no subject keyword is provided in `socials`, the tool will
+  simply return **web search results**.
+
+Returned Data:
+--------------
+- **Web Results**: Always included, deduplicated by URL.
+- **Twitter Data**: Returned if `socials` is provided.
+- **Farcaster Data**: Returned if `socials` is provided and relevant
+  data is found; otherwise `None`.
+
+Parameters:
+-----------
+objective : str
+    Natural language description of your research goal.
+query : list[str]
+    2-5 search queries covering different angles of the objective.
+socials : list, optional
+    List of one-word keywords (cryptocurrency symbols or other
+    subject names) for which social insights should be gathered.
+
+Returns:
+--------
+InternetSearchResponse
+    Structured response containing:
+    - `web`: Web search results (deduplicated by URL)
+    - `twitter`: Twitter data (if socials provided, else None)
+    - `farcaster`: Farcaster data (if socials provided and found,
+      else None)
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `objective` | `any` | Yes | typing.Annotated[str, 'What you want to learn about a specific token, protocol, chain, or crypto event. Include source preferences (official docs, crypto news, audit reports) and exclusions (price aggregators, promotional content).'] |
+| `query` | `any` | Yes | typing.Annotated[list[str], "2-5 search queries from different angles: e.g. fundamentals, news/catalysts, tokenomics, security, governance. Each query must add new information the others won't surface."] |
+| `socials` | `any` | No | typing.Annotated[list[str], 'Names of the crypto currencies mentioned in your search query.'] |
+
+**Returns**
+
+```text
+--------
+InternetSearchResponse
+    Structured response containing:
+    - `web`: Web search results (deduplicated by URL)
+    - `twitter`: Twitter data (if socials provided, else None)
+    - `farcaster`: Farcaster data (if socials provided and found,
+      else None)
+```
+
+#### `exa_answer`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Generate an answer to a question using Exa Search API.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `query` | `any` | Yes | typing.Annotated[str, 'Question to answer using web search'] |
+| `model` | `any` | No | typing.Annotated[str, 'Model to use: exa or exa-pro'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `exa_find_similar`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Find similar pages to the given URL using Exa Search API.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `url` | `any` | Yes | typing.Annotated[str, 'URL to find similar pages for'] |
+| `num_results` | `any` | No | typing.Annotated[int, 'Number of similar results to return'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `exa_search`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Perform a web search using Exa Search API.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `query` | `any` | Yes | typing.Annotated[str, 'Query string for web search'] |
+| `num_results` | `any` | No | typing.Annotated[int, 'Number of results to return'] |
+| `search_type` | `any` | No | typing.Annotated[str, 'Type of search: keyword, neural, or auto'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `extract_text_from_pdf_url`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Downloads a PDF from a URL and extracts the text content.
+
+Args:
+    url: The URL of the PDF file.
+
+Returns:
+    The extracted text from the PDF.
+
+Raises:
+    RuntimeError: If the downloaded file is not a valid PDF or other PDF
+        processing errors (e.g. password-protected).
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `url` | `any` | Yes | typing.Annotated[str, 'URL of the page where PDF is hosted'] |
+
+**Returns**
+
+```text
+The extracted text from the PDF.
+
+Raises:
+    RuntimeError: If the downloaded file is not a valid PDF or other PDF
+        processing errors (e.g. password-protected).
+```
+
+#### `scrape_firecrawl`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Scrape a web page with Firecrawl.
+
+Args:
+    urls: The list of URLs of the web pages to scrape
+Returns:
+    WebCrawlItems: The scraped web page
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `urls` | `any` | Yes | list[str] |
+
+**Returns**
+
+```text
+WebCrawlItems: The scraped web page
+```
+
+#### `web_search`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Web search with Parallel as primary, then Firecrawl, then Exa as fallback.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `query` | `any` | Yes | typing.Annotated[str, 'Keywords or Phrase for web search'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+### Wallet & on-chain
+
+Holdings, swaps, bridges, transfers, limit orders, hooks.
+
+_16 tools._
+
+#### `aave_operation`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Run Aave operation, with runtime-injected user and context.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `chain` | `string` | No | Chain on which user wants to supply |
+| `token_address` | `string` | No | Token Address |
+| `amount` | `string` | No | Amount |
+| `amount_in_USD` | `boolean` | No | True if amount is entered in USD, False otherwise |
+| `operation` | `string` | No | Operation type: supply, withdraw, borrow, repay |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.aave_operation()
+print(result)
+```
+
+#### `cancel_limit_order`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Cancel an active limit order.
+
+Args:
+    limit_order_id (str): The unique identifier of the limit order to cancel.
+    runtime: Runtime context automatically injected into tools.
+
+Returns:
+    dict: Result of the cancellation operation with status, message, and limit_order_id.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `limit_order_id` | `string` | No | The limit order ID to cancel. |
+
+**Returns**
+
+```text
+dict: Result of the cancellation operation with status, message, and limit_order_id.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+orders = F.get_limit_orders(status="active")
+if orders:
+    print(F.cancel_limit_order(limit_order_id=orders[0]["limit_order_id"]))
+```
+
+#### `create_limit_order`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Create limit orders with auto-fetched holdings and balance validation.
+
+This function improves upon the original create_limit_order by:
+1. Automatically calling get_holdings
+2. Extracting decimals from holdings
+3. Validating balance before creating limit order
+4. Returning actionable suggestions if validation fails
+5. Supporting partial success - if one order fails, others can still succeed
+6. Processing orders in parallel using ThreadPoolExecutor
+
+Args:
+    limit_order_request: LimitOrderToolRequest with limit order details
+    runtime: Runtime context automatically injected into tools.
+
+Returns:
+    - On all success: {"status": "success", "task_ids": [...]}
+    - On partial success: {"status": "partial_success", "task_ids": [...], "failed_orders": [...]}
+    - On all failed: {"status": "all_failed", "failed_orders": [...]}
+    - On error: {"status": "error", "message": ...}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `limit_order_request` | `any` | No | LimitOrderToolRequest object with limit order details. |
+
+**Returns**
+
+```text
+- On all success: {"status": "success", "task_ids": [...]}
+    - On partial success: {"status": "partial_success", "task_ids": [...], "failed_orders": [...]}
+    - On all failed: {"status": "all_failed", "failed_orders": [...]}
+    - On error: {"status": "error", "message": ...}
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+resp = F.create_limit_order(
+    limit_order_request={
+        "limit_orders": [
+            {
+                "chain_id": 8453,
+                "token_in": "usdc",
+                "token_out": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+                "amount": "50",
+                "amount_in_USD": True,
+                "price_usd_trigger": 2500.0,
+                "condition": "lte",
+                "trigger_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+                "trigger_token_chain": "base",
+            }
+        ]
+    }
+)
+print(resp)
+```
+
+#### `ens_to_address`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Convert ENS name to Ethereum wallet address.
+
+Resolves an ENS domain (e.g., 'vitalik.eth') to its corresponding
+Ethereum address. Only works on Ethereum mainnet.
+
+Args:
+    ens_name: ENS name to resolve (e.g., 'vitalik.eth').
+
+Returns:
+    str: The resolved Ethereum address (0x...).
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `ens_name` | `any` | Yes | typing.Annotated[str, 'ENS name'] |
+
+**Returns**
+
+```text
+str: The resolved Ethereum address (0x...).
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.ens_to_address(ens_name=<...>)
+print(result)
+```
+
+#### `get_holdings`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get the holdings of a wallet on all supported chains.
+
+Args:
+    user_id: The ID of the user.
+    wallet_address: Optional override — the address of the wallet to read.
+        If omitted, the authenticated user's default wallet is used.
+
+Returns (dict) — already unwrapped when called via ``F.get_holdings()``.
+Each ``EVM`` / ``SOLANA`` entry is a ``HoldingItem`` (Pydantic model
+in ``wallet_service/src/schemas/wallet.py``) serialized via
+``model_dump(mode="json")``. The authoritative field list lives on
+that model; these are the fields you'll usually index::
+
+    {
+      "EVM": [
+        {
+          "token_name": "Polymarket USD",
+          "pool_name": "pUSD Pool",
+          "base_address": "0xC011a7E12a19f7B1f670d46F03B03f3342E82DFB",
+          "protocol": "Polymarket",
+          "chain": "polygon",
+          "chain_id": 137,
+          "value_usd": 19.99958
+        },
+        {
+          "token_name": "USDC (Polygon)",
+          "pool_name": "USDC.e Pool",
+          "base_address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+          "protocol": null,
+          "chain": "polygon",
+          "chain_id": 137,
+          "value_usd": 0.9953
+        },
+        {
+          "token_name": "USDC (Polygon)",
+          "pool_name": "USDC.e (Polymarket)",
+          "base_address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+          "protocol": "Polymarket",
+          "chain": "polygon",
+          "chain_id": 137,
+          "value_usd": 4.8755
+        },
+        {
+          "token_name": "USDC (Polygon)",
+          "pool_name": "Will Switzerland win the 2026 FIFA World Cup? (No)",
+          "protocol": "Polymarket",
+          "chain": "polygon",
+          "chain_id": 137,
+          "value_usd": 0.00927
+        }
+      ],
+      "SOLANA": [ ...same shape, chain="solana"... ],
+    }
+
+Polymarket spendable cash (the UI "Cash Balance") — use
+``get_polymarket_safe_cash_usd()`` / ``GET /polymarket/proxy-cash``, NOT
+``get_holdings`` filters. Three Polygon USD pools look similar:
+
+  - ``protocol: null``, ``pool_name: "USDC.e Pool"`` — Fere EOA spot USDC.e
+  - ``protocol: "Polymarket"``, ``pool_name: "pUSD Pool"`` — Safe pUSD (spendable)
+  - ``protocol: "Polymarket"``, ``pool_name: "USDC.e (Polymarket)"`` — stranded
+
+Never use ``token_name == "USD Coin"`` for Polymarket cash. Never treat
+outcome rows (``pool_name`` = market question) as spendable cash.
+
+Filter idiom for Hyperliquid perp positions::
+
+    hl_positions = [
+        h for h in resp.get("EVM", [])
+        if h.get("protocol") == "Hyperliquid"
+    ]
+
+Edge cases — ``"EVM"`` and ``"SOLANA"`` always present (possibly empty)::
+
+    {"status": "dry_run", "message": "...", "SOLANA": [], "EVM": []}
+    {"status": "no_user_context", "message": "...", "SOLANA": [], "EVM": []}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `wallet_address` | `any` | No | typing.Annotated[str, 'The address of the wallet to get the holdings for.'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+holdings = F.get_holdings()
+print("chains", list(holdings.keys()) if isinstance(holdings, dict) else holdings)
+```
+
+#### `get_limit_orders`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get all limit orders for a user, optionally filtered by status.
+
+Args:
+    status (str, optional): Filter by status ('active', 'executed', 'cancelled', 'expired').
+                            If None, returns all limit orders.
+    runtime: Runtime context automatically injected into tools.
+
+Returns:
+    list: List of limit order details including limit_order_id, status, tokens, amounts, and trigger prices.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `status` | `string` | No | Optional status filter: 'active', 'executed', 'cancelled', 'expired' |
+
+**Returns**
+
+```text
+list: List of limit order details including limit_order_id, status, tokens, amounts, and trigger prices.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.get_limit_orders()
+print(result)
+```
+
+#### `get_wallet_positions`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get wallet positions for any wallet address.
+
+Retrieves token holdings and positions for an external wallet.
+Use when user provides a wallet address to analyze.
+For user's own holdings, use get_holdings instead.
+
+Args:
+    wallet_address: Wallet address (0x... or ENS like vitalik.eth).
+
+Returns:
+    WalletPosition: Token holdings with balances and values.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `wallet_address` | `any` | Yes | typing.Annotated[str, 'Wallet address in .ens or standardized EVM Wallet'] |
+
+**Returns**
+
+```text
+WalletPosition: Token holdings with balances and values.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.get_wallet_positions(wallet_address=<...>)
+print(result)
+```
+
+#### `poll_transaction_status`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Poll and wait for blockchain transaction completion.
+
+Call this AFTER trade_tokens, transfer_tokens, create_limit_order, or
+Polymarket operation tools return task_ids. This tool blocks until all
+transactions reach a terminal state (success/failure) or timeout.
+
+Args:
+    task_ids: Wallet-service task IDs to poll.
+    runtime: Tool runtime (injected; not passed by caller).
+    tool_name: Which tool produced the task_ids.
+    timeout_seconds: Max wait time.
+    not_found_grace_seconds: Grace period before treating missing task IDs as
+        NOT_FOUND.
+
+Returns:
+    {"status": "success"|"partial"|"failed", "results": [...]}
+    Each result has: task_id, status, success, txn_url, error.
+    For ``polymarket_place_order``, when take-profit was requested:
+    take_profit_requested, take_profit_order_id, take_profit_price,
+    take_profit_error, take_profit_placed, and take_profit_warning if
+    the post-fill GTC sell was not placed.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `task_ids` | list[`string`] | No | List of task_ids returned by trade_tokens, transfer_tokens, create_limit_order, or Polymarket operation tools. These are the wallet-service task IDs that track transaction execution. |
+| `tool_name` | `string` | No | The tool that produced these task_ids (e.g. 'trade_tokens', 'transfer_tokens', 'create_limit_order', 'polymarket_place_order'). |
+| `timeout_seconds` | `integer` | No | Maximum time in seconds to wait for transactions to complete. |
+| `not_found_grace_seconds` | `number` | No | Grace period before treating missing task IDs as NOT_FOUND. |
+
+**Returns**
+
+```text
+{"status": "success"|"partial"|"failed", "results": [...]}
+    Each result has: task_id, status, success, txn_url, error.
+    For ``polymarket_place_order``, when take-profit was requested:
+    take_profit_requested, take_profit_order_id, take_profit_price,
+    take_profit_error, take_profit_placed, and take_profit_warning if
+    the post-fill GTC sell was not placed.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+poll = F.poll_transaction_status(
+    task_ids=["<task_id_from_prior_write>"],
+    tool_name="trade_tokens",
+)
+print(poll["status"], poll.get("results"))
+```
+
+#### `recharge_user_credits`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Recharge user credits (product credits) by bridging tokens to fee wallet.
+
+This function bridges native tokens from the user's wallet on the specified chain
+to the fee wallet on Base chain in USDC to add product credits to the user's account.
+
+Args:
+    chain_id: Chain ID for the transfer
+    amount_usd: Amount in USD — must be a valid pack: $5, $10, or $20
+    runtime: Runtime context automatically injected into tools.
+
+Returns:
+    - On success: {"status": "success", "task_ids": [...], "message": "Recharge initiated successfully"}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `chain_id` | `integer` | No | Chain ID for the transfer |
+| `amount_usd` | `number` | No | Amount in USD to charge |
+
+**Returns**
+
+```text
+- On success: {"status": "success", "task_ids": [...], "message": "Recharge initiated successfully"}
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.recharge_user_credits()
+print(result)
+```
+
+#### `set_hooks_for_holding`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Set stop loss and take profit hooks for existing holdings.
+
+Args:
+    set_hooks_request (AgentSetHooksRequest): SetHooksRequest object.
+    runtime: Runtime context automatically injected into tools.
+
+Returns:
+    dict: Result of the set hooks operation.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `set_hooks_request` | `any` | No | — |
+
+**Returns**
+
+```text
+dict: Result of the set hooks operation.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+resp = F.set_hooks_for_holding(
+    set_hooks_request={
+        "chain": "base",
+        "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+        "stop_losses": [{"price_usd": 0.85, "sell_percentage": 100}],
+    }
+)
+print(resp)
+```
+
+#### `stake_tokens`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Stake or unstake ETH, with runtime-injected user and context.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount` | `string` | No | the amount to stake |
+| `amount_in_USD` | `boolean` | No | True if amount is entered in USD |
+| `stake_ETH` | `boolean` | No | True if staking ETH, False if unstaking ETH |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.stake_tokens()
+print(result)
+```
+
+#### `supported_chains`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get the list of supported chains for swap/trade.
+
+Returns:
+    list[ChainfeatureMatrix]: List of supported chains.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+```text
+list[ChainfeatureMatrix]: List of supported chains.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.supported_chains()
+print(result)
+```
+
+#### `supported_chains_for_bridging`
+
+**Writes state:** No
+
+**Description**
+
+```text
+This function returns the list of supported source and destination chains for bridging tokens.
+
+Returns:
+    dict: {
+        "supported_source_chains": list of supported source chains,
+        "supported_destination_chains": list of supported destination chains
+    }
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+```text
+dict: {
+        "supported_source_chains": list of supported source chains,
+        "supported_destination_chains": list of supported destination chains
+    }
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.supported_chains_for_bridging()
+print(result)
+```
+
+#### `trade_tokens`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Trade tokens (swap or bridge) with auto-fetched holdings and balance validation.
+
+Unified tool that handles both same-chain swaps and cross-chain
+bridges via the wallet-service /swap/v4/ endpoint. All operations
+are gasless.
+
+- Same chain (chain_id_in == chain_id_out): swap
+- Different chains: cross-chain bridge
+
+Features:
+1. Automatically calls get_holdings
+2. Extracts decimals from holdings
+3. Validates balance before attempting trade
+4. Returns actionable bridge options if balance is insufficient
+5. Supports partial success - if one trade fails, others succeed
+6. Processes trades in parallel using ThreadPoolExecutor
+
+Args:
+    trade_request: TradeToolRequest with trade details
+    runtime: Runtime context automatically injected into tools.
+
+Returns:
+    - On all success:
+        {"status": "success", "task_ids": [...]}
+    - On partial success:
+        {"status": "partial_success", "task_ids": [...],
+         "failed_trades": [...]}
+    - On all failed:
+        {"status": "all_failed", "failed_trades": [...]}
+    - On error:
+        {"status": "error", "message": ...}
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `trade_request` | `any` | No | TradeToolRequest object with trade details. |
+
+**Returns**
+
+```text
+- On all success:
+        {"status": "success", "task_ids": [...]}
+    - On partial success:
+        {"status": "partial_success", "task_ids": [...],
+         "failed_trades": [...]}
+    - On all failed:
+        {"status": "all_failed", "failed_trades": [...]}
+    - On error:
+        {"status": "error", "message": ...}
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+resp = F.trade_tokens(
+    trade_request={
+        "trades": [
+            {
+                "chain_id_in": 8453,
+                "chain_id_out": 8453,
+                "token_in": "usdc",
+                "token_out": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+                "amount": "25",
+                "amount_in_USD": True,
+            }
+        ]
+    }
+)
+if resp.get("task_ids"):
+    print(F.poll_transaction_status(task_ids=resp["task_ids"], tool_name="trade_tokens"))
+```
+
+#### `transfer_tokens`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Transfer multiple tokens to multiple recipient wallet addresses on behalf of the user.
+
+Args:
+    to_address (list[str]): List of destination wallet addresses.
+    token_address (list[str]): List of token addresses (standardized where needed).
+    amount (list[str]): List of amounts to transfer.
+    chain (str): The chain to transfer on.
+    token_decimals (list[int]): List of decimals for each token.
+    amount_in_USD (list[bool]): List indicating whether amounts are in USD or token units.
+    runtime: Runtime context automatically injected into tools.
+
+Returns:
+    dict: Result of the transfer operation containing task IDs.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `to_address` | list[`string`] | No | A list of destination wallet addresses receiving the tokens. Ensure correct mapping of token addresses to recipient addresses. |
+| `token_address` | list[`string`] | No | A list of token addresses to transfer. This is not the Recipient(wallet) address. |
+| `amount` | list[`string`] | No | A list of amounts of tokens to transfer. Maintain values as provided by the user without modification. |
+| `chain` | `string` | No | The chain to transfer on. This is the chain's slug in the database. |
+| `token_decimals` | list[`integer`] | No | A list of decimals for each token to transfer. Get this from holdings data. |
+| `amount_in_USD` | list[`boolean`] | No | A list indicating whether each transfer amount is in USD (True) or in token units (False). |
+
+**Returns**
+
+```text
+dict: Result of the transfer operation containing task IDs.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+resp = F.transfer_tokens(
+    to_address=["0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"],
+    token_address=["0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"],
+    amount=["10"],
+    chain="base",
+    token_decimals=[6],
+    amount_in_USD=[True],
+)
+print(resp)
+```
+
+#### `wallet_info`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Gets wallet addresses for a user.
+
+Args:
+    user_id (UUID): The ID of the user.
+
+Returns:
+    dict: The wallet addresses for the user.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+```text
+dict: The wallet addresses for the user.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.wallet_info()
+print(result)
+```
+
+### Hyperliquid perps
+
+Perpetual futures on [Hyperliquid](/hyperliquid). Day and Swing **strategies** in Settings require Hyperliquid funding before their first scheduled perp run.
+
+_10 tools._
+
+#### `cancel_perp_order`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Cancel an open limit/stop perp order on Hyperliquid (not a position close).
+
+Requires the numeric order id from open orders.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `cancel_request` | `any` | No | PerpCancelOrderToolRequest with asset and order_id (Hyperliquid oid) |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.cancel_perp_order()
+print(result)
+```
+
+#### `close_perp_position`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Close a perpetual futures position on Hyperliquid.
+
+Full close or partial. Pass close_request with asset (and optional size).
+Do not pass asset= as a top-level kwarg.
+
+Returns:
+  dict with status, task_id, message. Poll with
+  poll_transaction_status(tool_name='close_perp_position').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `close_request` | `any` | No | PerpCloseToolRequest with asset and optional size |
+
+**Returns**
+
+```text
+dict with status, task_id, message. Poll with
+  poll_transaction_status(tool_name='close_perp_position').
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+resp = F.close_perp_position(close_request={"asset": "BTC"})
+if resp.get("task_id"):
+    F.poll_transaction_status(task_ids=[resp["task_id"]], tool_name="close_perp_position")
+```
+
+#### `get_perp_funding_rates`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get funding rates for a Hyperliquid perp asset.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `asset` | `string` | Yes | Asset symbol e.g. 'BTC' |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+print(F.get_perp_funding_rates(asset="BTC"))
+```
+
+#### `get_perp_market_overview`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get overview of all Hyperliquid perp markets.
+
+Includes funding rates, open interest, max leverage.
+
+Returns:
+  dict with status, meta, asset_ctxs (list). Not iterable as flat markets.
+  For mark price in scripts, prefer current_prices_tool.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+```text
+dict with status, meta, asset_ctxs (list). Not iterable as flat markets.
+  For mark price in scripts, prefer current_prices_tool.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+overview = F.get_perp_market_overview()
+print("status", overview.get("status"))
+```
+
+#### `get_perp_open_orders`
+
+**Writes state:** No
+
+**Description**
+
+```text
+List open Hyperliquid perp orders for this user (order ids for cancel).
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+print(F.get_perp_open_orders())
+```
+
+#### `open_perp_position`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Open a perpetual futures position on Hyperliquid.
+
+Supports 100+ assets (BTC, ETH, SOL, etc).
+Up to 50x leverage. Market or limit orders.
+Cross or isolated margin.
+
+trade_request.side must be 'long' or 'short' (not BUY/SELL).
+
+IMPORTANT: When the user requests TP/SL with a new position,
+always pass tp_price and sl_price here instead of calling
+set_perp_tp_sl separately. This ensures the TP/SL orders are
+placed atomically after the position opens, avoiding race conditions.
+
+Returns:
+  dict with status, task_id, message. Async — poll with
+  poll_transaction_status(tool_name='open_perp_position').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `trade_request` | `any` | No | PerpTradeRequest with asset, side, size, leverage, and optional tp_price/sl_price for atomic TP/SL |
+
+**Returns**
+
+```text
+dict with status, task_id, message. Async — poll with
+  poll_transaction_status(tool_name='open_perp_position').
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+resp = F.open_perp_position(
+    trade_request={
+        "asset": "BTC",
+        "side": "long",
+        "size": 0.01,
+        "leverage": 3,
+        "tp_price": 105000.0,
+        "sl_price": 95000.0,
+    }
+)
+if resp.get("task_id"):
+    print(F.poll_transaction_status(
+        task_ids=[resp["task_id"]],
+        tool_name="open_perp_position",
+    ))
+```
+
+#### `place_perp_limit_order`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Place a single limit order on a Hyperliquid perp (default reduce-only).
+
+Default scales OUT of the open position at ``limit_price``. To open a
+fresh maker entry, pass ``side`` explicitly + ``reduce_only=False``.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `request` | `any` | No | PerpReduceOnlyLimitToolRequest with asset, size, limit_price |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.place_perp_limit_order()
+print(result)
+```
+
+#### `set_perp_tp_sl`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Attach reduce-only TP/SL trigger orders to an existing perp position.
+
+Side and size are derived from the open Hyperliquid position. Provide
+at least one of ``tp_price`` / ``sl_price``. Prices are tick-rounded
+server-side, so submit raw intent (e.g. ``82339.5``).
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `request` | `any` | No | PerpSetTpSlToolRequest with asset and tp_price/sl_price |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.set_perp_tp_sl()
+print(result)
+```
+
+#### `update_perp_leverage`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Update leverage (cross or isolated) for a Hyperliquid perp market.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `leverage_request` | `any` | No | PerpUpdateLeverageToolRequest with asset, leverage, cross vs isolated |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.update_perp_leverage()
+print(result)
+```
+
+#### `update_perp_margin`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Add or remove isolated margin on a Hyperliquid perp position.
+
+Cross-margin accounts may reject this; use for isolated positions.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `margin_request` | `any` | No | PerpModifyMarginToolRequest: asset, margin_delta_usd, add vs remove |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.update_perp_margin()
+print(result)
+```
+
+### Polymarket
+
+Safe setup, cash preflight, markets, orders, positions.
+
+_11 tools._
+
+#### `get_polymarket_safe_cash_usd`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Return spendable Polymarket Safe cash (USD) — the UI "Cash Balance".
+
+Matches orders against. This is NOT the user's USDC.e wallet balance.
+
+There are three USD-denominated pools that look similar but are NOT
+interchangeable. This tool returns the ONLY one that can place orders:
+
+  1. Fere EOA spot USDC.e — ``protocol: null``, ``pool_name: "USDC.e Pool"``.
+     Cannot place a Polymarket order; bridge + wrap via ``polymarket_fund_safe``.
+  2. Safe-resident pUSD (v2) — ``protocol: "Polymarket"``, ``pool_name: "pUSD Pool"``.
+     **THIS** is order-placement collateral ("Cash Balance" in the UI).
+     Returned as ``spendable_cash_usd``.
+  3. Safe-resident stranded USDC.e — ``pool_name: "USDC.e (Polymarket)"``.
+     Cannot place until ``polymarket_fund_safe(wrap_only=true)``.
+     Returned as ``wrappable_usdce_usd``.
+
+Calls wallet_service ``GET /polymarket/proxy-cash``. Use for autopilot safety
+floors, cron pre-flight, and "can I place an order RIGHT NOW for $X?" checks.
+
+Returns (dict) — via ``F.get_polymarket_safe_cash_usd()``::
+
+    When setup is complete::
+
+        {
+          "setup_complete": true,
+          "v2_enabled": true,
+          "v2_migrated": true,
+          "safe_address": "0x0A002a3f852B664e9072800ceAcC29A62Fb500fc",
+          "spendable_cash_usd": 19.9996,
+          "spendable_token_name": "Polymarket USD",
+          "spendable_token_symbol": "pUSD",
+          "wrappable_usdce_usd": 0.0,
+          "cash_usd": 19.9996
+        }
+
+    When setup is incomplete::
+
+        {"setup_complete": false, "spendable_cash_usd": 0.0,
+         "wrappable_usdce_usd": 0.0, "safe_address": null, ...}
+
+    When no agent exists::
+
+        {"status": "error", "message": "No agent found for user"}
+
+Use ``spendable_cash_usd`` for safety-floor checks — do not re-sum from
+``get_holdings`` or ``polymarket_get_positions``.
+
+Anti-patterns: ``token_name == "USD Coin"``; treating EOA USDC.e
+(``protocol: null``) as Polymarket cash; summing ``wrappable_usdce_usd``
+into spendable without wrapping first.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+cash = F.get_polymarket_safe_cash_usd()
+print("spendable_cash_usd", cash.get("spendable_cash_usd"))
+```
+
+#### `polymarket_cancel_order`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Cancel Polymarket order(s).
+
+Three modes:
+- Single: cancel a specific order by order_id
+- Market: cancel all orders for a specific market_id
+- All: cancel all open orders (cancel_all=True)
+
+Returns task_id for polling via poll_transaction_status.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `order_id` | `string` \| `null` | No | Specific CLOB order ID to cancel. Mutually exclusive with cancel_all and market_id. |
+| `market_id` | `string` \| `null` | No | Cancel all orders for this market/condition ID. |
+| `cancel_all` | `boolean` | No | Cancel ALL open orders across all markets. |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+print(F.polymarket_cancel_order(cancel_all=True))
+```
+
+#### `polymarket_fund_safe`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Fund the user's Polymarket Safe with USDC.e.
+
+Converts tokens from any chain to USDC.e on Polygon and deposits
+into the user's Polymarket Safe via the deposit address. Uses the
+v4 swap infrastructure (gasless).
+
+Set ``wrap_only=True`` to wrap stranded USDC.e on the Safe into pUSD
+(see ``get_polymarket_safe_cash_usd`` → ``wrappable_usdce_usd``).
+
+Returns task_id for polling via poll_transaction_status.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `wrap_only` | `boolean` | No | When True, skip swap/transfer and wrap stranded USDC.e already on the Safe into spendable pUSD. amount/source_chain_id/source_token are ignored. |
+| `amount` | `string` \| `null` | No | Amount to fund. Required when wrap_only=False. String for precision (e.g. '100', '50.5'). |
+| `source_chain_id` | `integer` \| `null` | No | Chain ID where the source tokens are (e.g. 1, 8453, 42161, 137). Required when wrap_only=False. |
+| `source_token_address` | `string` \| `null` | No | Address of the token to convert to USDC.e for funding. Use native token address for ETH/MATIC. Required when wrap_only=False. |
+| `amount_in_usd` | `boolean` | No | True if amount is in USD, False if in token units. |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+resp = F.polymarket_fund_safe(amount_usd=50)
+if resp.get("task_id"):
+    F.poll_transaction_status(task_ids=[resp["task_id"]], tool_name="polymarket_fund_safe")
+```
+
+#### `polymarket_get_markets`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Browse Polymarket markets using the same discovery feeds as the UI.
+
+**Feeds** (``feed`` param):
+
+- ``trending`` / ``closing`` — curated dashboard rows (volume, signal, …).
+- ``easy_wins`` — rows with nested ``easy_win`` (side, cost, pct_return).
+- ``arbitrage`` — multi-outcome arb rows; ``spread`` is the **sum of leg
+  best-asks** (not bid-ask spread). Includes ``profit``, ``profit_pct``,
+  ``legs[]``.
+- ``raw`` — Gamma ``PolymarketMarket`` proto dicts per market.
+
+For per-token **bid-ask spread**, use ``polymarket_get_orderbook`` (not
+the arb feed ``spread`` field).
+
+Set ``attach_gamma=True`` to add ``gamma_market`` on each list row
+(``outcome_prices``, ``neg_risk``, ``best_bid``, ``best_ask``, …).
+
+Returns (dict) — JSON string from the tool; auto-decoded in ``fere_tools``::
+
+    {
+      "schema_version": "markets_v2",
+      "feed": "trending",
+      "view": "trending",
+      "count": 12,
+      "markets": [
+        {
+          "slug": "...",
+          "title": "...",
+          "question": "...",
+          "vol24h": 987654.32,
+          "volume_24hr_clob": 987654.32,
+          "clob_token_ids": ["<YES>", "<NO>"],
+          "condition_ids": ["0x..."],
+          "condition_id": "0x...",
+          "gamma_market": { "...": "when attach_gamma=True" }
+        }
+      ]
+    }
+
+Use ``clob_token_ids[0]`` / ``[1]`` for YES/NO when placing orders.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `feed` | `string` | No | Dashboard feed matching the Polymarket UI: 'trending' (default), 'closing' (ending soon), 'easy_wins', 'arbitrage', or 'raw' (Gamma market browse for slug/condition lookups). |
+| `hours` | `integer` | No | For feed='closing': max hours until resolution (UI default 48). |
+| `categories` | `string` \| `null` | No | Comma-separated topic slugs: sports, politics, culture, tech, finance, geopolitics, weather, science, other. Same as UI Topics. |
+| `text_query` | `string` \| `null` | No | Substring search on title/slug/category/signal (UI search bar). |
+| `sort_by` | `string` | No | Sort: vol24h (default), liquidity, title, ends, top_price. |
+| `ascending` | `boolean` | No | Sort ascending when True (e.g. ends + ascending = soonest first). |
+| `limit` | `integer` | No | Max results (default 20, max 100). |
+| `category` | `string` \| `null` | No | Legacy single topic slug; prefer categories. |
+| `slug` | `string` \| `null` | No | For feed='raw' only: market or event slug. |
+| `active` | `boolean` \| `null` | No | For feed='raw' only. |
+| `closed` | `boolean` \| `null` | No | For feed='raw' only. |
+| `order` | `string` \| `null` | No | For feed='raw' only: Gamma sort field. |
+| `attach_gamma` | `boolean` | No | When True, attach full Gamma ``gamma_market`` proto dict per row (best_bid, best_ask, outcome_prices, neg_risk, …). Capped by limit. |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+markets = F.polymarket_get_markets(feed="trending", limit=10, attach_gamma=True)
+for m in markets.get("markets", [])[:3]:
+    print(m.get("title"), m.get("clob_token_ids"))
+```
+
+#### `polymarket_get_orderbook`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get the orderbook for a Polymarket outcome token.
+
+``token_id`` must be a CLOB token id (e.g. from
+``market["clob_token_ids"][0]`` for YES or ``[1]`` for NO) — **not**
+the market's ``condition_id``. Passing a condition_id returns an empty
+orderbook.
+
+Returns (dict) — already unwrapped and JSON-decoded when called via
+``F.polymarket_get_orderbook(token_id=...)``::
+
+    {
+      "token_id": "<clob_token_id>",
+      "bids": [{"price": "0.54", "size": "250.0"}, ...],
+      "asks": [{"price": "0.56", "size": "200.0"}, ...],
+      "best_bid": "0.54",
+      "best_ask": "0.56",
+      "midpoint": "0.55",
+      "spread": "0.02"
+    }
+
+Here ``spread`` is **best_ask − best_bid** (per-token bid-ask). This
+differs from ``polymarket_get_markets(feed='arbitrage')`` where
+``spread`` means the sum of leg best-asks on multi-outcome events.
+
+``price`` and ``size`` in ``bids``/``asks`` are strings — use
+``float(...)`` before arithmetic. Empty ``bids`` or ``asks`` means no
+resting liquidity on that side (not a bug).
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token_id` | `string` | No | Polymarket condition token ID. Get from polymarket_get_markets. |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+book = F.polymarket_get_orderbook(token_id="<clob_token_id_from_markets>")
+print("best_bid", book.get("best_bid"), "best_ask", book.get("best_ask"))
+```
+
+#### `polymarket_get_positions`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get the authenticated user's Polymarket positions.
+
+Pulls from v3 holdings (Zerion, no_filter) and keeps only rows where
+``protocol == "Polymarket"`` on Polygon. This returns **outcome
+positions** and may include a pUSD cash row — for spendable Safe cash
+(order placement), use ``get_polymarket_safe_cash_usd`` instead.
+
+Returns (dict) — already unwrapped and JSON-decoded when called via
+``F.polymarket_get_positions()``. Each entry is a ``HoldingItem``
+(wallet_service Pydantic model) dumped to JSON — same snake_case
+field names as ``get_holdings``::
+
+    {
+      "count": 2,
+      "positions": [
+        {
+          "protocol": "Polymarket",
+          "pool_name": "Will USA win the 2026 FIFA World Cup?",  # market question
+          "token_name": "No",                     # outcome name ("Yes"/"No")
+          "base_address": "0x...",                # CTF outcome-token address
+          "chain": "polygon",
+          "chain_id": 137,
+          "tokens_bought": "50.0",                # shares (string-like Decimal)
+          "curr_price_usd": 0.02,
+          "value_usd": 1.0,
+          "condition_id": "0x...",                # market's condition hash
+          "negative_risk": False,
+          "redeemable": False,
+          "external_url": "https://polymarket.com/event/...",
+          # Cash row (if any): pool_name ends in " Pool", token_name
+          # "Polymarket USD". For spendable cash use
+          # ``get_polymarket_safe_cash_usd``. See ``get_holdings`` for
+          # full HoldingItem fields.
+          # list; call list(positions[0].keys()) if you need a rarely-used
+          # field.
+        },
+        ...
+      ]
+    }
+
+``count == 0`` means no open positions (automation can proceed). On
+internal failure (Zerion / wallet_service error), the wrapper emits::
+
+    {"positions": [], "count": 0, "error": "<reason>"}
+
+**Do not** use this tool to read the Safe's USDC.e balance — it will
+show up here only as one row among many. For a clean USDC balance
+lookup, use ``polymarket_setup_status`` to get the ``safe_address``
+and ``get_holdings`` filtered to ``chain_id == 137`` and
+``token_name`` matching USDC.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+resp = F.polymarket_get_positions()
+print("count", resp.get("count"), "positions", len(resp.get("positions", [])))
+```
+
+#### `polymarket_get_trades`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get the authenticated user's Polymarket trade history.
+
+Returns (dict) — already unwrapped and JSON-decoded when called via
+``F.polymarket_get_trades()``. Each trade uses the PolymarketTrade
+proto shape emitted by data_service — snake_case, no extra fields::
+
+    {
+      "count": 3,
+      "trades": [
+        {
+          "proxy_wallet": "0x0A00...",   # Safe address that executed the trade
+          "side": "BUY",                 # "BUY" or "SELL"
+          "asset": "<clob_token_id>",    # outcome token (YES or NO side)
+          "condition_id": "0x...",       # market this trade belongs to
+          "size": 10.0,                  # float, shares
+          "price": 0.55,                 # float, executed price (0.01–0.99)
+          "timestamp": "1729000000",     # string, unix seconds
+          "title": "Will X happen by Y?",  # market question snapshot
+          "extra_data_json": "{...}",    # optional raw passthrough
+        },
+        ...
+      ]
+    }
+
+The tool accepts an optional ``market_id`` (condition id) and a
+``limit`` (default 50, capped at 100). It does NOT accept
+``token_id``; filter client-side on ``asset`` if you want a specific
+outcome.
+
+Edge cases (returned shape when no trades are available)::
+
+    {"trades": [], "message": "Polymarket not set up yet"}  # no Safe yet
+    {"trades": [], "error": "No agent found"}               # no agent record
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `market_id` | `string` \| `null` | No | Filter trades by market/condition ID. If None, returns all trades for the user's Safe address. |
+| `limit` | `integer` | No | Max results to return (default 50, max 100). |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.polymarket_get_trades()
+print(result)
+```
+
+#### `polymarket_place_order`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Place a Polymarket limit-style order on the CLOB.
+
+Polymarket supports GTC, GTD, FOK, and FAK — not broker stop-loss or
+bracket take-profit orders. Buys or sells outcome shares at the limit
+price (probability 0.55 = 55% chance). Orders settle in USDC.e.
+
+GTC/GTD use ``size`` (share count). FOK/FAK use ``amount`` (USD for
+BUY, shares for SELL). ``take_profit_price`` on BUY only schedules a
+follow-up GTC SELL after fill; it must be **strictly above** ``price``
+and meet ``min_take_profit_pct`` / ``take_profit_pct`` when set.
+
+Poll with ``poll_transaction_status`` and check ``take_profit_order_id``;
+if null while ``take_profit_price`` was set, the TP sell was **not** placed.
+
+Returns task_id for polling via poll_transaction_status.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `token_id` | `string` | No | Polymarket condition token ID for the outcome to trade. Get this from polymarket_get_markets results. |
+| `side` | `string` | No | Order side: 'BUY' to buy shares, 'SELL' to sell shares. |
+| `price` | `string` | No | Limit price between the market's minimum tick and 1 - tick (probability). Sub-cent markets allow prices as low as 0.001 — do NOT floor at 0.01. String for tick-size precision (e.g. '0.55', '0.005'). |
+| `size` | `string` \| `null` | No | Number of shares for GTC/GTD. String for precision (e.g. '100'). Use amount instead for FOK/FAK. |
+| `amount` | `string` \| `null` | No | FOK/FAK only: USD notional for BUY, share count for SELL. |
+| `order_type` | `string` | No | Order type: 'GTC' (good-til-cancelled, default), 'FOK' (fill-or-kill, immediate full fill), 'FAK' (fill-and-kill, partial fill ok), 'GTD' (good-til-date, requires expiration). |
+| `expiration` | `integer` \| `null` | No | GTD only: order lifetime in seconds (not Unix timestamp). Must be at least 60. |
+| `take_profit_price` | `string` \| `null` | No | BUY only: optional 0.01–0.99. Queues a separate GTC SELL after the buy fills — not a native exchange take-profit bracket. |
+| `take_profit_pct` | `number` \| `null` | No | BUY only: expected TP percent above entry (e.g. 5 for +5%). When set with take_profit_price, price must reach entry * (1 + pct/100). |
+| `min_take_profit_pct` | `number` \| `null` | No | BUY only: minimum TP uplift % above entry when take_profit_price is set (default 1). Ignored when take_profit_pct is provided. |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+cash = float(F.get_polymarket_safe_cash_usd().get("spendable_cash_usd") or 0)
+if cash < 20:
+    print("HALT: insufficient Polymarket cash")
+else:
+    resp = F.polymarket_place_order(
+        token_id="<clob_token_id>",
+        side="BUY",
+        price="0.42",
+        size="10",
+        order_type="GTC",
+        take_profit_price="0.55",
+    )
+    if resp.get("task_id"):
+        print(F.poll_transaction_status(
+            task_ids=[resp["task_id"]],
+            tool_name="polymarket_place_order",
+        ))
+```
+
+#### `polymarket_setup`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Trigger Polymarket Safe wallet setup (deploy + approvals).
+
+This must be completed before any Polymarket trading. The setup
+deploys a Gnosis Safe proxy on Polygon, sets ERC-20 approvals
+for USDC.e, and registers deposit addresses.
+
+Returns task_id for polling via poll_transaction_status.
+If setup is already complete, returns immediately with status.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+status = F.polymarket_setup_status()
+if not status.get("setup_complete"):
+    resp = F.polymarket_setup()
+    if resp.get("task_id"):
+        F.poll_transaction_status(task_ids=[resp["task_id"]], tool_name="polymarket_setup")
+```
+
+#### `polymarket_setup_status`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Check if Polymarket setup is complete for the authenticated user.
+
+Returns (dict) — already unwrapped when called via ``F.polymarket_setup_status()``:
+  When set up::
+
+      {
+        "setup_complete": True,
+        "safe_address": "0x0A002a3f852B664e9072800ceAcC29A62Fb500fc",
+        "deposit_address_evm": "0x75E7...D446",
+        "deposit_address_svm": "BgF6W...kZyt",
+        "v2_complete": True,
+        "v2_enabled": True,
+      }
+
+  When not set up::
+
+      {"setup_complete": False}
+
+  When no agent exists for the user::
+
+      {"status": "error", "message": "No agent found for user"}
+
+For spendable cash on the Polymarket Safe (order placement collateral),
+use ``get_polymarket_safe_cash_usd`` — not ``get_holdings`` filters.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+print(F.polymarket_setup_status())
+```
+
+#### `polymarket_withdraw`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Withdraw USDC.e from the user's Polymarket Safe.
+
+Moves USDC.e from the Safe on Polygon to the user's wallet on
+the destination chain. Can receive USDC or native token.
+
+Returns task_id for polling via poll_transaction_status.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount_usdc` | `string` | No | Amount of USDC.e to withdraw from the Polymarket Safe. String for precision (e.g. '100', '250.50'). |
+| `destination_chain_id` | `integer` | No | Chain ID to withdraw to (e.g. 1 for Ethereum, 8453 for Base, 42161 for Arbitrum). |
+| `token_type` | `string` | No | What to receive on destination chain: 'usdc' or 'native' (e.g. ETH, MATIC). |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.polymarket_withdraw()
+print(result)
+```
+
 
 {/* FERE_TOOLS_REF_END */}
 
