@@ -224,7 +224,7 @@ On mobile, tap the floating **Strategy** button to open a bottom sheet with **Ru
 {/* FERE_TOOLS_REF_START */}
 ## Strategy system capabilities (`fere_tools`)
 
-Scheduled strategies and the **strategy_builder** skill run Python in an isolated sandbox. Fere injects **`fere_tools`** — a single synchronous SDK that mirrors the gateway tool registry (`/v1/tools`). Use it to align automation with what Fere can actually execute: market data, analysis, wallet reads, on-chain writes, Polymarket, and Hyperliquid perps.
+Scheduled strategies and the **strategy_builder** skill run Python in an isolated sandbox. Fere injects **`fere_tools`** — a single synchronous SDK that mirrors the gateway tool registry (`/v1/tools`). Use it to align automation with what Fere can actually execute: market data, analysis, wallet reads, on-chain writes, [Hyperliquid perps](/hyperliquid), and Polymarket.
 
 <Info>
   This catalog lists **69** sandbox-allowed tools (20 write money or on-chain/Polymarket/perp state). **Scheduling** (`create_scheduled_task`, `modify_scheduled_task`, `cancel_scheduled_task`) is **not** in the sandbox — create or change schedules from Strategy chat or the UI, not from `fere_tools`.
@@ -266,14 +266,12 @@ prices = F.call("current_prices_tool", token_names=["ETH", "SOL"])
 ### Tool catalog
 
 <AccordionGroup>
-  <Accordion title="Market data (14 tools)" icon="chart-line">
+  <Accordion title="Market data (12 tools)" icon="chart-line">
 
 | Tool | Writes state | Description | Return type |
 | --- | --- | --- | --- |
 | `available_cryptocurrency_categories_and_chains` | No | Available Cryptocurrency Categories And chains supported by coingecko. These categories are useful for fetching `search_coins_by_category` present in a category from coingecko (www.coingecko.com). | CategoryResponse: A list of categories (category id and category name) and a map of chains (chain name to its networkId) supported by coingecko. |
 | `current_prices_tool` | No | Fetch current USD price + market data for one or more tokens (CoinGecko). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `get_perp_funding_rates` | No | Get funding rates for a Hyperliquid perp asset. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `get_perp_market_overview` | No | Get overview of all Hyperliquid perp markets. | dict with status, meta, asset_ctxs (list). Not iterable as flat markets. For mark price in scripts, prefer current_prices_tool. |
 | `get_trending_coins` | No | Fetch trending coins/tokens sorted by trending score. Can be filtered by chain or return cross-chain results. | CryptocurrencyList: List of trending tokens with name, symbol, price, volume, market cap, and other metrics. |
 | `get_trending_coins_by_chain` | No | Fetch trending coins on a specific blockchain using Codex data. | CryptocurrencyList: Trending coins with market data and metrics. |
 | `global_market_cap_and_volume` | No | Fetch global market cap and volume. Uses the Coingecko Global Market Cap and Volume API to fetch relevant details for a given number of days. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
@@ -324,34 +322,44 @@ prices = F.call("current_prices_tool", token_names=["ETH", "SOL"])
 | `web_search` | No | Web search with Parallel as primary, then Firecrawl, then Exa as fallback. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
 
   </Accordion>
-  <Accordion title="Wallet & on-chain (24 tools)" icon="wallet">
+  <Accordion title="Wallet & on-chain (16 tools)" icon="wallet">
 
 | Tool | Writes state | Description | Return type |
 | --- | --- | --- | --- |
 | `aave_operation` | Yes | Run Aave operation, with runtime-injected user and context. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
 | `cancel_limit_order` | Yes | Cancel an active limit order. | dict: Result of the cancellation operation with status, message, and limit_order_id. |
-| `cancel_perp_order` | Yes | Cancel an open limit/stop perp order on Hyperliquid (not a position close). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `close_perp_position` | Yes | Close a perpetual futures position on Hyperliquid. | dict with status, task_id, message. Poll with poll_transaction_status(tool_name='close_perp_position'). |
 | `create_limit_order` | Yes | Create limit orders with auto-fetched holdings and balance validation. | - On all success: \{"status": "success", "task_ids": [...]\} - On partial success: \{"status": "partial_success", "task_ids": [...], "failed_orders": [...]\} |
 | `ens_to_address` | No | Convert ENS name to Ethereum wallet address. | str: The resolved Ethereum address (0x...). |
 | `get_holdings` | No | Get the holdings of a wallet on all supported chains. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
 | `get_limit_orders` | No | Get all limit orders for a user, optionally filtered by status. | list: List of limit order details including limit_order_id, status, tokens, amounts, and trigger prices. |
-| `get_perp_open_orders` | No | List open Hyperliquid perp orders for this user (order ids for cancel). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
 | `get_wallet_positions` | No | Get wallet positions for any wallet address. | WalletPosition: Token holdings with balances and values. |
-| `open_perp_position` | Yes | Open a perpetual futures position on Hyperliquid. | dict with status, task_id, message. Async — poll with poll_transaction_status(tool_name='open_perp_position'). |
-| `place_perp_limit_order` | Yes | Place a single limit order on a Hyperliquid perp (default reduce-only). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
 | `poll_transaction_status` | No | Poll and wait for blockchain transaction completion. | \{"status": "success"\|"partial"\|"failed", "results": [...]\} Each result has: task_id, status, success, txn_url, error. |
 | `recharge_user_credits` | Yes | Recharge user credits (product credits) by bridging tokens to fee wallet. | - On success: \{"status": "success", "task_ids": [...], "message": "Recharge initiated successfully"\} |
 | `set_hooks_for_holding` | Yes | Set stop loss and take profit hooks for existing holdings. | dict: Result of the set hooks operation. |
-| `set_perp_tp_sl` | Yes | Attach reduce-only TP/SL trigger orders to an existing perp position. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
 | `stake_tokens` | Yes | Stake or unstake ETH, with runtime-injected user and context. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
 | `supported_chains` | No | Get the list of supported chains for swap/trade. | list[ChainfeatureMatrix]: List of supported chains. |
 | `supported_chains_for_bridging` | No | This function returns the list of supported source and destination chains for bridging tokens. | dict: \{ "supported_source_chains": list of supported source chains, |
 | `trade_tokens` | Yes | Trade tokens (swap or bridge) with auto-fetched holdings and balance validation. | - On all success: \{"status": "success", "task_ids": [...]\} |
 | `transfer_tokens` | Yes | Transfer multiple tokens to multiple recipient wallet addresses on behalf of the user. | dict: Result of the transfer operation containing task IDs. |
+| `wallet_info` | No | Gets wallet addresses for a user. | dict: The wallet addresses for the user. |
+
+  </Accordion>
+  <Accordion title="Hyperliquid perps (10 tools)" icon="chart-line">
+
+Perpetual futures on [Hyperliquid](/hyperliquid) — setup, funding, leverage, and TP/SL. Day and Swing **strategies** in Settings require Hyperliquid funding before their first scheduled perp run.
+
+| Tool | Writes state | Description | Return type |
+| --- | --- | --- | --- |
+| `cancel_perp_order` | Yes | Cancel an open limit/stop perp order on Hyperliquid (not a position close). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `close_perp_position` | Yes | Close a perpetual futures position on Hyperliquid. | dict with status, task_id, message. Poll with poll_transaction_status(tool_name='close_perp_position'). |
+| `get_perp_funding_rates` | No | Get funding rates for a Hyperliquid perp asset. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `get_perp_market_overview` | No | Get overview of all Hyperliquid perp markets. | dict with status, meta, asset_ctxs (list). Not iterable as flat markets. For mark price in scripts, prefer current_prices_tool. |
+| `get_perp_open_orders` | No | List open Hyperliquid perp orders for this user (order ids for cancel). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `open_perp_position` | Yes | Open a perpetual futures position on Hyperliquid. | dict with status, task_id, message. Async — poll with poll_transaction_status(tool_name='open_perp_position'). |
+| `place_perp_limit_order` | Yes | Place a single limit order on a Hyperliquid perp (default reduce-only). | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
+| `set_perp_tp_sl` | Yes | Attach reduce-only TP/SL trigger orders to an existing perp position. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
 | `update_perp_leverage` | Yes | Update leverage (cross or isolated) for a Hyperliquid perp market. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
 | `update_perp_margin` | Yes | Add or remove isolated margin on a Hyperliquid perp position. | `dict` \| `list` \| `str` \| `int` \| `float` \| `bool` \| `None` (JSON-compatible) |
-| `wallet_info` | No | Gets wallet addresses for a user. | dict: The wallet addresses for the user. |
 
   </Accordion>
   <Accordion title="Polymarket (11 tools)" icon="scale-balanced">
