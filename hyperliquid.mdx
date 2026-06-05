@@ -183,6 +183,21 @@ Sell half my DOGE perp at $0.18
 | Manage API keys | **Settings → Hyperliquid** |
 | Day / Swing automation | **Settings** (requires funded HL account) |
 
+### How Hyperliquid balances show up in your wallet
+
+The wallet panel sources Hyperliquid rows from your account state on HyperCore. Each value reflects your **actual stake**, not the leveraged notional, so totals match real exposure:
+
+| Row | What it shows | How it's computed |
+| --- | --- | --- |
+| **USDC (Hyperliquid)** | Free cash you can withdraw or trade with | Perp `withdrawable` + free spot USDC (`total − hold`). Excludes short-sale proceeds sitting in `totalRawUsd` and USDC locked in open spot orders. |
+| **{COIN}-PERP** row | Your equity in that open position | `marginUsed + unrealizedPnL`. Position size and mark price are still surfaced via the size and price fields; multiply for notional. |
+
+Implications:
+
+- The portfolio sum equals **`accountValue` (perp equity) + free spot USDC**, not the leveraged notional sum.
+- An underwater cross-margin position whose `|unrealizedPnL| > marginUsed` can momentarily show a **negative position value** before HL's liquidation engine fires. This is expected — the row reflects real-time stake.
+- USDC locked in open spot limit orders (`hold`) is intentionally excluded from cash. If you cancel those orders, the freed USDC will appear on the next refresh.
+
 ## Automated Strategies
 
 **Day Trading** and **Swing Trading** under Settings run scheduled checks against your Hyperliquid account. Each shows a **Fund Hyperliquid** CTA until setup and collateral are in place.
