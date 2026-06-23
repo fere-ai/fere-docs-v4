@@ -227,7 +227,7 @@ On mobile, tap the floating **Strategy** button to open a bottom sheet with **Ru
 Scheduled strategies and the **strategy_builder** skill run Python in an isolated sandbox. Fere injects **`fere_tools`** — a single synchronous SDK that mirrors the gateway tool registry (`/v1/tools`). Use it to align automation with what Fere can actually execute: market data, analysis, wallet reads, on-chain writes, [Hyperliquid perps](/hyperliquid), and Polymarket.
 
 <Info>
-  This catalog lists **69** sandbox-allowed tools (20 write money or on-chain/Polymarket/perp state). **Examples** appear only for wallet on-chain, Polymarket, and Hyperliquid perp tools (37 tools). **Scheduling** (`create_scheduled_task`, `modify_scheduled_task`, `cancel_scheduled_task`) is **not** in the sandbox — create or change schedules from Strategy chat or the UI, not from `fere_tools`.
+  This catalog lists **86** sandbox-allowed tools (30 write money or on-chain/Polymarket/perp state). **Examples** appear only for wallet on-chain, Polymarket, and Hyperliquid perp tools (53 tools). **Scheduling** (`create_scheduled_task`, `modify_scheduled_task`, `cancel_scheduled_task`) is **not** in the sandbox — create or change schedules from Strategy chat or the UI, not from `fere_tools`.
 </Info>
 
 ### Client API (module methods)
@@ -269,7 +269,7 @@ prices = F.call("current_prices_tool", token_names=["ETH", "SOL"])
 
 Discovery — prices, search, trending, pools.
 
-_12 tools._
+_13 tools._
 
 #### `available_cryptocurrency_categories_and_chains`
 
@@ -366,6 +366,26 @@ On upstream failure this returns a **plain string** error message
 | --- | --- | --- | --- |
 | `token_names` | `any` | Yes | typing.Annotated[list[str], 'List of token names'] |
 | `remove_optional` | `any` | No | typing.Annotated[bool, 'Remove optional fields like tickers. Tickers contains the exchange details, ticker symbols, price and more. Note that tickers information can be huge if used for more than 10 coins, might go beyond your context limits, so set this to False only when you really need it. If more than 10 coins are available, break this call into two with separate lists and remove_optional as False.'] |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+#### `get_spot_hl_markets`
+
+**Writes state:** No
+
+**Description**
+
+```text
+List tradable Hyperliquid spot markets (USDC-quoted, symbol only).
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `search` | `string` \| `null` | No | Optional base-symbol filter |
 
 **Returns**
 
@@ -1064,7 +1084,7 @@ success — no ``token`` or ``interval`` echo, no extra metadata::
       "count": 30,
       "candles": [
         {
-          "timestamp": "1729000000",       # unix seconds, STRING
+          "timestamp": "2026-06-20 12:00:00+00:00",  # ISO datetime string
           "open": 3412.10,
           "high": 3478.55,
           "low": 3390.22,
@@ -1078,6 +1098,11 @@ success — no ``token`` or ``interval`` echo, no extra metadata::
 On failure, the wrapper emits a dict with **only** ``{"error":
 "<reason>"}`` and no ``candles`` key — guard with
 ``if "candles" in result`` before iterating.
+
+Sandbox pandas example: ``df["timestamp"] = pd.to_datetime(
+df["timestamp"], utc=True)``. The wrapper normalizes every candle
+``timestamp`` to a UTC ISO datetime string before returning; do not
+cast timestamps to ``int`` first.
 ```
 
 **Parameters**
@@ -1658,7 +1683,7 @@ Returns JSON-compatible tool output.
 
 Holdings, swaps, bridges, transfers, limit orders, hooks.
 
-_16 tools._
+_30 tools._
 
 #### `aave_operation`
 
@@ -1690,6 +1715,46 @@ Returns JSON-compatible tool output.
 import fere_tools as F
 
 result = F.aave_operation()
+print(result)
+```
+
+#### `buy_spot_hl`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Buy a Hyperliquid HyperCore spot asset with USDC.
+
+asset is a base symbol (e.g. 'HYPE'); always quoted in USDC. size is the
+base-token amount. No leverage. When the user wants TP/SL with the buy,
+pass tp_price/sl_price here (placed as sell triggers after the buy fills).
+
+Returns:
+  dict with status, task_id, message. Async — poll with
+  poll_transaction_status(tool_name='buy_spot_hl').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `trade_request` | `any` | No | SpotTradeRequest with asset (base symbol vs USDC), size (base-token amount), order_type, and optional tp_price/sl_price. |
+
+**Returns**
+
+```text
+dict with status, task_id, message. Async — poll with
+  poll_transaction_status(tool_name='buy_spot_hl').
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.buy_spot_hl()
 print(result)
 ```
 
@@ -1730,6 +1795,42 @@ import fere_tools as F
 orders = F.get_limit_orders(status="active")
 if orders:
     print(F.cancel_limit_order(limit_order_id=orders[0]["limit_order_id"]))
+```
+
+#### `cancel_spot_hl_order`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Cancel an open Hyperliquid spot order by its venue order id.
+
+Returns:
+  dict with status, task_id, message. Poll with
+  poll_transaction_status(tool_name='cancel_spot_hl_order').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `request` | `any` | No | SpotCancelOrderToolRequest with asset and order_id (oid). |
+
+**Returns**
+
+```text
+dict with status, task_id, message. Poll with
+  poll_transaction_status(tool_name='cancel_spot_hl_order').
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.cancel_spot_hl_order()
+print(result)
 ```
 
 #### `create_limit_order`
@@ -1800,6 +1901,73 @@ resp = F.create_limit_order(
 print(resp)
 ```
 
+#### `deposit_yield`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Add USDC to an EXISTING Fere Earn position.
+
+Requires position_id from get_yield_positions. For the user's first ever
+deposit use enable_yield instead. Amount is USDC dollars, not base units.
+Async — poll with poll_transaction_status(tool_name='deposit_yield').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `deposit_request` | `any` | No | YieldDepositRequest with amount_usdc (USDC dollars) and position_id |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.deposit_yield()
+print(result)
+```
+
+#### `enable_yield`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Open the user's FIRST Fere Earn position and make the initial deposit.
+
+Use only when the user has no active position (check get_yield_positions).
+To add to an existing position use deposit_yield instead. Amount is USDC
+dollars, not base units. Async — poll with
+poll_transaction_status(tool_name='enable_yield').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `enable_request` | `any` | No | YieldEnableRequest with amount_usdc (USDC dollars, e.g. 100.5) |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.enable_yield()
+print(result)
+```
+
 #### `ens_to_address`
 
 **Writes state:** No
@@ -1837,6 +2005,139 @@ str: The resolved Ethereum address (0x...).
 import fere_tools as F
 
 result = F.ens_to_address(ens_name=<...>)
+print(result)
+```
+
+#### `fund_hyperliquid`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Fund the user's Hyperliquid perp account from holdings (async, min $50).
+
+Collect source chain, token, and USD amount from the user before calling.
+Poll with poll_transaction_status(tool_name='fund_hyperliquid').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `fund_request` | `any` | No | USD amount, source_chain_id, optional source_token (None = native) |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.fund_hyperliquid()
+print(result)
+```
+
+#### `get_contextual_trades`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Return the most recent on-chain trades/orders for THIS strategy or chat.
+
+Scope is automatic and enforced server-side from your signed session — you
+cannot widen it. When run inside a scheduled strategy it returns that
+strategy's trades across all of its runs; in an interactive chat it returns
+that chat thread's trades. It will NEVER return another strategy's, chat's,
+or user's trades.
+
+Use this to answer "how is this strategy doing", "what have we traded",
+"show recent fills/orders" — instead of guessing or scraping account state.
+
+Args:
+  runtime: Injected session context (user, chat, strategy execution).
+  n: Max trades to return, newest first (default 20, capped at 100).
+
+Returns:
+  dict shaped as::
+
+    {
+      "trades": [
+        {
+          "type": str,        # e.g. "events.onchain.perp.open.success"
+          "at": str | None,   # ISO-8601 timestamp
+          "side": str | None, # "LONG" / "SHORT" / "BUY" / "SELL"
+          "market": str,      # e.g. "BTC-PERP" or "USDC → WETH"
+          "chain": str | None,
+          "size": Any | None,
+          "price": str | None,  # Polymarket orders; None for on-chain swaps/perps
+          "volume_usd": Any | None,
+          "outcome": str,     # "success" | "failure" | "cancelled"
+          "error": str | None,
+        }
+      ],
+      "count": int,
+      "truncated": bool,      # True if more trades exist beyond n
+      "totals": {"success": int, "failed": int, "cancelled": int},
+      "scope": {"kind": "strategy" | "chat", "value": Any},
+    }
+
+NOTE: Only recorded order events are returned (opens/entries, swaps,
+transfers, limit orders, perp opens, polymarket orders). Position *closes*
+executed directly on the venue (e.g. Hyperliquid TP/SL) may not be logged
+yet, so exit prices, realized PnL and win-rate cannot be derived from this
+tool alone — use get_perp_state / get_holdings for current open positions.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `n` | `integer` | No | Max number of most recent trades to return (default 20, capped at 100). |
+
+**Returns**
+
+```text
+dict shaped as::
+
+    {
+      "trades": [
+        {
+          "type": str,        # e.g. "events.onchain.perp.open.success"
+          "at": str | None,   # ISO-8601 timestamp
+          "side": str | None, # "LONG" / "SHORT" / "BUY" / "SELL"
+          "market": str,      # e.g. "BTC-PERP" or "USDC → WETH"
+          "chain": str | None,
+          "size": Any | None,
+          "price": str | None,  # Polymarket orders; None for on-chain swaps/perps
+          "volume_usd": Any | None,
+          "outcome": str,     # "success" | "failure" | "cancelled"
+          "error": str | None,
+        }
+      ],
+      "count": int,
+      "truncated": bool,      # True if more trades exist beyond n
+      "totals": {"success": int, "failed": int, "cancelled": int},
+      "scope": {"kind": "strategy" | "chat", "value": Any},
+    }
+
+NOTE: Only recorded order events are returned (opens/entries, swaps,
+transfers, limit orders, perp opens, polymarket orders). Position *closes*
+executed directly on the venue (e.g. Hyperliquid TP/SL) may not be logged
+yet, so exit prices, realized PnL and win-rate cannot be derived from this
+tool alone — use get_perp_state / get_holdings for current open positions.
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.get_contextual_trades()
 print(result)
 ```
 
@@ -1944,6 +2245,35 @@ holdings = F.get_holdings()
 print("chains", list(holdings.keys()) if isinstance(holdings, dict) else holdings)
 ```
 
+#### `get_hyperliquid_setup_status`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Check whether Hyperliquid perp trading is set up and activated for this user.
+
+Use before funding or opening positions. Do not surface internal addresses.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.get_hyperliquid_setup_status()
+print(result)
+```
+
 #### `get_limit_orders`
 
 **Writes state:** No
@@ -1980,6 +2310,33 @@ list: List of limit order details including limit_order_id, status, tokens, amou
 import fere_tools as F
 
 result = F.get_limit_orders()
+print(result)
+```
+
+#### `get_spot_hl_open_orders`
+
+**Writes state:** No
+
+**Description**
+
+```text
+List the user's open Hyperliquid spot orders (incl. TP/SL triggers).
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.get_spot_hl_open_orders()
 print(result)
 ```
 
@@ -2021,6 +2378,68 @@ WalletPosition: Token holdings with balances and values.
 import fere_tools as F
 
 result = F.get_wallet_positions(wallet_address=<...>)
+print(result)
+```
+
+#### `get_yield_positions`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get the user's Fere Earn positions + activity history (read-only).
+
+Each position includes the ``id`` needed for deposit_yield/withdraw_yield,
+its status, net principal, current value, and unrealized yield. Use this
+to decide enable_yield (no active position) vs deposit_yield (existing),
+and to resolve the position_id before a withdrawal.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.get_yield_positions()
+print(result)
+```
+
+#### `get_yield_vault`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get the active Fere Earn vault: reported APY, fees, asset, and chain.
+
+Call this before suggesting a deposit so the user sees the current net
+APY and fees. Returns vault info only — never exposes contract addresses.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.get_yield_vault()
 print(result)
 ```
 
@@ -2129,6 +2548,44 @@ result = F.recharge_user_credits()
 print(result)
 ```
 
+#### `sell_spot_hl`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Sell a held Hyperliquid spot asset back to USDC.
+
+Omit size to sell the full held balance.
+
+Returns:
+  dict with status, task_id, message. Poll with
+  poll_transaction_status(tool_name='sell_spot_hl').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `trade_request` | `any` | No | SpotSellToolRequest with asset and optional size (omit to sell full held balance). |
+
+**Returns**
+
+```text
+dict with status, task_id, message. Poll with
+  poll_transaction_status(tool_name='sell_spot_hl').
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.sell_spot_hl()
+print(result)
+```
+
 #### `set_hooks_for_holding`
 
 **Writes state:** Yes
@@ -2171,6 +2628,45 @@ resp = F.set_hooks_for_holding(
     }
 )
 print(resp)
+```
+
+#### `set_spot_hl_tp_sl`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Attach reduce-side TP/SL sell triggers to a held spot asset.
+
+Use this for an EXISTING holding (not at buy time — for that pass tp/sl to
+buy_spot_hl). Provide at least one of tp_price / sl_price.
+
+Returns:
+  dict with status, task_id, message. Poll with
+  poll_transaction_status(tool_name='set_spot_hl_tp_sl').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `request` | `any` | No | SpotSetTpSlToolRequest with asset, optional tp_price/sl_price, and optional size (omit for full held balance). |
+
+**Returns**
+
+```text
+dict with status, task_id, message. Poll with
+  poll_transaction_status(tool_name='set_spot_hl_tp_sl').
+```
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.set_spot_hl_tp_sl()
+print(result)
 ```
 
 #### `stake_tokens`
@@ -2447,11 +2943,76 @@ result = F.wallet_info()
 print(result)
 ```
 
+#### `withdraw_hyperliquid`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Withdraw Hyperliquid perp collateral to a destination chain/token (async).
+
+Collect destination chain, token, and USD amount from the user before calling.
+Poll with poll_transaction_status(tool_name='withdraw_hyperliquid').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `withdraw_request` | `any` | No | amount_usd, destination_chain_id, optional destination_token |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.withdraw_hyperliquid()
+print(result)
+```
+
+#### `withdraw_yield`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Withdraw USDC from a Fere Earn position (partial or full).
+
+Requires position_id from get_yield_positions. Omit amount_usdc to
+withdraw the entire position. Async — poll with
+poll_transaction_status(tool_name='withdraw_yield').
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `withdraw_request` | `any` | No | YieldWithdrawRequest with position_id and optional amount_usdc (omit to withdraw the entire position) |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.withdraw_yield()
+print(result)
+```
+
 ### Hyperliquid perps
 
 Perpetual futures on [Hyperliquid](/hyperliquid). Day and Swing **strategies** in Settings require Hyperliquid funding before their first scheduled perp run.
 
-_10 tools._
+_11 tools._
 
 #### `cancel_perp_order`
 
@@ -2612,6 +3173,68 @@ Returns JSON-compatible tool output.
 import fere_tools as F
 
 print(F.get_perp_open_orders())
+```
+
+#### `get_perp_state`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Get the user's typed Hyperliquid account state (collateral + positions).
+
+Returns a dict with::
+
+    {
+      "status": "success",
+      "venue": "hyperliquid",
+      "withdrawable_usdc": float,   # HL USDC collateral ONLY (never pUSD)
+      "account_value": float,       # collateral + position equity
+      "open_position_count": int,   # real open perps ONLY
+      "open_positions": [
+        {
+          "asset": str,                  # e.g. "BTC"
+          "side": "long" | "short" | None,
+          "size": float,
+          "notional_usd": float,
+          "collateral_usd": float,
+          "unrealized_pnl_usd": float,
+          "leverage": float | None,
+          "entry_price_usd": float,      # NOTE: key is entry_price_usd
+          "mark_price_usd": float,
+          "liquidation_price_usd": float | None,
+          "value_usd": float,
+        }
+      ],
+    }
+
+Per-position price keys are suffixed ``_usd`` (``entry_price_usd``,
+``mark_price_usd``, ``liquidation_price_usd``) — there is no bare
+``entry_price`` / ``mark_price`` key. Use ``.get(...)`` for optional
+fields (``side``, ``leverage``, ``liquidation_price_usd`` can be None).
+
+ALWAYS use this for Hyperliquid balance and open-position checks. Do NOT
+derive them by string-matching ``token_name``/``protocol`` on
+``get_holdings`` rows — that conflates pUSD with USDC collateral and
+counts the collateral cash row as a position.
+```
+
+**Parameters**
+
+_No parameters (identity is derived from the signed sandbox session)._
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.get_perp_state()
+print(result)
 ```
 
 #### `open_perp_position`
@@ -2803,7 +3426,7 @@ print(result)
 
 Safe setup, cash preflight, markets, orders, positions.
 
-_11 tools._
+_12 tools._
 
 #### `get_polymarket_safe_cash_usd`
 
@@ -2862,6 +3485,11 @@ Use ``spendable_cash_usd`` for safety-floor checks — do not re-sum from
 Anti-patterns: ``token_name == "USD Coin"``; treating EOA USDC.e
 (``protocol: null``) as Polymarket cash; summing ``wrappable_usdce_usd``
 into spendable without wrapping first.
+
+INTERNAL ROUTING DATA — DO NOT SURFACE: ``safe_address`` is an internal
+identifier. Report the cash amount (e.g. "your Polymarket cash is $X")
+but never echo the address or tell the user to deposit/send funds to it.
+Offer a guided fund flow or direct the user to the Wallet UI.
 ```
 
 **Parameters**
@@ -3302,6 +3930,42 @@ else:
         ))
 ```
 
+#### `polymarket_redeem`
+
+**Writes state:** Yes
+
+**Description**
+
+```text
+Redeem (claim payout for) resolved Polymarket positions in a market.
+
+Use when a position is winning and resolved (``redeemable: true`` on
+polymarket_get_positions). Converts settled outcome tokens back to
+spendable cash on the Safe.
+
+Returns task_id for polling via poll_transaction_status.
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `condition_id` | `string` | No | Market condition ID (hex bytes32) of the RESOLVED market to redeem. From polymarket_get_positions -> condition_id on a redeemable row. |
+| `negative_risk` | `boolean` | No | True for multi-outcome (NegRisk) markets; otherwise False. Match the position's negative_risk field. |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+result = F.polymarket_redeem()
+print(result)
+```
+
 #### `polymarket_setup`
 
 **Writes state:** Yes
@@ -3370,6 +4034,12 @@ Returns (dict) — already unwrapped when called via ``F.polymarket_setup_status
 
 For spendable cash on the Polymarket Safe (order placement collateral),
 use ``get_polymarket_safe_cash_usd`` — not ``get_holdings`` filters.
+
+INTERNAL ROUTING DATA — DO NOT SURFACE: ``safe_address``,
+``deposit_address_evm``, and ``deposit_address_svm`` are internal
+identifiers. Never echo them to the user or instruct them to deposit/send
+funds to a raw address. Offer a guided fund flow (ask source chain, token,
+amount; confirm; execute internally) or direct the user to the Wallet UI.
 ```
 
 **Parameters**
