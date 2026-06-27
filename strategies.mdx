@@ -157,6 +157,20 @@ Recommendations are produced by a **dedicated background job** that runs in para
 
 The executive briefing and recommendations share the same trigger (after a completed run) but serve different jobs: the briefing explains *what happened*; recommendations suggest *what to do next*.
 
+### Agent vs script execution
+
+Most strategies run through the **agent path**: every cycle, Fere reads your instruction, reasons about current market data, and may update or execute logic on the fly.
+
+Some strategies — especially those built with saved Python in the workspace — run in **script mode** instead. In script mode, Fere runs your pinned `scripts/*.py` file **verbatim** on each cycle. There is no LLM re-authoring step, so the saved code is exactly what executes (while still reading live prices, balances, and on-chain state through `fere_tools`).
+
+New strategies created with a single unambiguous runnable script are stored in script mode automatically. **Older strategies** that predate script mode may still be on the agent path even when their workspace already contains one clear script. On the **next scheduled run**, Fere performs a one-time, conservative check:
+
+- If the workspace resolves to **one** unambiguous runnable script, the strategy is switched to script mode and that run uses the deterministic path immediately.
+- If the workspace is ambiguous (multiple scripts, none runnable, or no script), the strategy **stays on the agent path** — Fere never guesses.
+- After the check, the strategy is not re-evaluated on every cycle.
+
+You do not need to take action for this backfill. To force script mode when creating or editing a strategy, ensure the workspace has exactly one runnable entrypoint under `scripts/` or ask in Strategy chat to pin a specific script.
+
 ### Strategy chat
 
 Below the summary is **Strategy chat** — your follow-up conversation with **this deployed strategy's workspace**. This is the right place to change what runs on the schedule (not the original **/app** thread). Strategy chat is also separate from scheduled runs themselves:
