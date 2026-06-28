@@ -102,18 +102,31 @@ Click any strategy card to open its detail page at **/strategies/[id]**. This is
   **This page is the home workspace for the live strategy.** Strategy chat here updates the deployed automation. The original **/app** chat where you created it remains a separate workspace — continuing there spawns a **new** strategy instead of editing this one. See [How to Create a Strategy](#how-to-create-a-strategy) for the full split.
 </Warning>
 
-### Executive briefing
+### Executive briefing (fund report + operations)
 
-At the top of the page, a briefing card shows:
+At the top of the page, a briefing card shows a **fund-holder report** first, then an **Operations** section for automation health.
 
-- **Strategy name and description** — the label Fere assigned plus your original instruction.
-- **Health and headline** — whether the strategy is on track, degraded, blocked, paused, or research-only, plus a one-line verdict.
+**Fund report (v3):**
+
+- **Fund performance** — strategy exposure, open PnL (live from the venue when available), and attributed realized PnL where the ledger supports it.
+- **Coverage badge** — **Full** for Polymarket/spot strategies with complete attribution; **Partial (Hyperliquid)** when open PnL is live from Hyperliquid but lifetime realized PnL is limited to Fere-recorded closes; **Research only** for non-trading agents.
+- **Performance commentary, mandate adherence, risk & outlook** — holder-facing prose grounded in computed facts (not invented PnL).
+- **Fund exposure** — strategy-filtered positions with allocation and unrealized PnL when available.
+
+For **Hyperliquid** strategies, the hero emphasizes **strategy exposure** and **open PnL (live)**; realized PnL is secondary and footnoted as partial coverage.
+
+**Operations (unchanged role, demoted below the fund report):**
+
+- **Health and headline** — whether the strategy is on track, degraded, blocked, paused, or research-only.
 - **Key metrics** — run success rate, trade outcomes, and next scheduled run.
-- **Since last update** — bullet changes since the previous briefing (incremental window).
-- **Top positions** — largest holdings when portfolio data is available (hidden for research-only agents).
-- **Narrative sections** — at-a-glance, recent performance, and since-last-update prose grounded in verified run and trade data.
+- **Since last update** — bullet changes since the previous briefing.
+- **Narrative sections** — operational recap of recent runs.
 
 A compatibility markdown summary is still stored for exports and older clients. The briefing refreshes after each completed run. If a run just finished, you may briefly see *"Updating briefing after the latest run…"* while new content is generated.
+
+### Executive briefing (legacy v2)
+
+Clients with `executive_summary_version` 2 still see the prior layout (health, KPIs, positions, narrative) without the fund report layer until the next successful v3 refresh.
 
 ### Recommendations
 
