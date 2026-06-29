@@ -26,6 +26,17 @@ Every time a strategy runs, it carries forward what it found before. By day 7 of
 
 Go to the main chat at **/app** and describe what you want to automate. The AI sets it up and it appears in **/strategies**.
 
+### Refining a script in the same chat thread
+
+Follow-up messages in the **same /app thread** share one durable workspace under **Files** in that chat. When Fere builds or updates a saved Python strategy (`scripts/*.py`) via **strategy_builder**, it keeps working in that shared tree:
+
+- **First turn** — Fere authors the script, saves it under `scripts/`, and verifies it with a test run.
+- **Follow-up edits** (*"update the script"*, *"bake in quant logic"*, *"change the threshold"*) — Fere sees the files already in the thread and **updates the same `scripts/*.py` path** instead of creating a parallel copy with a new name.
+- **One script in the thread** — Fere treats that file as the default edit target automatically.
+- **Multiple scripts** — Say which file you mean, or ask Fere to consolidate, so the schedule pins the right entrypoint later.
+
+Saved scripts appear in the chat **Files** panel. When you deploy, that workspace is copied into the strategy's own home on **/strategies/[id]** (see the warning below) — edits after deployment belong on the strategy detail page, not back in the original **/app** thread.
+
 <Warning>
   **Deployed strategies and the chat that created them are separate workspaces.**
 
