@@ -222,8 +222,8 @@ Three collapsible sections stack vertically. Drag the dividers to resize them, a
 
 | Section | What you see |
 | --- | --- |
-| **Past Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. |
-| **Transactions** | Swaps, buys, sells, and other trades this strategy executed. Tap a row to expand full details inline. |
+| **Past Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. For **Day Trading**, runs from every enabled per-asset config (BTC, ETH, SOL, etc.) are shown together — not only the asset you are currently viewing. |
+| **Transactions** | Swaps, buys, sells, and other trades this strategy executed. Tap a row to expand full details inline. For **Day Trading**, trades from every enabled per-asset config are aggregated here so a fill on any asset appears even when you have a different asset selected on the page. |
 | **Artifacts** | Files the agent generated across runs — reports, charts, exports. Click to preview or download. This is the canonical place to browse the strategy workspace; individual chat messages do not repeat the full file list inline. |
 
 On mobile, tap the floating **Strategy** button to open a bottom sheet with **Runs**, **Txns**, and **Files** tabs containing the same data.
