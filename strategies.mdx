@@ -265,7 +265,7 @@ On mobile, tap the floating **Strategy** button to open a bottom sheet with **Ru
 Scheduled strategies and the **strategy_builder** skill run Python in an isolated sandbox. Fere injects **`fere_tools`** — a single synchronous SDK that mirrors the gateway tool registry (`/v1/tools`). Use it to align automation with what Fere can actually execute: market data, analysis, wallet reads, on-chain writes, [Hyperliquid perps](/hyperliquid), and Polymarket.
 
 <Info>
-  This catalog lists **86** sandbox-allowed tools (30 write money or on-chain/Polymarket/perp state). **Examples** appear only for wallet on-chain, Polymarket, and Hyperliquid perp tools (53 tools). **Scheduling** (`create_scheduled_task`, `modify_scheduled_task`, `cancel_scheduled_task`) is **not** in the sandbox — create or change schedules from Strategy chat or the UI, not from `fere_tools`.
+  This catalog lists **85** sandbox-allowed tools (28 write money or on-chain/Polymarket/perp state). **Examples** appear only for wallet on-chain, Polymarket, and Hyperliquid perp tools (52 tools). **Scheduling** (`create_scheduled_task`, `modify_scheduled_task`, `cancel_scheduled_task`) is **not** in the sandbox — create or change schedules from Strategy chat or the UI, not from `fere_tools`.
 </Info>
 
 ### Client API (module methods)
@@ -294,7 +294,7 @@ prices = F.call("current_prices_tool", token_names=["ETH", "SOL"])
 ```
 
 <Tip>
-  **Async writes:** Swaps, transfers, limit orders, Polymarket orders, and perp opens return `task_id`(s). Poll with `poll_transaction_status(task_ids=[...], tool_name="<tool_that_created_them>")` before treating the cycle as complete.
+  **Async writes:** Swaps, transfers, limit orders, Polymarket orders, and perp opens return `task_id`(s). Confirm with `F.wait_for_tasks(task_ids)` — a client-side loop over `F.get_task_status` (~3s interval, ~180s cap under the sandbox run timeout). Legacy `poll_transaction_status(task_ids=[...], tool_name="...")` still works but holds one long gateway connection; prefer `wait_for_tasks` for new scripts.
 </Tip>
 
 <Warning>
@@ -935,13 +935,16 @@ CryptocurrencyList: A list of cryptocurrencies with their market cap, liquidity,
 **Description**
 
 ```text
-Get token holders for a given contract address.
+Get token holders for a given EVM contract address.
 
 Returns the top holders of a token with their balances and percentages.
-Useful for analyzing token distribution and whale concentration.
+Useful for analyzing token distribution and whale concentration on EVM chains.
+
+**Not supported:** ``solana`` (use ``token_risk_analysis_tool`` for Solana
+holder concentration via GoPlus).
 
 Args:
-    chain: Blockchain network (e.g., 'ethereum', 'base', 'polygon').
+    chain: EVM network slug (eth, base, polygon, arbitrum, bsc, etc.).
     contract_address: The token's contract address.
     total_supply: Total supply of the token.
     limit: Number of top holders to return (default 10).
@@ -954,7 +957,7 @@ Returns:
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `chain` | `any` | Yes | typing.Annotated[typing.Literal['arbitrum', 'avalanche', 'base', 'bsc', 'eth', 'fantom', 'flare', 'gnosis', 'linea', 'optimism', 'polygon', 'polygon_zkevm', 'rollux', 'scroll', 'stellar', 'syscoin'], 'Blockchain on which the contract exists'] |
+| `chain` | `any` | Yes | typing.Annotated[str, 'EVM blockchain supported by Ankr (e.g. eth, base, polygon, arbitrum). Not Solana — for Solana holder concentration use token_risk_analysis_tool.'] |
 | `contract_address` | `any` | Yes | typing.Annotated[str, 'Contract Address'] |
 | `total_supply` | `any` | Yes | typing.Annotated[int, 'Total Supply'] |
 | `limit` | `any` | No | typing.Annotated[int, 'Count of holders to return'] |
@@ -1721,40 +1724,7 @@ Returns JSON-compatible tool output.
 
 Holdings, swaps, bridges, transfers, limit orders, hooks.
 
-_30 tools._
-
-#### `aave_operation`
-
-**Writes state:** Yes
-
-**Description**
-
-```text
-Run Aave operation, with runtime-injected user and context.
-```
-
-**Parameters**
-
-| Parameter | Type | Required | Description |
-| --- | --- | --- | --- |
-| `chain` | `string` | No | Chain on which user wants to supply |
-| `token_address` | `string` | No | Token Address |
-| `amount` | `string` | No | Amount |
-| `amount_in_USD` | `boolean` | No | True if amount is entered in USD, False otherwise |
-| `operation` | `string` | No | Operation type: supply, withdraw, borrow, repay |
-
-**Returns**
-
-Returns JSON-compatible tool output.
-
-**Example**
-
-```python
-import fere_tools as F
-
-result = F.aave_operation()
-print(result)
-```
+_29 tools._
 
 #### `buy_spot_hl`
 
@@ -2378,6 +2348,48 @@ result = F.get_spot_hl_open_orders()
 print(result)
 ```
 
+#### `get_task_status`
+
+**Writes state:** No
+
+**Description**
+
+```text
+Read one wallet task's status once (non-blocking - no polling loop).
+
+Unlike ``poll_transaction_status`` (which blocks server-side until the task
+reaches a terminal state), this returns the current state immediately so the
+caller can poll on its own cadence::
+
+    {"task_id": ..., "status": ..., "result": ..., "task_found": bool}
+
+``status`` is the Celery task state - PENDING / STARTED / RETRY while still
+running, or SUCCESS / FAILURE / REVOKED once terminal. An unknown or
+not-yet-claimed task_id comes back as ``status="PENDING"`` with
+``task_found=False`` (that is not an error). ``result`` carries the wallet
+payload on terminal states (txn details, error/error_code, and any
+Polymarket fills / take-profit ids merged from the action output).
+```
+
+**Parameters**
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `task_id` | `string` | Yes | Wallet-service task_id returned by a write tool (e.g. trade_tokens, transfer_tokens, create_limit_order, polymarket_* or perp writes). Reads the current status once and returns immediately. |
+
+**Returns**
+
+Returns JSON-compatible tool output.
+
+**Example**
+
+```python
+import fere_tools as F
+
+st = F.get_task_status("<task_id_from_prior_write>")
+print(st.get("status"), st.get("task_found"))
+```
+
 #### `get_wallet_positions`
 
 **Writes state:** No
@@ -2517,7 +2529,7 @@ Returns:
 | --- | --- | --- | --- |
 | `task_ids` | list[`string`] | No | List of task_ids returned by trade_tokens, transfer_tokens, create_limit_order, or Polymarket operation tools. These are the wallet-service task IDs that track transaction execution. |
 | `tool_name` | `string` | No | The tool that produced these task_ids (e.g. 'trade_tokens', 'transfer_tokens', 'create_limit_order', 'polymarket_place_order'). |
-| `timeout_seconds` | `integer` | No | Maximum time in seconds to wait for transactions to complete. |
+| `timeout_seconds` | `integer` | No | Maximum seconds to block waiting for a terminal state (default kept under the ~100s edge/gateway timeout so a real result returns before the edge cuts the connection). |
 | `not_found_grace_seconds` | `number` | No | Grace period before treating missing task IDs as NOT_FOUND. |
 
 **Returns**
@@ -2707,37 +2719,6 @@ result = F.set_spot_hl_tp_sl()
 print(result)
 ```
 
-#### `stake_tokens`
-
-**Writes state:** Yes
-
-**Description**
-
-```text
-Stake or unstake ETH, with runtime-injected user and context.
-```
-
-**Parameters**
-
-| Parameter | Type | Required | Description |
-| --- | --- | --- | --- |
-| `amount` | `string` | No | the amount to stake |
-| `amount_in_USD` | `boolean` | No | True if amount is entered in USD |
-| `stake_ETH` | `boolean` | No | True if staking ETH, False if unstaking ETH |
-
-**Returns**
-
-Returns JSON-compatible tool output.
-
-**Example**
-
-```python
-import fere_tools as F
-
-result = F.stake_tokens()
-print(result)
-```
-
 #### `supported_chains`
 
 **Writes state:** No
@@ -2777,13 +2758,7 @@ print(result)
 **Description**
 
 ```text
-This function returns the list of supported source and destination chains for bridging tokens.
-
-Returns:
-    dict: {
-        "supported_source_chains": list of supported source chains,
-        "supported_destination_chains": list of supported destination chains
-    }
+Return supported source (wallet) and destination (DeBridge) chains.
 ```
 
 **Parameters**
@@ -2792,12 +2767,7 @@ _No parameters (identity is derived from the signed sandbox session)._
 
 **Returns**
 
-```text
-dict: {
-        "supported_source_chains": list of supported source chains,
-        "supported_destination_chains": list of supported destination chains
-    }
-```
+Returns JSON-compatible tool output.
 
 **Example**
 
@@ -2888,7 +2858,8 @@ resp = F.trade_tokens(
     }
 )
 if resp.get("task_ids"):
-    print(F.poll_transaction_status(task_ids=resp["task_ids"], tool_name="trade_tokens"))
+    rows = F.wait_for_tasks(resp["task_ids"])
+    print(rows)
 ```
 
 #### `transfer_tokens`
@@ -3120,7 +3091,7 @@ import fere_tools as F
 
 resp = F.close_perp_position(close_request={"asset": "BTC"})
 if resp.get("task_id"):
-    F.poll_transaction_status(task_ids=[resp["task_id"]], tool_name="close_perp_position")
+    F.wait_for_tasks([resp["task_id"]])
 ```
 
 #### `get_perp_funding_rates`
@@ -3329,10 +3300,7 @@ resp = F.open_perp_position(
     }
 )
 if resp.get("task_id"):
-    print(F.poll_transaction_status(
-        task_ids=[resp["task_id"]],
-        tool_name="open_perp_position",
-    ))
+    print(F.wait_for_tasks([resp["task_id"]]))
 ```
 
 #### `place_perp_limit_order`
@@ -3624,7 +3592,7 @@ import fere_tools as F
 
 resp = F.polymarket_fund_safe(amount_usd=50)
 if resp.get("task_id"):
-    F.poll_transaction_status(task_ids=[resp["task_id"]], tool_name="polymarket_fund_safe")
+    F.wait_for_tasks([resp["task_id"]])
 ```
 
 #### `polymarket_get_markets`
@@ -3915,7 +3883,10 @@ bracket take-profit orders. Buys or sells outcome shares at the limit
 price (probability 0.55 = 55% chance). Orders settle in USDC.e.
 
 GTC/GTD use ``size`` (share count). FOK/FAK use ``amount`` (USD for
-BUY, shares for SELL). ``take_profit_price`` on BUY only schedules a
+BUY, shares for SELL). A $5 min-notional is enforced on BUY orders
+only; SELL orders are not pre-checked on our side, though Polymarket's
+CLOB still rejects tiny SELL notional (shares × price).
+``take_profit_price`` on BUY only schedules a
 follow-up GTC SELL after fill; it must be **strictly above** ``price``
 and meet ``min_take_profit_pct`` / ``take_profit_pct`` when set.
 
@@ -3962,10 +3933,7 @@ else:
         take_profit_price="0.55",
     )
     if resp.get("task_id"):
-        print(F.poll_transaction_status(
-            task_ids=[resp["task_id"]],
-            tool_name="polymarket_place_order",
-        ))
+        print(F.wait_for_tasks([resp["task_id"]]))
 ```
 
 #### `polymarket_redeem`
@@ -4038,7 +4006,7 @@ status = F.polymarket_setup_status()
 if not status.get("setup_complete"):
     resp = F.polymarket_setup()
     if resp.get("task_id"):
-        F.poll_transaction_status(task_ids=[resp["task_id"]], tool_name="polymarket_setup")
+        F.wait_for_tasks([resp["task_id"]])
 ```
 
 #### `polymarket_setup_status`
