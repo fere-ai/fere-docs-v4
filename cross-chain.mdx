@@ -3,7 +3,7 @@ title: "Cross-Chain — One Wallet. Every Chain."
 sidebarTitle: "Cross-Chain"
 description: "You don't need to think about chains, bridges, or gas tokens. Tell Fere what you want — it figures out where your money is and how to get it there."
 icon: "right-left"
-keywords: ["cross-chain", "bridging", "gasless", "Base", "Ethereum", "Solana", "Monad", "Arbitrum", "Polygon"]
+keywords: ["cross-chain", "bridging", "gasless", "Base", "Ethereum", "Solana", "BNB Chain", "Arbitrum", "Polygon"]
 ---
 
 You don't need to think about chains, bridges, or gas tokens. Tell Fere what you want to buy — it figures out where your money is and how to get it there.
@@ -12,14 +12,16 @@ You don't need to think about chains, bridges, or gas tokens. Tell Fere what you
 
 - **Ethereum**
 - **Base**
-- **Solana**
-- **Berachain**
-- **Monad**
-- **Optimism**
-- **Polygon**
 - **Arbitrum**
+- **BNB Chain**
+- **Polygon**
+- **Solana**
 
 You'll see all supported chains at the bottom of your wallet panel. New chains are added regularly.
+
+<Note>
+  **Hyperliquid** is also supported for **perpetual futures** trading. See [Hyperliquid](/hyperliquid) for perp setup, funding, and withdrawals.
+</Note>
 
 ## How It Works
 
@@ -33,30 +35,30 @@ You don't say *"bridge ETH from Mainnet to Base."* You say what you actually wan
 
 ## Gasless by Default
 
-One of Fere's most loved features. You don't need to hold native gas tokens on every chain you want to trade on. Fere handles gas abstraction through the CDP wallet infrastructure — meaning you can trade on Base, Monad, or Arbitrum without first buying and bridging gas tokens.
+One of Fere's most loved features. You don't need to hold native gas tokens on every chain you want to trade on. Fere handles gas abstraction through the CDP wallet infrastructure — meaning you can trade on Base, Arbitrum, or BNB Chain without first buying and bridging gas tokens.
 
 ## Cross-Chain in Action
 
 Example instruction:
 
 ```
-Bridge my Monad holdings to Base and swap everything to USDC
+Bridge my Polygon holdings to Base and swap everything to USDC
 ```
 
 **Agent execution log:**
 
 1. Parsing intent: cross-chain bridge + swap
-2. Scanning Monad wallet
-3. Found: 15.2 MON ($7.45)
+2. Scanning Polygon wallet
+3. Found: 15.2 POL ($7.45)
 4. Created plan with 3 task(s)
-5. Task 1: Get MON token address on Monad — resolved
+5. Task 1: Get POL token address on Polygon — resolved
 6. Task 2: Get USDC address on Base — resolved
-7. Task 3: Bridge & swap MON → USDC via Across
+7. Task 3: Bridge & swap POL → USDC via Across
 8. Bridging in progress... ETA ~90 seconds
 9. Bridge complete. Swapping to USDC
 10. 7.29 USDC received on Base
 11. All tasks complete
 
 <Check>
-  **Bridge Times.** Fere always estimates completion time before you confirm. Typical ranges: 30 seconds (Base ↔ Optimism) to ~5 minutes (Ethereum → Solana). The agent picks the fastest reliable route automatically.
+  **Bridge Times.** Fere always estimates completion time before you confirm. Typical ranges: 30 seconds (Base ↔ Arbitrum) to ~5 minutes (Ethereum → Solana). The agent picks the fastest reliable route automatically.
 </Check>
