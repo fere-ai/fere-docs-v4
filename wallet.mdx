@@ -15,7 +15,7 @@ The wallet panel is always visible on the right side of the Fere interface. At a
 - **Total balance** — Your aggregate holdings across all chains.
 - **Wallet addresses** — Both your EVM address (for Base, Ethereum, Polygon, etc.) and your Solana address, each with a key icon to export your private key.
 - **Add Funds** — One-click deposit into your wallet.
-- **Assets tab** — Your token holdings with USD values, organized by chain. A "Hide dust" checkbox filters out tiny balances under $0.05.
+- **Assets tab** — Your token holdings with USD values, organized by chain. A "Hide dust" checkbox filters out tiny balances under $0.50.
 - **Limit Orders tab** — All your active limit orders in one place.
 - **TP/SL Orders** — Active take-profit and stop-loss positions appear right under the relevant token.
 - **Supported chains** — Shown at the bottom of the wallet panel.
@@ -44,5 +44,17 @@ This is critical: **your wallet is fully owned by you.** Next to each wallet add
 - **Policy enforcement** — Transaction rules like spend limits and address allowlists are enforced at the enclave level.
 - **Sub-200ms signing** — Wallet creation takes under 500ms. Transaction signing under 200ms.
 - **Non-custodial** — Fere cannot seize, freeze, or move your funds. Period.
+
+## Transaction Activity
+
+Every swap, transfer, bridge, limit order, TP/SL execution, Polymarket order, and Hyperliquid action is logged automatically. Click the **notification bell** in the top bar to see your most recent activity, or click the expand icon to open the full history at **Activities**.
+
+- **Filter by date** — All, Today, Yesterday, Last 7 days, Last 30 days, or a custom date range.
+- **Explorer links** — Cards with an on-chain transaction show a link to view it on the relevant block explorer.
+- **Jump back to context** — Activity tied to a chat or strategy links directly back to it.
+
+<Tip>
+  For a portfolio-wide view that pairs this activity feed with your total value and PnL, see [Portfolio](/portfolio).
+</Tip>
 
 **Infrastructure:** Coinbase CDP · Trusted Execution (TEE) · AWS Nitro Enclaves

@@ -1,0 +1,5 @@
+{
+  "all_in_one_staging_sha": "8005f67cb47299e761b9e7e9660bab5c4a1bedce",
+  "synced_date": "2026-07-13",
+  "notes": "First run — no prior sync-state file existed. Performed a full audit of webapp/ user-facing surface instead of a diff."
+}
