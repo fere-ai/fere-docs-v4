@@ -94,6 +94,52 @@ The **Start a Strategy** section inside the Strategies page has pre-built templa
   </Card>
 </CardGroup>
 
+## Farming Strategies
+
+Alongside the templates above, **Start a Strategy** also surfaces three **Farming** presets — ready-made, always-on automations for Polymarket and Hyperliquid. Unlike a custom strategy, you don't write an instruction: you flip a switch and tune a few numeric settings. Once started, an active Farming strategy also shows up at the top of **Your Strategies**.
+
+<CardGroup cols={3}>
+  <Card title="Polymarket Farming" icon="seedling">
+    Auto-trade small buys and sells on Polymarket to build up volume, on a timer you control.
+  </Card>
+  <Card title="Swing Trading" icon="arrow-trend-up">
+    Automated swing checks on a single Hyperliquid perpetual — BTC, ETH, or SOL.
+  </Card>
+  <Card title="Day Trading" icon="chart-column">
+    Let Fere run its day-trading strategy on one or more Hyperliquid perp markets you choose.
+  </Card>
+</CardGroup>
+
+Each preset gets its own page at **/strategies/farming/[kind]**, opened by clicking its card. An **Active** or **Inactive** badge shows whether it's currently running.
+
+### Polymarket Farming
+
+Requires a Polymarket wallet with approvals set up first — the page prompts you to **Go to Polymarket setup** if you haven't. Once set up, you can tune:
+
+- **Trade size (USD)** — dollars spent per buy.
+- **Pause below balance (USD)** — stop buying if your Polymarket wallet drops below this.
+- **How often to buy / sell** — minutes between attempts.
+- **Advanced settings** (collapsed by default) — delay before the first buy and first sell, and how many market pages to scan per round.
+
+Fields come prefilled with suggested values. Flip the toggle on to start — changes take effect within a minute. Turning it off keeps your settings saved for next time.
+
+### Swing Trading
+
+Requires Hyperliquid setup (API wallet plus perp collateral) — the page prompts you to **Fund Hyperliquid** if you haven't. Pick a perp market — BTC, ETH, or SOL only — then toggle automated swing checks on. You can only change the market while it's off.
+
+### Day Trading
+
+Also requires Hyperliquid setup. Add one or more perp markets from **Add Perp**; each gets its own card with its own on/off toggle. If you're running more than one market, select a card to see that market's activity in the sidebar.
+
+### Managing a Farming Strategy
+
+The Farming detail page's sidebar mirrors the regular Strategy Detail Page's, minus Strategy chat and Artifacts — there's no free-form chat here, since Farming strategies run on fixed logic instead of an instruction you write. It shows:
+
+- **Past Runs** — every automated cycle.
+- **Transactions** — buys, sells, and other trades it executed.
+
+On mobile, tap the **Strategy** button in the top app bar to open the same sidebar as a bottom sheet.
+
 ## Strategy Detail Page
 
 Click any strategy card to open its detail page at **/strategies/[id]**. This is your command center for one strategy — what it has done, what it traded, what it produced, and what you want it to do next.
@@ -185,10 +231,10 @@ Three collapsible sections stack vertically. Drag the dividers to resize them, a
 | Section | What you see |
 | --- | --- |
 | **Past Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. |
-| **Transactions** | Swaps, buys, sells, and other trades this strategy executed. Tap a row to expand full details inline. |
+| **Transactions** | Swaps, buys, sells, and other trades this strategy executed, newest first. Each row links out to the block explorer when a transaction hash is available. |
 | **Artifacts** | Files the agent generated across runs — reports, charts, exports. Click to preview or download. |
 
-On mobile, tap the floating **Strategy** button to open a bottom sheet with **Runs**, **Txns**, and **Files** tabs containing the same data.
+On mobile, tap the **Strategy** button in the top app bar (it only appears while you're on a strategy page) to open a bottom sheet with **Runs**, **Txns**, and **Files** tabs containing the same data.
 
 <Tip>
   **Deep-link to a run or message.** Links from notifications and run history can scroll you directly to the relevant chat message or run in the detail page.

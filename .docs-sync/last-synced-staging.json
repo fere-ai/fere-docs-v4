@@ -1,5 +1,5 @@
 {
-  "all_in_one_staging_sha": "8005f67cb47299e761b9e7e9660bab5c4a1bedce",
-  "synced_date": "2026-07-13",
-  "notes": "First run — no prior sync-state file existed. Performed a full audit of webapp/ user-facing surface instead of a diff."
+  "all_in_one_staging_sha": "2c8f54ec0110fe15e27f1143b2a0f7448c0f4431",
+  "synced_date": "2026-07-14",
+  "notes": "Diffed against previous run's recorded SHA (8005f67c, 2026-07-13, recorded on the still-open docs-sync/2026-07-13 branch/PR #13 since it hadn't merged to main). Diff covered PR #1855 (Strategies UX: URL-driven drawers, AppBar trigger, FAB removal) and its follow-up fix commit. Light full sweep additionally found the pre-existing Farming Strategies feature (Polymarket Farming / Swing Trading / Day Trading presets at /strategies/farming/[kind]) undocumented; added coverage. No feature-flag-gated changes found in the diff range."
 }
