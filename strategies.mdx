@@ -129,7 +129,7 @@ Requires Hyperliquid setup (API wallet plus perp collateral) — the page prompt
 
 ### Day Trading
 
-Also requires Hyperliquid setup. Add one or more perp markets from **Add Perp**; each gets its own card with its own on/off toggle. If you're running more than one market, select a card to see that market's activity in the sidebar.
+Also requires Hyperliquid setup. Add one or more perp markets from **Add Perp**; each gets its own card with its own on/off toggle. Running more than one market turns the cards into a single-select list — click a card (or focus the list and use the arrow keys) to choose which market's **Past Runs** and **Transactions** show in the sidebar. The selected card is highlighted, and a small label next to the run count (for example **BTC**) confirms which market's activity you're viewing.
 
 ### Managing a Farming Strategy
 
@@ -137,6 +137,8 @@ The Farming detail page's sidebar mirrors the regular Strategy Detail Page's, mi
 
 - **Past Runs** — every automated cycle.
 - **Transactions** — buys, sells, and other trades it executed.
+
+For Day Trading with more than one market, both sections are scoped to whichever market card is selected above — runs and trades from your other markets don't mix in.
 
 On mobile, tap the **Strategy** button in the top app bar to open the same sidebar as a bottom sheet.
 
