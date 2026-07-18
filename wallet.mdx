@@ -45,6 +45,18 @@ This is critical: **your wallet is fully owned by you.** Next to each wallet add
 - **Sub-200ms signing** — Wallet creation takes under 500ms. Transaction signing under 200ms.
 - **Non-custodial** — Fere cannot seize, freeze, or move your funds. Period.
 
+## Strategy Wallets
+
+Farming strategies (Day Trading, Swing Trading, Polymarket Farming) and other on-chain scheduled strategies each trade from their **own dedicated wallet** — a separate address from your main wallet. A **Strategies** section in the wallet panel lists a card per active strategy with its balance and **Fund** / **Withdraw** buttons.
+
+<Warning>
+  **Pausing or stopping a strategy does not return its funds.** The strategy wallet and any open positions stay in place until you withdraw manually.
+</Warning>
+
+If a strategy is cancelled while its wallet still holds a balance, it moves to **Archived strategies** below the active list — Withdraw is still available there, and the card disappears once the balance reaches zero.
+
+See [Strategies → Strategy Wallets](/strategies#strategy-wallets) for the full setup, funding, and withdrawal flow.
+
 ## Transaction Activity
 
 Every swap, transfer, bridge, limit order, TP/SL execution, Polymarket order, and Hyperliquid action is logged automatically. Click the **notification bell** in the top bar to see your most recent activity, or click the expand icon to open the full history at **Activities**.
