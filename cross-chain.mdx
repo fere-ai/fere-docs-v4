@@ -59,6 +59,12 @@ Bridge my Polygon holdings to Base and swap everything to USDC
 10. 7.29 USDC received on Base
 11. All tasks complete
 
+## Cross-Chain Take-Profit / Stop-Loss
+
+When you buy a token across chains and attach take-profit or stop-loss, Fere arms those triggers on the **destination-chain wallet** that received the tokens — not the source wallet you spent from. Sell amounts use your full holding on that destination wallet (including any tokens you already held), so stacked positions stay protected.
+
+If balance cannot be resolved at registration time, Fere refuses to arm the triggers rather than creating a broken zero-amount order. Existing triggers that were registered with a zero balance are healed at execution using your live holding.
+
 <Check>
   **Bridge Times.** Fere always estimates completion time before you confirm. Typical ranges: 30 seconds (Base ↔ Arbitrum) to ~5 minutes (Ethereum → Solana). The agent picks the fastest reliable route automatically.
 </Check>
