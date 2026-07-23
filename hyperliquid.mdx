@@ -6,8 +6,6 @@ icon: "chart-line"
 keywords: ["Hyperliquid", "perps", "perpetual futures", "leverage", "Bridge2", "API wallet", "funding rates"]
 ---
 
-> **Gradual rollout.** Hyperliquid perp trading is being released to users gradually. If you do not see setup or trading options in the app yet, go to **Settings → Contact Us** and ask to join the waitlist — we will enable access in batches.
-
 Fere connects your existing EVM wallet to [Hyperliquid](https://hyperliquid.xyz) — the leading on-chain perpetuals exchange. Fund collateral from any chain, trade longs and shorts in chat with up to 50× leverage, manage positions from the wallet panel, and run automated Day or Swing strategies once you're set up.
 
 ## What Is This?
@@ -35,7 +33,7 @@ Fere handles the hard parts: linking an API trading key to your wallet, bridging
     Open perps and HyperCore USDC show under **Assets** with Hyperliquid branding. Tap a perp to open the market on Hyperliquid; use **Sell** to close or withdraw.
   </Card>
   <Card title="Strategy automation" icon="robot">
-    **Day Trading** and **Swing Trading** strategies (Settings) require Hyperliquid funding before they can run scheduled perp checks.
+    **Day Trading** and **Swing Trading** farming strategies (on the [Strategies](/strategies) page) require Hyperliquid funding before they can run scheduled perp checks.
   </Card>
 </CardGroup>
 
@@ -63,10 +61,7 @@ Hyperliquid trading is a two-step flow: link the API wallet, then add USDC colla
 
 <Steps>
   <Step title="Open Fund Hyperliquid">
-    Launch the setup modal from any of these entry points:
-
-    - **Settings → Day Trading** or **Swing Trading** — tap **Fund Hyperliquid** on the banner
-    - **Wallet panel → Assets** — when prompted for Hyperliquid collateral (strategy or trading flows)
+    Launch the setup modal from **Wallet panel → Assets**, when prompted for Hyperliquid collateral.
 
     The modal opens to **Enable** if you have not completed setup yet, or straight to **Fund** if the API wallet is already linked.
   </Step>
@@ -97,6 +92,10 @@ Hyperliquid trading is a two-step flow: link the API wallet, then add USDC colla
 
 <Info>
   **First deposit timing.** Bridge2 credits typically land in **1–3 minutes**. The fund modal keeps polling until your account is ready. Withdrawals can take **several minutes** end-to-end (Hyperliquid settlement + optional swap to your destination chain).
+</Info>
+
+<Info>
+  **Day Trading and Swing Trading use a separate Hyperliquid account.** Each farming strategy trades from its own dedicated **strategy wallet** — a different EVM address than your main wallet — so it has its own independent Hyperliquid setup and funding, done from its **Strategies** card rather than the steps above. See [Strategies → Strategy Wallets](/strategies#strategy-wallets).
 </Info>
 
 ## Withdraw — From HyperCore Back to Your Wallet
@@ -181,7 +180,7 @@ Sell half my DOGE perp at $0.18
 | Open / close / TP/SL perps | **Chat** |
 | Close perp from UI | Wallet → perp row → Sell |
 | Manage API keys | **Settings → Hyperliquid** |
-| Day / Swing automation | **Settings** (requires funded HL account) |
+| Day / Swing automation | **Strategies** page (requires its own funded [strategy wallet](/strategies#strategy-wallets)) |
 
 ### How Hyperliquid balances show up in your wallet
 
@@ -200,9 +199,9 @@ Implications:
 
 ## Automated Strategies
 
-**Day Trading** and **Swing Trading** under Settings run scheduled checks against your Hyperliquid account. Each shows a **Fund Hyperliquid** CTA until setup and collateral are in place.
+**Day Trading** and **Swing Trading** — configured from the [Strategies](/strategies) page, not Settings — run scheduled checks against Hyperliquid. Each shows a **Fund Hyperliquid** CTA until setup and collateral are in place.
 
-These strategies use the same API wallet and collateral as manual chat trading. Keep enough USDC on HyperCore for margin, and review open positions in the wallet panel or by asking the agent.
+Unlike manual chat trading, these strategies trade from their **own dedicated strategy wallet** — a separate wallet (and separate Hyperliquid account) from the one you use in chat — so its collateral is funded, tracked, and withdrawn independently. See [Strategies → Strategy Wallets](/strategies#strategy-wallets) for setup, funding, and withdrawal.
 
 ## Troubleshooting
 
@@ -235,5 +234,6 @@ These strategies use the same API wallet and collateral as manual chat trading. 
 ## Related
 
 - [Wallet & Security](/wallet) — addresses, holdings, and the Assets panel
+- [Portfolio](/portfolio) — your Hyperliquid positions and PnL inside the cross-venue dashboard
 - [Strategies](/strategies) — scheduled automation and strategy detail pages
 - [Credits](/credits) — chat credits; on-chain execution is waived after verified trades complete

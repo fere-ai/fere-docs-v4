@@ -94,6 +94,111 @@ The **Start a Strategy** section inside the Strategies page has pre-built templa
   </Card>
 </CardGroup>
 
+## Farming Strategies
+
+Alongside the templates above, **Start a Strategy** also surfaces three **Farming** presets — ready-made, always-on automations for Polymarket and Hyperliquid. Unlike a custom strategy, you don't write an instruction: you flip a switch and tune a few numeric settings. Once started, an active Farming strategy also shows up at the top of **Your Strategies**.
+
+<CardGroup cols={3}>
+  <Card title="Polymarket Farming" icon="seedling">
+    Auto-trade small buys and sells on Polymarket to build up volume, on a timer you control.
+  </Card>
+  <Card title="Swing Trading" icon="arrow-trend-up">
+    Automated swing checks on a single Hyperliquid perpetual — BTC, ETH, or SOL.
+  </Card>
+  <Card title="Day Trading" icon="chart-column">
+    Let Fere run its day-trading strategy on one or more Hyperliquid perp markets you choose.
+  </Card>
+</CardGroup>
+
+Each preset gets its own page at **/strategies/farming/[kind]**, opened by clicking its card. A status pill shows exactly where it stands, since every Farming strategy trades from its own dedicated wallet and isn't actually running just because it's switched on:
+
+- **Inactive** — the switch is off.
+- **Setting up…** — switched on, but its dedicated wallet is still being created.
+- **Setup needed** — the wallet exists, but funding or venue setup isn't finished yet, so it isn't trading.
+- **Active** — funded, set up, and trading.
+
+### Polymarket Farming
+
+Requires a Polymarket wallet with approvals set up first — the page prompts you to **Go to Polymarket setup** if you haven't. Once set up, you can tune:
+
+- **Trade size (USD)** — dollars spent per buy.
+- **Pause below balance (USD)** — stop buying if your Polymarket wallet drops below this.
+- **How often to buy / sell** — minutes between attempts.
+- **Advanced settings** (collapsed by default) — delay before the first buy and first sell, and how many market pages to scan per round.
+
+Fields come prefilled with suggested values. Flip the toggle on to start — changes take effect within a minute. Turning it off keeps your settings saved for next time.
+
+### Swing Trading
+
+Requires Hyperliquid setup (API wallet plus perp collateral) — the page prompts you to **Fund Hyperliquid** if you haven't. Pick a perp market — BTC, ETH, or SOL only — then toggle automated swing checks on. You can only change the market while it's off.
+
+### Day Trading
+
+Also requires Hyperliquid setup. Add one or more perp markets from **Add Perp**; each gets its own card with its own on/off toggle. Running more than one market turns the cards into a single-select list — click a card (or focus the list and use the arrow keys) to choose which market's **Past Runs** and **Transactions** show in the sidebar. The selected card is highlighted, and a small label next to the run count (for example **BTC**) confirms which market's activity you're viewing.
+
+### Managing a Farming Strategy
+
+The Farming detail page's sidebar mirrors the regular Strategy Detail Page's, minus Strategy chat and Artifacts — there's no free-form chat here, since Farming strategies run on fixed logic instead of an instruction you write. It shows:
+
+- **Past Runs** — every automated cycle.
+- **Transactions** — buys, sells, and other trades it executed.
+
+A **Strategy Wallet** card is pinned above these two sections, showing this strategy's own balance and its **Fund** / **Withdraw** buttons — see [Strategy Wallets](#strategy-wallets) below.
+
+For Day Trading with more than one market, both sections are scoped to whichever market card is selected above — runs and trades from your other markets don't mix in.
+
+On mobile, tap the **Strategy** button in the top app bar to open the same sidebar as a bottom sheet.
+
+## Strategy Wallets
+
+Farming strategies (Day Trading, Swing Trading, Polymarket Farming) and scheduled strategies that trade on-chain each get their own **dedicated strategy wallet** — a separate EVM and Solana address from your main wallet. The strategy's trading capital, Hyperliquid collateral, or Polymarket balance lives in this wallet, not your main one.
+
+<Info>
+  **Started your strategy a while back?** Strategies created before dedicated wallets launched still run on your main wallet. On those, a dismissible **"Strategies v2 is here"** banner appears on the Farming card/detail page or schedule detail page, letting you know it isn't isolated yet. For a Farming strategy, stop it and start it again to move it onto its own wallet automatically; for a scheduled strategy, pause it and recreate it from chat.
+</Info>
+
+### Getting a strategy ready to trade
+
+Right after you start a Farming strategy, its detail page briefly shows **"Setting up your strategy"** — its dedicated wallet is being created (usually under a minute) — with a preview of the steps still to come: add funds, set up the venue, and activate. Once the wallet is ready, this gives way to the checklist itself.
+
+Before a new strategy can trade, its detail page (or Farming page) shows a **"Get this strategy ready"** checklist:
+
+- **Fund wallet** — deposit into the strategy's own wallet.
+- **Venue setup** — for Hyperliquid strategies, funding and enabling the account are combined into one step: depositing automatically triggers Hyperliquid setup in the background (you'll see *"Finishing trading setup in the background — usually about a minute"*). For Polymarket, setup and funding stay as two separate steps.
+- **Activate strategy** — a final switch for strategies with a single on/off toggle (Day Trading instead starts per-market, so there's no single activate step — you add and start markets directly).
+
+Only the next incomplete step is clickable at a time. Once everything is done, the checklist collapses into a single line — *"This strategy is set up and ready to trade"* — with a **Details** toggle to re-expand the individual steps if you need to check something.
+
+### Funding a strategy wallet
+
+Tap **Fund** (or **Fund Hyperliquid** / **Fund Polymarket**) to open the fund modal:
+
+- Pick any token you hold on any supported chain — the same chain/token picker used elsewhere in Fere.
+- A **Max** shortcut fills in your full available balance for the selected token.
+- A live conversion preview shows what you'll deposit.
+- Minimums: **$50** for a Hyperliquid strategy wallet, **$5** for a Polymarket strategy wallet. Entering an amount below the minimum shows an inline "Minimum $X required" hint rather than just disabling the button.
+
+Fere swaps and bridges as needed, then credits the strategy's wallet or venue balance. A "processing" banner stays up until the deposit settles.
+
+### Where you see it
+
+- **Wallet panel** — a **Strategies** section lists a card for each of your active strategies, showing its balance and **Fund** / **Withdraw** buttons.
+- **Strategy detail page** — the same card is pinned at the top of the right sidebar (see [Right sidebar](#right-sidebar-past-runs-transactions-artifacts) above), so you can fund or withdraw without leaving the page.
+
+### Withdrawing funds
+
+Use **Withdraw** on the strategy wallet card to move spot tokens back to your main wallet — a **Max** shortcut fills in the full withdrawable balance. The strategy keeps running; withdrawing does not pause or stop it.
+
+Open Hyperliquid or Polymarket positions aren't included in Withdraw — close or redeem them first through the strategy's own venue flow (the same way you would from the main wallet), then withdraw the resulting spot balance.
+
+<Warning>
+  **Pausing or stopping a strategy does not return its funds.** The strategy wallet and any open positions stay exactly as they are — pausing only stops new scheduled runs. Use **Withdraw** whenever you want funds back in your main wallet.
+</Warning>
+
+### Archived strategies
+
+If a strategy is cancelled while its wallet still holds a balance, it moves to **Archived strategies** in the wallet panel. Archived cards only offer **Withdraw** (no more funding), and the card disappears automatically once the balance is fully withdrawn.
+
 ## Strategy Detail Page
 
 Click any strategy card to open its detail page at **/strategies/[id]**. This is your command center for one strategy — what it has done, what it traded, what it produced, and what you want it to do next.
@@ -185,10 +290,12 @@ Three collapsible sections stack vertically. Drag the dividers to resize them, a
 | Section | What you see |
 | --- | --- |
 | **Past Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. |
-| **Transactions** | Swaps, buys, sells, and other trades this strategy executed. Tap a row to expand full details inline. |
+| **Transactions** | Swaps, buys, sells, and other trades this strategy executed, newest first. Each row links out to the block explorer when a transaction hash is available. |
 | **Artifacts** | Files the agent generated across runs — reports, charts, exports. Click to preview or download. |
 
-On mobile, tap the floating **Strategy** button to open a bottom sheet with **Runs**, **Txns**, and **Files** tabs containing the same data.
+If this strategy trades on-chain, a **Strategy Wallet** card is pinned above these three sections — see [Strategy Wallets](#strategy-wallets) above for setup, funding, and withdrawal.
+
+On mobile, tap the **Strategy** button in the top app bar (it only appears while you're on a strategy page) to open a bottom sheet with **Runs**, **Txns**, and **Files** tabs containing the same data.
 
 <Tip>
   **Deep-link to a run or message.** Links from notifications and run history can scroll you directly to the relevant chat message or run in the detail page.

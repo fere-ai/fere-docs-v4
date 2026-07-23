@@ -53,7 +53,14 @@
       {
         "group": "Your Wallet",
         "pages": [
-          "wallet"
+          "wallet",
+          "portfolio"
+        ]
+      },
+      {
+        "group": "Account",
+        "pages": [
+          "settings"
         ]
       },
       {
