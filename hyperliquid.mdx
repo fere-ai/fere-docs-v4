@@ -1,12 +1,12 @@
 ---
 title: "Hyperliquid — Perpetual Futures from Fere"
 sidebarTitle: "Hyperliquid"
-description: "Set up Hyperliquid perp trading in Fere, fund and withdraw USDC from any chain, trade via chat with leverage and TP/SL, and use automated Day and Swing strategies."
+description: "Set up Hyperliquid perp trading in Fere, fund and withdraw USDC from any chain, and trade via chat with leverage and TP/SL."
 icon: "chart-line"
 keywords: ["Hyperliquid", "perps", "perpetual futures", "leverage", "Bridge2", "API wallet", "funding rates"]
 ---
 
-Fere connects your existing EVM wallet to [Hyperliquid](https://hyperliquid.xyz) — the leading on-chain perpetuals exchange. Fund collateral from any chain, trade longs and shorts in chat with up to 50× leverage, manage positions from the wallet panel, and run automated Day or Swing strategies once you're set up.
+Fere connects your existing EVM wallet to [Hyperliquid](https://hyperliquid.xyz) — the leading on-chain perpetuals exchange. Fund collateral from any chain, trade longs and shorts in chat with up to 50× leverage, and manage positions from the wallet panel.
 
 ## What Is This?
 
@@ -33,7 +33,7 @@ Fere handles the hard parts: linking an API trading key to your wallet, bridging
     Open perps and HyperCore USDC show under **Assets** with Hyperliquid branding. Tap a perp to open the market on Hyperliquid; use **Sell** to close or withdraw.
   </Card>
   <Card title="Strategy automation" icon="robot">
-    **Day Trading** and **Swing Trading** farming strategies (on the [Strategies](/strategies) page) require Hyperliquid funding before they can run scheduled perp checks.
+    A custom [Strategy](/strategies) that trades Hyperliquid perps requires Hyperliquid funding before it can run its scheduled checks.
   </Card>
 </CardGroup>
 
@@ -95,7 +95,7 @@ Hyperliquid trading is a two-step flow: link the API wallet, then add USDC colla
 </Info>
 
 <Info>
-  **Day Trading and Swing Trading use a separate Hyperliquid account.** Each farming strategy trades from its own dedicated **strategy wallet** — a different EVM address than your main wallet — so it has its own independent Hyperliquid setup and funding, done from its **Strategies** card rather than the steps above. See [Strategies → Strategy Wallets](/strategies#strategy-wallets).
+  **A custom Strategy that trades Hyperliquid perps uses a separate Hyperliquid account.** It trades from its own dedicated **strategy wallet** — a different EVM address than your main wallet — so it has its own independent Hyperliquid setup and funding, done from its **Strategies** card rather than the steps above. See [Strategies → Strategy Wallets](/strategies#strategy-wallets).
 </Info>
 
 ## Withdraw — From HyperCore Back to Your Wallet
@@ -180,7 +180,7 @@ Sell half my DOGE perp at $0.18
 | Open / close / TP/SL perps | **Chat** |
 | Close perp from UI | Wallet → perp row → Sell |
 | Manage API keys | **Settings → Hyperliquid** |
-| Day / Swing automation | **Strategies** page (requires its own funded [strategy wallet](/strategies#strategy-wallets)) |
+| Custom Strategy automation | **Strategies** page (requires its own funded [strategy wallet](/strategies#strategy-wallets)) |
 
 ### How Hyperliquid balances show up in your wallet
 
@@ -199,9 +199,13 @@ Implications:
 
 ## Automated Strategies
 
-**Day Trading** and **Swing Trading** — configured from the [Strategies](/strategies) page, not Settings — run scheduled checks against Hyperliquid. Each shows a **Fund Hyperliquid** CTA until setup and collateral are in place.
+A custom [Strategy](/strategies) that trades Hyperliquid perps — created from chat, not Settings — runs scheduled checks against Hyperliquid. It shows a **Fund Hyperliquid** CTA until setup and collateral are in place.
 
 Unlike manual chat trading, these strategies trade from their **own dedicated strategy wallet** — a separate wallet (and separate Hyperliquid account) from the one you use in chat — so its collateral is funded, tracked, and withdrawn independently. See [Strategies → Strategy Wallets](/strategies#strategy-wallets) for setup, funding, and withdrawal.
+
+<Note>
+  Swing Trading and Day Trading — the ready-made Farming presets that used to automate Hyperliquid perp checks — have been retired and are no longer available to start.
+</Note>
 
 ## Troubleshooting
 

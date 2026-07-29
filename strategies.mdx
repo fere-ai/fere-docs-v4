@@ -96,19 +96,17 @@ The **Start a Strategy** section inside the Strategies page has pre-built templa
 
 ## Farming Strategies
 
-Alongside the templates above, **Start a Strategy** also surfaces three **Farming** presets — ready-made, always-on automations for Polymarket and Hyperliquid. Unlike a custom strategy, you don't write an instruction: you flip a switch and tune a few numeric settings. Once started, an active Farming strategy also shows up at the top of **Your Strategies**.
+Alongside the templates above, **Start a Strategy** also surfaces a **Farming** preset — a ready-made, always-on automation for Polymarket. Unlike a custom strategy, you don't write an instruction: you flip a switch and tune a few numeric settings. Once started, an active Farming strategy also shows up at the top of **Your Strategies**.
 
-<CardGroup cols={3}>
+<CardGroup cols={1}>
   <Card title="Polymarket Farming" icon="seedling">
     Auto-trade small buys and sells on Polymarket to build up volume, on a timer you control.
   </Card>
-  <Card title="Swing Trading" icon="arrow-trend-up">
-    Automated swing checks on a single Hyperliquid perpetual — BTC, ETH, or SOL.
-  </Card>
-  <Card title="Day Trading" icon="chart-column">
-    Let Fere run its day-trading strategy on one or more Hyperliquid perp markets you choose.
-  </Card>
 </CardGroup>
+
+<Note>
+  Swing Trading and Day Trading farming strategies have been retired and are no longer available to start, pause, or resume. If you ran one previously, its past trades still appear in your Portfolio activity under their original label, but the strategy's detail page is no longer reachable.
+</Note>
 
 Each preset gets its own page at **/strategies/farming/[kind]**, opened by clicking its card. A status pill shows exactly where it stands, since every Farming strategy trades from its own dedicated wallet and isn't actually running just because it's switched on:
 
@@ -128,14 +126,6 @@ Requires a Polymarket wallet with approvals set up first — the page prompts yo
 
 Fields come prefilled with suggested values. Flip the toggle on to start — changes take effect within a minute. Turning it off keeps your settings saved for next time.
 
-### Swing Trading
-
-Requires Hyperliquid setup (API wallet plus perp collateral) — the page prompts you to **Fund Hyperliquid** if you haven't. Pick a perp market — BTC, ETH, or SOL only — then toggle automated swing checks on. You can only change the market while it's off.
-
-### Day Trading
-
-Also requires Hyperliquid setup. Add one or more perp markets from **Add Perp**; each gets its own card with its own on/off toggle. Running more than one market turns the cards into a single-select list — click a card (or focus the list and use the arrow keys) to choose which market's **Past Runs** and **Transactions** show in the sidebar. The selected card is highlighted, and a small label next to the run count (for example **BTC**) confirms which market's activity you're viewing.
-
 ### Managing a Farming Strategy
 
 The Farming detail page's sidebar mirrors the regular Strategy Detail Page's, minus Strategy chat and Artifacts — there's no free-form chat here, since Farming strategies run on fixed logic instead of an instruction you write. It shows:
@@ -145,13 +135,11 @@ The Farming detail page's sidebar mirrors the regular Strategy Detail Page's, mi
 
 A **Strategy Wallet** card is pinned above these two sections, showing this strategy's own balance and its **Fund** / **Withdraw** buttons — see [Strategy Wallets](#strategy-wallets) below.
 
-For Day Trading with more than one market, both sections are scoped to whichever market card is selected above — runs and trades from your other markets don't mix in.
-
 On mobile, tap the **Strategy** button in the top app bar to open the same sidebar as a bottom sheet.
 
 ## Strategy Wallets
 
-Farming strategies (Day Trading, Swing Trading, Polymarket Farming) and scheduled strategies that trade on-chain each get their own **dedicated strategy wallet** — a separate EVM and Solana address from your main wallet. The strategy's trading capital, Hyperliquid collateral, or Polymarket balance lives in this wallet, not your main one.
+Farming strategies (Polymarket Farming) and scheduled strategies that trade on-chain each get their own **dedicated strategy wallet** — a separate EVM and Solana address from your main wallet. The strategy's trading capital or Polymarket balance lives in this wallet, not your main one.
 
 <Info>
   **Started your strategy a while back?** Strategies created before dedicated wallets launched still run on your main wallet. On those, a dismissible **"Strategies v2 is here"** banner appears on the Farming card/detail page or schedule detail page, letting you know it isn't isolated yet. For a Farming strategy, stop it and start it again to move it onto its own wallet automatically; for a scheduled strategy, pause it and recreate it from chat.
@@ -165,7 +153,7 @@ Before a new strategy can trade, its detail page (or Farming page) shows a **"Ge
 
 - **Fund wallet** — deposit into the strategy's own wallet.
 - **Venue setup** — for Hyperliquid strategies, funding and enabling the account are combined into one step: depositing automatically triggers Hyperliquid setup in the background (you'll see *"Finishing trading setup in the background — usually about a minute"*). For Polymarket, setup and funding stay as two separate steps.
-- **Activate strategy** — a final switch for strategies with a single on/off toggle (Day Trading instead starts per-market, so there's no single activate step — you add and start markets directly).
+- **Activate strategy** — a final switch to start it trading.
 
 Only the next incomplete step is clickable at a time. Once everything is done, the checklist collapses into a single line — *"This strategy is set up and ready to trade"* — with a **Details** toggle to re-expand the individual steps if you need to check something.
 
@@ -2556,7 +2544,7 @@ print(result)
 
 ### Hyperliquid perps
 
-Perpetual futures on [Hyperliquid](/hyperliquid). Day and Swing **strategies** in Settings require Hyperliquid funding before their first scheduled perp run.
+Perpetual futures on [Hyperliquid](/hyperliquid). A strategy that trades Hyperliquid perps requires Hyperliquid funding before its first scheduled run.
 
 _10 tools._
 
@@ -3533,7 +3521,3 @@ print(result)
 
 
 {/* FERE_TOOLS_REF_END */}
-
-<Info>
-  **Day and Swing Trading strategies** (Settings) automate Hyperliquid perp checks. They require [Hyperliquid setup and funding](/hyperliquid) before the first scheduled run.
-</Info>
