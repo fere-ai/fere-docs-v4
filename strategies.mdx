@@ -195,22 +195,35 @@ Click any strategy card to open its detail page at **/strategies/[id]**. This is
   **This page is the home workspace for the live strategy.** Strategy chat here updates the deployed automation. The original **/app** chat where you created it remains a separate workspace — continuing there spawns a **new** strategy instead of editing this one. See [How to Create a Strategy](#how-to-create-a-strategy) for the full split.
 </Warning>
 
-### Executive briefing
+### Fund performance
 
-At the top of the page, a briefing card shows:
+For strategies with venue-reported trading data (most active strategies — spot, Hyperliquid, or Polymarket), the briefing card leads with a **Fund performance** report instead of going straight to operational stats. Newer or research-only strategies without enough data yet fall back to the plain [Operations](#operations) summary described below.
 
-- **Strategy name and description** — the label Fere assigned plus your original instruction.
-- **Health and headline** — whether the strategy is on track, degraded, blocked, paused, or research-only, plus a one-line verdict.
+- **Coverage badge** — **Full performance data**, **Partial (Hyperliquid)**, **Mixed venues**, **Research only**, or **Performance unavailable**, telling you how complete the numbers below are. A bullet list under the badge explains any gaps, including which venue's figures are missing and why (its API didn't respond).
+- **Headline** — a one-line summary of how the fund is doing.
+- **Two top tiles**:
+  - **Strategy equity** (Hyperliquid-only strategies — live margin used plus unrealized PnL), **Strategy exposure** (mixed-venue strategies — total holdings value across venues), or **Strategy cost basis** (spot-only, no live pricing available) — the label always matches what the number actually measures, it's never guessed from the strategy type.
+  - **Open PnL** — current unrealized profit/loss, when available.
+- **PnL reported by each venue** — one card per venue that traded (Tokens, Hyperliquid, Polymarket), each showing **Realized** PnL and, when the venue supports it, **Unrealized** PnL, plus a "via [source]" credit line. Every figure comes straight from that venue's own API rather than being calculated by Fere. If a venue's API is unavailable, its card says so instead of showing a stale or fabricated number. There's deliberately no combined total across venues, since each one reports over a different time window (for example, token PnL covers the last year while Hyperliquid and Polymarket report since the position opened) — summing them would imply a coverage guarantee Fere can't make.
+- **Performance commentary** and **Mandate adherence** — narrative write-ups of how the strategy has performed and whether it's still doing what you asked for.
+- **Fund exposure** — a list of current open positions (token/market, chain, allocation %, side and leverage for perps), each with its value and unrealized PnL.
+- **Risk & outlook** — a short note on risk and what to watch going forward, when Fere has something to flag.
+
+### Operations
+
+Below Fund performance (or at the top of the card, for strategies without a fund report yet) is an **Operations** section:
+
+- **Health status** — whether the strategy is on track, degraded, blocked, paused, or research-only.
 - **Key metrics** — run success rate, trade outcomes, and next scheduled run.
 - **Since last update** — bullet changes since the previous briefing (incremental window).
-- **Top positions** — largest holdings when portfolio data is available (hidden for research-only agents).
+- **Top positions** — largest holdings when portfolio data is available, shown here only for strategies without a Fund performance report above (otherwise see **Fund exposure**, hidden for research-only agents).
 - **Narrative sections** — at-a-glance, recent performance, and since-last-update prose grounded in verified run and trade data.
 
 A compatibility markdown summary is still stored for exports and older clients. The briefing refreshes after each completed run. If a run just finished, you may briefly see *"Updating briefing after the latest run…"* while new content is generated.
 
 ### Recommendations
 
-**Recommended actions** sit in the same briefing card, directly under the metrics and positions. They are separate from the narrative briefing: short, actionable cards tuned for *what to do next*, not a prose recap of the last run.
+**Recommended actions** sit in the same briefing card, directly under Operations' metrics (and positions, when shown). They are separate from the narrative briefing: short, actionable cards tuned for *what to do next*, not a prose recap of the last run.
 
 #### What you see on each card
 
