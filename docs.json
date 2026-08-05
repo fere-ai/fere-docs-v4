@@ -155,6 +155,7 @@
   "seo": {
     "indexing": "all",
     "metatags": {
+      "canonical": "https://docs.fereai.xyz",
       "og:type": "website",
       "og:site_name": "Fere AI",
       "twitter:card": "summary_large_image",
