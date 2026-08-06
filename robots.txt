@@ -28,5 +28,4 @@ User-agent: PerplexityBot
 Allow: /
 
 # Google Search Console — submit this exact URL
-# (Mintlify auto-generates sitemap.xml listing all navigable pages)
 Sitemap: https://docs.fereai.xyz/sitemap.xml
