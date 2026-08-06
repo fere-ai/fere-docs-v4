@@ -186,5 +186,51 @@
       "vscode"
     ],
     "display": "header"
-  }
+  },
+  "redirects": [
+    {
+      "source": "/docs/product/0xMONK",
+      "destination": "/agent"
+    },
+    {
+      "source": "/docs/product/0xMONK/",
+      "destination": "/agent"
+    },
+    {
+      "source": "/docs/product/0xmonk",
+      "destination": "/agent"
+    },
+    {
+      "source": "/docs/product/:slug*",
+      "destination": "/agent"
+    },
+    {
+      "source": "/docs/api/api_access",
+      "destination": "/mcp"
+    },
+    {
+      "source": "/docs/api/api-access",
+      "destination": "/mcp"
+    },
+    {
+      "source": "/docs/api/authentication",
+      "destination": "/mcp"
+    },
+    {
+      "source": "/docs/api/:slug*",
+      "destination": "/mcp"
+    },
+    {
+      "source": "/docs/:slug*",
+      "destination": "/"
+    },
+    {
+      "source": "/0xmonk",
+      "destination": "/agent"
+    },
+    {
+      "source": "/0xMONK",
+      "destination": "/agent"
+    }
+  ]
 }
