@@ -38,6 +38,7 @@
           "market-pulse",
           "recipes",
           "strategies",
+          "strategy-tools",
           "polymarket",
           "hyperliquid",
           "cross-chain",
@@ -161,13 +162,22 @@
   "seo": {
     "indexing": "all",
     "metatags": {
+      "canonical": "https://docs.fereai.xyz",
       "og:type": "website",
       "og:site_name": "Fere AI",
-      "og:title": "Fere AI Documentation",
-      "og:description": "AI agents that actually trade. Documentation for Fere AI: autonomous trading, Market Pulse, strategies, cross-chain swaps, and wallet security.",
       "twitter:card": "summary_large_image",
       "twitter:site": "@fere_ai",
       "robots": "index, follow"
+    },
+    "organization": {
+      "name": "Fere AI",
+      "url": "https://www.fereai.xyz",
+      "logo": "https://storage.googleapis.com/fere-assets/logo/logo-light.webp",
+      "sameAs": [
+        "https://x.com/fere_ai",
+        "https://www.producthunt.com/products/fere-ai",
+        "https://github.com/fere-ai"
+      ]
     }
   },
   "contextual": {
