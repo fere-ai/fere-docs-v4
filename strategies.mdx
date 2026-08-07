@@ -20,7 +20,7 @@ And here's what makes it powerful: **Fere remembers.**
 Every time a strategy runs, it carries forward what it found before. By day 7 of an hourly scan, your agent has a rich picture of every token it analyzed, every score it gave, every trade it made or skipped. It can spot things a stateless bot never would — like a token that scored 85 three days ago, dropped to 60 yesterday, and just came back to 82. That's a recovery signal, and Fere catches it because it was watching.
 
 <Tip>
-  **Context That Compounds.** Fere distills past runs into the signals that actually matter — not a wall of logs, but a smart research notebook that makes every cycle more informed than the last.
+  **Context That Compounds.** Fere distills past runs into the signals that actually matter — not a wall of logs, but a smart research notebook that makes every cycle more informed than the last. This applies to **agent-mode** strategies (the LLM reasons each tick). **Script-mode** strategies run a pinned workspace file as written each cycle — fast and deterministic, without feeding prior-run LLM history into that tick.
 </Tip>
 
 ## How to Create a Strategy
