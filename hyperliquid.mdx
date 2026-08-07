@@ -200,9 +200,19 @@ Implications:
 
 ## Automated Strategies
 
-**Day Trading** and **Swing Trading** under Settings run scheduled checks against your Hyperliquid account. Each shows a **Fund Hyperliquid** CTA until setup and collateral are in place.
+**Day Trading** and **Swing Trading** under Settings run scheduled checks against a **dedicated per-strategy wallet** (separate from your main wallet), with Hyperliquid collateral funded into that strategy's account. Each shows a **Fund Hyperliquid** CTA until setup and collateral are in place.
 
-These strategies use the same API wallet and collateral as manual chat trading. Keep enough USDC on HyperCore for margin, and review open positions in the wallet panel or by asking the agent.
+### Pause vs withdraw vs delete
+
+- **Pause** — Stops new scheduled checks. Open positions and funds in the strategy wallet **stay put**. Pausing does **not** auto-sweep balances back to your main wallet.
+- **Withdraw** — From the wallet panel, open the strategy wallet card and use **Withdraw** to move spot tokens back to your main wallet anytime (including while the strategy is still active, or after it has been archived).
+- **Delete / tear down** — Returns remaining strategy funds to your main wallet as part of closing the strategy.
+
+### Archived strategies
+
+If a strategy is cancelled or torn down while a balance remains, it appears under **Archived strategies** in the wallet panel until the balance is withdrawn (or reaches zero). Empty archived cards hide automatically.
+
+These strategies use their own API wallet and collateral for Hyperliquid. Keep enough USDC on HyperCore for margin, and review open positions in the wallet panel or by asking the agent.
 
 ## Troubleshooting
 

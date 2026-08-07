@@ -17,8 +17,17 @@ The wallet panel is always visible on the right side of the Fere interface. At a
 - **Add Funds** — One-click deposit into your wallet.
 - **Assets tab** — Your token holdings with USD values, organized by chain. A "Hide dust" checkbox filters out tiny balances under $0.05.
 - **Limit Orders tab** — All your active limit orders in one place.
-- **TP/SL Orders** — Active take-profit and stop-loss positions appear right under the relevant token.
+- **TP/SL Orders** — Active take-profit and stop-loss positions appear right under the relevant token. Cross-chain buys arm TP/SL against the destination-chain wallet that holds the tokens.
 - **Supported chains** — Shown at the bottom of the wallet panel.
+
+### Strategy wallets
+
+Day, Swing, and other automated strategies each get a **dedicated wallet** funded from your main wallet. In the panel you will see:
+
+- **Per-strategy cards** — Balance and holdings for each active strategy, with **Add funds** and **Withdraw** (spot tokens back to your main wallet; the strategy stays active).
+- **Archived strategies** — Closed or paused-away strategies that still hold a balance. Withdraw remaining funds here; the card disappears once empty.
+
+Pausing a strategy in Settings stops new checks but does **not** auto-sweep funds — use **Withdraw** or delete the strategy to return capital to your main wallet. See [Hyperliquid → Automated Strategies](/hyperliquid#automated-strategies) for Day/Swing details.
 
 Specialized balances also appear here when you use integrated products:
 
