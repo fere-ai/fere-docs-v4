@@ -27,6 +27,14 @@ Every time a strategy runs, it carries forward what it found before. By day 7 of
 
 Go to the main chat at **/app** and describe what you want to automate. The AI sets it up and it appears in **/strategies**.
 
+<Info>
+  **Durable trading bots use builder → script → schedule.**
+
+  For an ongoing Polymarket / Hyperliquid / on-chain bot you want to run on a timer, ask Fere to **create / build the strategy** first so `strategy_builder` writes and verifies a script under `/work/scripts`. Then schedule it in **script mode** with that entrypoint.
+
+  Saying only *"schedule this"* without a saved script can land as **agent mode** (LLM each tick). One-off research or market summaries can stay agent mode. If script validation fails, schedule creation is **rejected** — Fere will not silently fall back to agent mode.
+</Info>
+
 <Warning>
   **Deployed strategies and the chat that created them are separate workspaces.**
 
