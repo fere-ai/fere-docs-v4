@@ -26,6 +26,14 @@ Every time a strategy runs, it carries forward what it found before. By day 7 of
 
 Go to the main chat at **/app** and describe what you want to automate. The AI sets it up and it appears in **/strategies**.
 
+<Info>
+  **Ongoing trading bots need a saved script before they'll schedule.**
+
+  For a Polymarket, Hyperliquid, or on-chain trading bot you want running on autopilot, ask Fere to build and save it first (for example, *"build this as a script"*) so it writes a runnable script to the strategy's workspace. Fere then schedules it in **script mode**, rerunning that exact script every cycle instead of re-reasoning from scratch each time.
+
+  One-off research summaries and digests don't need this — they stay in **agent mode**, where Fere reasons fresh each cycle. But if you ask Fere to *"schedule this"* for a trading bot before a script exists, Fere won't silently fall back to agent mode — it'll **decline to create the schedule** and ask you to build the script first, then try scheduling again.
+</Info>
+
 <Warning>
   **Deployed strategies and the chat that created them are separate workspaces.**
 
