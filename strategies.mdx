@@ -20,6 +20,8 @@ Every time a strategy runs, it carries forward what it found before. By day 7 of
 
 <Tip>
   **Context That Compounds.** Fere distills past runs into the signals that actually matter — not a wall of logs, but a smart research notebook that makes every cycle more informed than the last. This applies to **agent-mode** strategies (the LLM reasons each tick). **Script-mode** strategies run a pinned workspace file as written each cycle — fast and deterministic, without feeding prior-run LLM history into that tick.
+
+  **When do you need to fund a strategy wallet?** Trading strategies (Hyperliquid, Polymarket, or instructions that place buys/sells/orders) get an **isolated strategy wallet** and stay in setup until you fund it and activate. **Research, summaries, and read-only scanners** — including script-mode alerts that only report — stay on your main wallet and go live without that funding checklist. Script mode alone does not mean "fund a new wallet."
 </Tip>
 
 ## How to Create a Strategy
