@@ -149,6 +149,8 @@ On mobile, tap the **Strategy** button in the top app bar to open the same sideb
 
 Farming strategies (Polymarket Farming) and scheduled strategies that trade on-chain each get their own **dedicated strategy wallet** — a separate EVM and Solana address from your main wallet. The strategy's trading capital or Polymarket balance lives in this wallet, not your main one.
 
+A script-mode strategy that only reads data — a research digest or a threshold scanner with nothing to buy or sell — is the exception: it can run straight from your main wallet, skipping the fund-and-activate checklist below entirely. Fere checks the script itself to decide this, not what you typed to create it — anything that could move funds, or that Fere can't confirm is read-only, always gets its own isolated wallet instead.
+
 <Info>
   **Started your strategy a while back?** Strategies created before dedicated wallets launched still run on your main wallet. On those, a dismissible **"Strategies v2 is here"** banner appears on the Farming card/detail page or schedule detail page, letting you know it isn't isolated yet. For a Farming strategy, stop it and start it again to move it onto its own wallet automatically; for a scheduled strategy, pause it and recreate it from chat.
 </Info>
