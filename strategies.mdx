@@ -10,7 +10,7 @@ Strategies let you automate any instruction — no matter how complex — and ha
 
 ## What Are Strategies?
 
-A strategy is an automated instruction that runs on repeat. You describe it in the chat at **/app**, tell Fere how often to run it, and sit back. Every cycle, the agent goes through the full reasoning process — scanning, analyzing, deciding, and (if conditions are met) trading.
+A strategy is an automated instruction that runs on repeat. You describe it in the chat at **/research**, tell Fere how often to run it, and sit back. Every cycle, the agent goes through the full reasoning process — scanning, analyzing, deciding, and (if conditions are met) trading.
 
 And here's what makes it powerful: **Fere remembers.**
 
@@ -24,17 +24,17 @@ Every time a strategy runs, it carries forward what it found before. By day 7 of
 
 ## How to Create a Strategy
 
-Go to the main chat at **/app** and describe what you want to automate. The AI sets it up and it appears in **/strategies**.
+Go to the main chat at **/research** and describe what you want to automate. The AI sets it up and it appears in **/strategies**.
 
 <Warning>
   **Deployed strategies and the chat that created them are separate workspaces.**
 
-  When you deploy a strategy from a chat, Fere copies the logic into a **dedicated workspace** bound to that strategy on **/strategies/[id]**. The original thread at **/app** and the live strategy **do not share files or edits** after deployment.
+  When you deploy a strategy from a chat, Fere copies the logic into a **dedicated workspace** bound to that strategy on **/strategies/[id]**. The original thread at **/research** and the live strategy **do not share files or edits** after deployment.
 
   | Where you work | What it affects |
   | --- | --- |
   | **Strategy chat** on **/strategies/[id]** | The **live** scheduled strategy — its workspace, scripts, and schedule. Use this (or **Accept** on a recommendation) to change what runs on autopilot. |
-  | **Main chat** at **/app** | A **separate** workspace. You can keep iterating there, but that work creates a **new** strategy — it does **not** update the one already deployed. |
+  | **Main chat** at **/research** | A **separate** workspace. You can keep iterating there, but that work creates a **new** strategy — it does **not** update the one already deployed. |
 
   **Rule of thumb:** To change a running strategy, open its detail page and use Strategy chat there — not the conversation where you first built it.
 </Warning>
@@ -99,7 +99,7 @@ The **Start a Strategy** section inside the Strategies page has pre-built templa
 Click any strategy card to open its detail page at **/strategies/[id]**. This is your command center for one strategy — what it has done, what it traded, what it produced, and what you want it to do next.
 
 <Warning>
-  **This page is the home workspace for the live strategy.** Strategy chat here updates the deployed automation. The original **/app** chat where you created it remains a separate workspace — continuing there spawns a **new** strategy instead of editing this one. See [How to Create a Strategy](#how-to-create-a-strategy) for the full split.
+  **This page is the home workspace for the live strategy.** Strategy chat here updates the deployed automation. The original **/research** chat where you created it remains a separate workspace — continuing there spawns a **new** strategy instead of editing this one. See [How to Create a Strategy](#how-to-create-a-strategy) for the full split.
 </Warning>
 
 ### Executive briefing
@@ -159,7 +159,7 @@ The executive briefing and recommendations share the same trigger (after a compl
 
 ### Strategy chat
 
-Below the summary is **Strategy chat** — your follow-up conversation with **this deployed strategy's workspace**. This is the right place to change what runs on the schedule (not the original **/app** thread). Strategy chat is also separate from scheduled runs themselves:
+Below the summary is **Strategy chat** — your follow-up conversation with **this deployed strategy's workspace**. This is the right place to change what runs on the schedule (not the original **/research** thread). Strategy chat is also separate from scheduled runs themselves:
 
 - Ask clarifying questions (*"Why did you skip the last trade?"*)
 - Request changes (*"Raise the score threshold to 90 and cap buys at $25"*)
