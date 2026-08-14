@@ -20,7 +20,9 @@ And here's what makes it powerful: **Fere remembers.**
 Every time a strategy runs, it carries forward what it found before. By day 7 of an hourly scan, your agent has a rich picture of every token it analyzed, every score it gave, every trade it made or skipped. It can spot things a stateless bot never would — like a token that scored 85 three days ago, dropped to 60 yesterday, and just came back to 82. That's a recovery signal, and Fere catches it because it was watching.
 
 <Tip>
-  **Context That Compounds.** Fere distills past runs into the signals that actually matter — not a wall of logs, but a smart research notebook that makes every cycle more informed than the last.
+  **Context That Compounds.** Fere distills past runs into the signals that actually matter — not a wall of logs, but a smart research notebook that makes every cycle more informed than the last. This applies to **agent-mode** strategies (the LLM reasons each tick). **Script-mode** strategies run a pinned workspace file as written each cycle — fast and deterministic, without feeding prior-run LLM history into that tick.
+
+  **When do you need to fund a strategy wallet?** Trading strategies (Hyperliquid, Polymarket, or instructions that place buys/sells/orders) get an **isolated strategy wallet** and stay in setup until you fund it and activate. **Research, summaries, and read-only scanners** — including script-mode alerts that only report — stay on your main wallet and go live without that funding checklist. Script mode alone does not mean "fund a new wallet."
 </Tip>
 
 ## How to Create a Strategy
@@ -236,5 +238,5 @@ The full catalog (69 tools, invoke patterns, and examples) lives on a dedicated 
 
 
 <Info>
-  **Day and Swing Trading strategies** (Settings) automate Hyperliquid perp checks. They require [Hyperliquid setup and funding](/hyperliquid) before the first scheduled run.
+  **Day and Swing Trading strategies** (Settings) automate Hyperliquid perp checks on a **dedicated strategy wallet**. They require [Hyperliquid setup and funding](/hyperliquid) before the first scheduled run. **Pause** stops new checks without sweeping funds; use wallet **Withdraw** (or delete the strategy) to move capital back to your main wallet. Still-funded closed strategies appear under **Archived strategies** until emptied — see [Wallet](/wallet#strategy-wallets).
 </Info>
