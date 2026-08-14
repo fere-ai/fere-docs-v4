@@ -1,0 +1,40 @@
+# Fere AI Documentation
+
+> Official docs for Fere AI — autonomous crypto trading agents, Market Pulse, recipes, strategies, Polymarket, Hyperliquid, wallets, credits, and MCP.
+
+Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
+
+## Get Started
+
+- [Welcome](https://docs.fereai.xyz/): AI agents that actually trade — research, reason, and execute across chains.
+- [Meet Your AI Agent](https://docs.fereai.xyz/agent): How Fere decomposes requests and acts with a built-in wallet.
+
+## Features
+
+- [Market Pulse](https://docs.fereai.xyz/market-pulse): Social and news digest distilled into actionable crypto summaries.
+- [Recipes](https://docs.fereai.xyz/recipes): One-click workflows for common trading and research tasks.
+- [Strategies](https://docs.fereai.xyz/strategies): Automate instructions on a schedule with memory across runs.
+- [Strategy Tools (fere_tools)](https://docs.fereai.xyz/strategy-tools): Sandbox SDK catalog for strategy automation.
+- [Polymarket](https://docs.fereai.xyz/polymarket): Discover, analyze, and trade prediction markets from Fere.
+- [Hyperliquid](https://docs.fereai.xyz/hyperliquid): Perpetual futures, funding, leverage, and automated strategies.
+- [Cross-Chain](https://docs.fereai.xyz/cross-chain): Gasless bridging and swaps across major chains.
+- [Discover](https://docs.fereai.xyz/discover): AI-curated token feed from on-chain and smart-money signals.
+
+## Developer Tools
+
+- [MCP Support](https://docs.fereai.xyz/mcp): Drive Fere from Claude, ChatGPT, Cursor, and other MCP clients.
+
+## Wallet & Rewards
+
+- [Wallet](https://docs.fereai.xyz/wallet): Coinbase CDP security, balances, and key export.
+- [Credits](https://docs.fereai.xyz/credits): How agent actions are billed and how to top up.
+- [Subscriptions](https://docs.fereai.xyz/subscriptions): Lite, Pro, and Whale monthly credit plans.
+- [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): Invite friends and earn credits.
+- [Points](https://docs.fereai.xyz/points): On-chain and spend rewards with weekly leaderboard.
+
+## Help & Legal
+
+- [FAQ](https://docs.fereai.xyz/faq): Wallet ownership, TP/SL, limit orders, credits, and points.
+- [Terms of Service](https://docs.fereai.xyz/legal/terms): Terms of Use for the FereAI service.
+- [Privacy Policy](https://docs.fereai.xyz/legal/privacy): GDPR-aligned privacy practices.
+- [Security Policy](https://docs.fereai.xyz/legal/security-policy): Responsible vulnerability disclosure.
