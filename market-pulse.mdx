@@ -1,61 +1,35 @@
 ---
-title: "Market Pulse — Never Miss Anything"
+title: "Market Pulse — Deprecated"
 sidebarTitle: "Market Pulse"
-description: "Fere scans Twitter/X, Telegram, Discord, Farcaster, Reddit, and news — then distills crypto chatter into one actionable Market Pulse summary."
+description: "Market Pulse (scheduled SUMMARY digests) is deprecated. Use Research and Strategies instead."
 icon: "signal"
-keywords: ["Market Pulse", "crypto digest", "crypto news AI", "Twitter sentiment", "Farcaster signals", "alpha calls", "whale movements"]
+keywords: ["Market Pulse", "deprecated", "crypto digest", "market summary"]
 canonical: "https://docs.fereai.xyz/market-pulse"
 ---
 
-Fere scans millions of messages across every major crypto channel — Twitter/X, Telegram, Discord, Farcaster, Reddit, Signal, and news outlets — and distills it into one beautiful, actionable summary.
+<Warning>
+  **Market Pulse is deprecated.** New and resumed scheduled digests (`SUMMARY`) are rejected with the message **Market Pulse is deprecated.** The in-app `/market-pulse` route redirects to [Research](https://fereai.xyz/research). Existing Market Pulse schedules are hard-stopped and will not run.
+</Warning>
 
-## How It Works
+Market Pulse previously scanned crypto social channels and delivered Instant or scheduled (email / Telegram) digests. That product surface is shut down.
 
-Open **Market Pulse** from the left sidebar, choose a time window — say, the last 8 hours — and hit generate. Within seconds, Fere's agents comb through the entire fire hose of crypto social media and deliver a structured report covering everything that happened while you were away.
+## What still works
 
-<Steps>
-  <Step title="Choose Your Window">
-    Select how far back you want to look — 4 hours, 8 hours, 24 hours, or custom.
-  </Step>
-  <Step title="Fere Scans Everything">
-    Millions of messages across Twitter/X, Telegram, Discord, Farcaster, Reddit, Signal, and news — analyzed by AI in real time.
-  </Step>
-  <Step title="Get Your Digest">
-    A beautifully structured report with key narratives, alpha calls, whale movements, on-chain signals, and degen plays.
-  </Step>
-</Steps>
+| Keep using | Notes |
+| --- | --- |
+| **[Research](/agent)** | Ask Fere agents for market narratives, token research, and live chat. |
+| **[Strategies](/strategies)** | Recurring `CHAT` schedules and strategy automation (unchanged). |
+| **User-specific Telegram summaries** | Personal `USER_SPECIFIC_SUMMARY` schedules are **not** part of this cut. |
 
-## Sample Digest
+## What stopped
 
-A typical Market Pulse report includes:
+- Creating a new Market Pulse schedule (`schedule_type=SUMMARY`) — API returns **400** `Market Pulse is deprecated.`
+- Resuming a paused Market Pulse schedule — same **400** response.
+- Recurring SUMMARY checker runs — leftover rows are cancelled with reason `product_surface_disable_market_pulse`.
+- Navigating to `/market-pulse` in the webapp — redirects to `/research` (product surfaces gate).
 
-- **Key Narratives** — The dominant themes of the window (e.g., "BTC ETF inflows surge", "Memecoin rotation on Solana").
-- **Alpha Calls** — Specific token mentions from high-signal accounts.
-- **Whale Movements** — Notable on-chain transfers and accumulation.
-- **On-Chain Signals** — Liquidations, funding-rate flips, unusual volume.
-- **Degen Plays** — Early-stage tokens picking up rapid attention.
+Pausing or disabling a leftover SUMMARY agent remains allowed so you can clear UI state.
 
-## Schedule Your Daily Briefing
+## Credits
 
-Don't want to even open the app? You can schedule Market Pulse to be delivered to your **email** or **Telegram** every morning. Wake up, read your digest over coffee, and know exactly where the market stands.
-
-<Tip>
-  Scheduled Market Pulse executions are fixed at **70 credits** for a 24h window or **40 credits** for a 12h window — see [Credits](/credits) for details.
-</Tip>
-
-## Data Sources
-
-<CardGroup cols={2}>
-  <Card title="Twitter / X" icon="x-twitter">
-    Key influencers, trending topics, alpha calls, and sentiment shifts.
-  </Card>
-  <Card title="Telegram & Discord" icon="telegram">
-    Private group chatter, whale alerts, project announcements.
-  </Card>
-  <Card title="Farcaster & Reddit" icon="rss">
-    Onchain social sentiment, emerging narratives, community alpha.
-  </Card>
-  <Card title="News & Signal" icon="newspaper">
-    Breaking news, regulatory updates, macro signals.
-  </Card>
-</CardGroup>
+Scheduled Market Pulse credit pricing no longer applies to new runs. See [Credits](/credits) for current Research and strategy pricing.
