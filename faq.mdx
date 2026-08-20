@@ -14,7 +14,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="Do I own my wallet? Can Fere access my funds?">
     **Yes, you fully own your wallet.** Fere uses Coinbase CDP Server Wallets, which are non-custodial. Your private keys live inside a Trusted Execution Environment (TEE) — a hardware-isolated enclave that neither Fere nor Coinbase can access.
 
-    You can export your private key at any time — open the wallet cluster button in the wallet panel to bring up **Your Wallets**, then use the reveal-key control on any wallet card. Once exported, you can import it into any external wallet like MetaMask or Phantom and access your funds completely independently of Fere.
+    You can export your private key at any time — go to **Portfolio**, click the wallet cluster button next to your balance to bring up **Your Wallets**, then use the reveal-key control on any wallet card. Once exported, you can import it into any external wallet like MetaMask or Phantom and access your funds completely independently of Fere.
 
     Fere cannot seize, freeze, move, or view your private key. This is enforced by architecture, not just policy.
   </Accordion>
@@ -22,7 +22,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="How do I export my private key to MetaMask?">
     Use this to move your **EVM wallet** (Base, Ethereum, Polygon, Arbitrum, etc.) to MetaMask:
 
-    **Step 1:** In Fere, click the wallet cluster button in the right panel to open **Your Wallets**, find your EVM wallet card (starts with 0x), and use its reveal-key control to reveal your private key. Copy it.
+    **Step 1:** In Fere, open **Portfolio** and click the wallet cluster button next to your balance to open **Your Wallets**. Find your EVM wallet card (starts with 0x) and use its reveal-key control to reveal your private key. Copy it.
 
     **Step 2:** Open MetaMask (browser extension or mobile app).
 
@@ -38,7 +38,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="How do I export my private key to Phantom?">
     Use this to move your **Solana wallet** to Phantom:
 
-    **Step 1:** In Fere, click the wallet cluster button in the right panel to open **Your Wallets**, find your Solana wallet card (starts with a non-0x string), and use its reveal-key control to reveal your Solana private key. Copy it.
+    **Step 1:** In Fere, open **Portfolio** and click the wallet cluster button next to your balance to open **Your Wallets**. Find your Solana wallet card (starts with a non-0x string) and use its reveal-key control to reveal your Solana private key. Copy it.
 
     **Step 2:** Open Phantom (browser extension or mobile app).
 
@@ -52,7 +52,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   </Accordion>
 
   <Accordion title="What is &quot;Hide dust&quot; in the wallet?">
-    The **"Hide dust (&lt;$0.50)"** checkbox in your wallet panel hides tokens with very small balances — typically leftover fragments from trades. This keeps your asset list clean and focused on your meaningful holdings. Uncheck it to see everything.
+    The **"Hide dust (&lt;$0.50)"** checkbox on the **Portfolio** page hides tokens with very small balances — typically leftover fragments from trades. This keeps your asset list clean and focused on your meaningful holdings. Uncheck it to see everything.
   </Accordion>
 </AccordionGroup>
 
@@ -78,11 +78,11 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="What is TP/SL and how does it work?">
     **TP (Take-Profit)** automatically sells your token when it rises to a price you set — locking in gains. **SL (Stop-Loss)** automatically sells when it drops to a price you set — limiting losses.
 
-    What makes Fere special is that you can set TP/SL on **any token**, including obscure memecoins and microcaps that other platforms can't support. Just tell Fere: *"Set TP at +50% and SL at -20% on my BRETT position"* and it's done. Active TP/SL orders appear right under the token in your wallet panel.
+    What makes Fere special is that you can set TP/SL on **any token**, including obscure memecoins and microcaps that other platforms can't support. Just tell Fere: *"Set TP at +50% and SL at -20% on my BRETT position"* and it's done. Active TP/SL orders appear under the relevant token in **Open Positions** on the Portfolio page.
   </Accordion>
 
   <Accordion title="How do limit orders work on Fere?">
-    Limit orders let you set a price at which you want to buy or sell a token. Once the market reaches your target price, Fere executes the trade automatically. You can view all your active limit orders in the **Limit Orders** tab of your wallet panel.
+    Limit orders let you set a price at which you want to buy or sell a token. Once the market reaches your target price, Fere executes the trade automatically. Fills and cancellations show up in your **Trade History** on the Portfolio page and in your activity feed.
 
     Unlike centralized exchanges, Fere can place limit orders on any DEX token — even ones that aren't listed anywhere else.
   </Accordion>
@@ -142,11 +142,11 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   </Accordion>
 
   <Accordion title="Which chains does Fere support?">
-    Fere supports **6 chains** for swaps, transfers, and bridging: Ethereum, Base, Arbitrum, BNB Chain, Polygon, and Solana — plus **Hyperliquid** for perpetual futures. You can see all supported chains at the bottom of your wallet panel. New chains are added regularly.
+    Fere supports **6 chains** for swaps, transfers, and bridging: Ethereum, Base, Arbitrum, BNB Chain, Polygon, and Solana — plus **Hyperliquid** for perpetual futures. You can see all supported chains in the **Add Funds** deposit view on the Portfolio page. New chains are added regularly.
   </Accordion>
 
   <Accordion title="How do I add funds to my wallet?">
-    Click the **"Add Funds"** button at the top of your wallet panel. You can deposit crypto directly to your Fere wallet addresses — send EVM tokens to your 0x address or SOL to your Solana address. Both addresses are visible in the wallet panel and can be copied with one click.
+    Open **Portfolio** and click the **"Add Funds"** button. You can deposit crypto directly to your Fere wallet addresses — send EVM tokens to your 0x address or SOL to your Solana address. Both addresses are listed in the **Your Wallets** modal and can be copied with one click.
   </Accordion>
 
   <Accordion title="Is my trading data private?">

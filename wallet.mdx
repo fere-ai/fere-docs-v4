@@ -1,24 +1,22 @@
 ---
 title: "Wallet — Coinbase-Grade Security"
 sidebarTitle: "Wallet & Security"
-description: "Your Fere wallet shows balances and orders in real time — Coinbase CDP Server Wallets with keys in hardware-isolated TEE enclaves."
+description: "Your Fere wallet lives on the Portfolio page — Coinbase CDP Server Wallets with keys in hardware-isolated TEE enclaves that you can export anytime."
 icon: "wallet"
 keywords: ["wallet security", "Coinbase CDP", "TEE", "non-custodial", "private keys", "MetaMask", "Phantom", "wallet export"]
 ---
 
-Your wallet is always visible on the right side of the screen — showing your balance, assets, and active orders in real time. Under the hood, it's powered by Coinbase's most advanced wallet infrastructure.
+Your wallet lives on the **Portfolio** page — showing your balance, holdings, and trade history in real time. Under the hood, it's powered by Coinbase's most advanced wallet infrastructure.
 
 ## What You See
 
-The wallet panel is always visible on the right side of the Fere interface. At a glance, you can see:
+Open **Portfolio** from the navigation to reach your wallet. At a glance, you can see:
 
-- **Total balance** — Your aggregate holdings across all chains.
-- **Wallet cluster button** — A stacked-avatar button (one icon per wallet kind — EVM, Solana) opens the **Your Wallets** modal, which lists every wallet address with copy, block-explorer, and reveal-private-key controls.
-- **Add Funds** — One-click deposit into your wallet.
-- **Assets tab** — Your holdings organized into buckets — **Tokens**, **Polymarket**, **Hyperliquid** — ordered by value. Tap a bucket to filter the list below to just that venue, or clear the filter to see everything. A "Hide dust" checkbox filters out tiny balances under $0.50.
-- **Limit Orders tab** — All your active limit orders in one place.
-- **TP/SL Orders** — Active take-profit and stop-loss positions appear right under the relevant token.
-- **Supported chains** — Shown at the bottom of the wallet panel.
+- **Total Net Worth** — Your aggregate holdings across all chains and accounts.
+- **Wallet cluster button** — A stacked-avatar button (one icon per wallet kind — EVM, Solana) sits next to your balance and opens the **Your Wallets** modal, which lists every wallet address with copy, block-explorer, and reveal-private-key controls.
+- **Add Funds** — One-click deposit into your wallet. The deposit view also lists every chain Fere currently supports.
+- **Open Positions** — Your holdings, with a **venue lens** to filter by **Tokens**, **Polymarket**, or **Hyperliquid**. **Hide dust** and **Hide unverified** checkboxes filter out tiny and unverified balances.
+- **Trade History** — Every trade and transfer, newest first, with the activity that originated it.
 
 Specialized balances also appear here when you use integrated products:
 
@@ -31,7 +29,7 @@ Specialized balances also appear here when you use integrated products:
 
 ## You Own Your Wallet
 
-This is critical: **your wallet is fully owned by you.** Open the wallet cluster button to bring up **Your Wallets**, then use the reveal-key control on any wallet card to export your private key. You can then import that key into any external wallet like MetaMask or Phantom — meaning your funds are never locked inside Fere.
+This is critical: **your wallet is fully owned by you.** On **Portfolio**, click the wallet cluster button next to your balance to bring up **Your Wallets**, then use the reveal-key control on any wallet card to export your private key. You can then import that key into any external wallet like MetaMask or Phantom — meaning your funds are never locked inside Fere.
 
 <Check>
   **Full Key Ownership.** Your private key is yours. Export it anytime and use it in MetaMask (for EVM chains) or Phantom (for Solana). Fere is non-custodial — you can always access your funds independently. See the [FAQ](/faq) for step-by-step export instructions.
@@ -47,13 +45,13 @@ This is critical: **your wallet is fully owned by you.** Open the wallet cluster
 
 ## Strategy Wallets
 
-Farming strategies (Polymarket Farming) and other on-chain scheduled strategies each trade from their **own dedicated wallet** — a separate address from your main wallet. A **Strategies** section in the wallet panel lists a card per active strategy with its balance and **Fund** / **Withdraw** buttons.
+Farming strategies (Polymarket Farming) and other on-chain scheduled strategies each trade from their **own dedicated wallet** — a separate address from your main wallet. The **Accounts** rail on [Portfolio](/portfolio) lists your main wallet plus a row per strategy wallet; selecting one shows its balance and **Fund** / **Withdraw** buttons.
 
 <Warning>
   **Pausing or stopping a strategy does not return its funds.** The strategy wallet and any open positions stay in place until you withdraw manually.
 </Warning>
 
-If a strategy is cancelled while its wallet still holds a balance, it moves to **Archived strategies** below the active list — Withdraw is still available there, and the card disappears once the balance reaches zero.
+If a strategy is cancelled while its wallet still holds a balance, it moves to a **Closed · still funded** group in the Accounts rail — Withdraw is still available there, and the row disappears once the balance reaches zero.
 
 See [Strategies → Strategy Wallets](/strategies#strategy-wallets) for the full setup, funding, and withdrawal flow.
 
