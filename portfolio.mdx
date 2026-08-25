@@ -25,7 +25,7 @@ Below the numbers, an allocation bar shows how your combined net worth splits ac
 
 ## Accounts
 
-The **Accounts** rail lists every wallet feeding your portfolio: **Main wallet** pinned first (marked "Parent account"), then one row per strategy wallet — each a separate, isolated wallet dedicated to a single trading strategy. Any strategy cancelled while its wallet still held a balance appears below in its own **Closed · still funded** group instead. Each row shows that account's balance and live PnL. On desktop, click a row to inspect it in a detail pane next to the rail. On mobile, tap a row to open the same detail view in a bottom sheet that slides up over the page. See [Strategy Wallets](/strategies#strategy-wallets) for how these wallets get created and funded.
+The **Accounts** rail lists every wallet feeding your portfolio: **Main wallet** pinned first (marked "Parent account"), then one row per strategy wallet — each a separate, isolated wallet dedicated to a single trading strategy. Any strategy cancelled while its wallet still held a balance appears below in its own **Closed · still funded** group instead. An active strategy whose wallet has been drained to zero shows a dimmed row instead — you can still **Fund** it, but there's nothing to withdraw. Each row shows that account's balance and live PnL. On desktop, click a row to inspect it in a detail pane next to the rail. On mobile, tap a row to open the same detail view in a bottom sheet that slides up over the page. See [Strategy Wallets](/strategies#strategy-wallets) for how these wallets get created and funded.
 
 <Note>
   Not signed in yet? Visiting Portfolio shows a blurred preview of the book with no numbers, plus **Sign in** / **Create account** buttons — your net worth, wallets, and trade history stay private until you sign in.
@@ -38,7 +38,8 @@ Selecting **Main wallet** (the default) shows your parent account in full:
 - Balance, a **"By chain / protocol"** composition donut showing how your holdings break down, and a **venue lens** — a chip for **Tokens** (your regular on-chain holdings), **Polymarket**, and **Hyperliquid**. Click a chip to filter both **Open Positions** and **Trade History** below down to that venue; click it again to clear the filter.
 - **Open Positions** — everything you currently hold: expand a row for details, **Sell**, **Redeem** a resolved Polymarket position, or manage an attached **TP/SL** order.
 - **Trade History** — a chronological log of every trade and transfer, newest first. Each row shows the asset, side, and USD value. An **Activity** tag shows what originated it — a **Strategy** or **Chat** you can click through to, an automated **AI** action (like a scheduled rebalance), a **manual** order, or **off-platform** activity that happened directly on a venue outside of Fere. Scroll down and older history loads automatically.
-- Two checkboxes next to the tabs — **Hide dust** and **Hide unverified** — filter small balances and unverified tokens out of the view.
+- A **Filters** control opens **Hide dust** and **Hide unverified** — toggles that filter small balances and unverified tokens out of the view.
+- A refresh icon next to your balance forces an immediate re-fetch of your holdings, instead of waiting for the automatic refresh.
 - The wallet-cluster icon next to your balance opens **Your Wallets** — every wallet address with copy, block-explorer, and reveal-private-key controls. See [Wallet & Security](/wallet).
 - **Add Funds** opens the deposit flow, which also lists every chain Fere currently supports.
 
@@ -51,6 +52,7 @@ Selecting **Main wallet** (the default) shows your parent account in full:
 Selecting a strategy row instead shows that strategy's own isolated wallet:
 
 - Balance, its EVM and/or Solana address (each with a copy button), and **Fund** / **Withdraw** buttons. **Fund** doesn't appear for a closed strategy — only **Withdraw** does.
+- **Withdraw** opens a token-and-amount modal (with a **Max** shortcut) for spot holdings, or a separate Polymarket cash withdrawal flow when the balance you're pulling is Polymarket cash — Fere routes you to the right one based on what the wallet is holding. Funds tied up in an open Hyperliquid or Polymarket position must be closed first; only free balance can be withdrawn.
 - A **Composition** donut and the same **venue lens**, built from that strategy's own holdings, filtering the positions list below it.
 - A read-only **Positions** list. Strategies trade automatically from their own wallet, so there's no **Sell** or **TP/SL** here, and no separate trade history for a single strategy — use Main Wallet's Trade History for a cross-account activity feed instead.
 
