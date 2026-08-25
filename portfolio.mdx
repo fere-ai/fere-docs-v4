@@ -1,46 +1,46 @@
 ---
-title: "Portfolio — Book & Wallet Drawer"
+title: "Portfolio — Book & Wallet"
 sidebarTitle: "Portfolio"
-description: "See your combined net worth across Main and every strategy wallet, then open a wallet drawer for positions, history, Fund, and Deposit."
+description: "See combined net worth across Main and every strategy wallet, then inspect positions, history, Fund, and Deposit in the selected wallet."
 icon: "chart-pie"
-keywords: ["portfolio", "net worth", "Main wallet", "strategy wallet", "trade history", "fund", "deposit", "drawer"]
+keywords: ["portfolio", "net worth", "Main wallet", "strategy wallet", "trade history", "fund", "deposit", "inactive"]
 canonical: "https://docs.fereai.xyz/portfolio"
 ---
 
-The **Portfolio** page (`/portfolio`) is your book of accounts — Main plus every strategy wallet — with a combined net worth that does not change when you drill into a single wallet.
+The **Portfolio** page (`/portfolio`) is your book of accounts — Main plus every strategy wallet — with a combined net worth that does not change when you drill into a single wallet. The header chip left of notifications is that same combined total and opens this page.
 
 ## What You See on the Book
 
-- **Total net worth** — Main + active strategies (+ funded closed strategies).
+- **Total net worth** — Main + active strategies (+ funded closed strategies). There is no separate “Balance” label on these totals.
 - **Realized PnL** and **traded volume** — portfolio-level figures.
 - **Allocation** — how value is split across Main and strategies.
-- **Accounts list** — each row shows balance and live PnL.
+- **Wallets** — sticky heading; each row shows name, status, and USD.
 
-Day one (nothing funded yet) shows a short **Deposit** / **Browse strategies** prompt above the accounts list. Main still appears so you can open it and deposit.
+Day one (nothing funded yet) shows a short **Deposit** / **Browse strategies** prompt above the wallets list. Main still appears so you can open it and deposit.
 
-## Open a Wallet (Drawer)
+## Open a Wallet
 
-Tap an account row to open a **wallet drawer**:
+Tap an account row:
 
-- **Desktop** — glass panel from the right.
-- **Mobile** — bottom sheet.
-
-The book stays underneath. Close with **X**, Escape, or the backdrop.
+- **Desktop** — in-page split: book on the left, selected wallet on the right (no overlay).
+- **Mobile** — bottom sheet for the selected wallet.
 
 ### Main wallet
 
-- Balance, **Add Funds**, and wallet details (EVM + Solana cluster → Your Wallets).
+- Balance, primary **Add Funds**, and wallet details (EVM + Solana cluster → Your Wallets).
 - Venue lens (All / Tokens / Polymarket / Hyperliquid / Yield) filters what is below.
 - **Open Positions** — live holdings (sell / redeem where available).
-- **Trade History** — cross-venue activity; scrolls to load older pages (no “Load more”).
+- **History** — cross-venue activity; scrolls to load older pages (no “Load more”).
+
+If Main has no open positions and no strategy fills yet, you see **No strategy trades yet** with **Go to strategies**. Positions and History are not stacked on top of each other.
 
 ### Strategy wallet
 
-- Isolated addresses, **Fund** / **Withdraw**.
-- Empty strategies show an empty callout; Fund from Main to activate.
-- Positions for that strategy only (no separate strategy trade-history feed yet).
+- Isolated addresses, **Fund** / **Withdraw** on the wallet header.
+- Empty (unfunded) strategies are **Inactive · no balance**. The mark is an empty well — not a letter badge. Fund from Main to activate.
+- Empty holdings show **No holdings yet** and **Open strategy**. Fund lives on the header, not on the deposit-wallets row.
 
-## Fund / Deposit / Withdraw Without Opening the Drawer
+## Fund / Deposit / Withdraw From the List
 
 On each account row:
 
@@ -49,11 +49,11 @@ On each account row:
 | Main | **Deposit** → same Add Funds flow as elsewhere |
 | Strategy | **Fund** / **Withdraw** → strategy transfer modals |
 
-These open the modal directly; they do not open the drawer.
+These open the modal directly. After a successful fund, withdraw, or sell, **every wallet in the book refreshes** (Main + strategies) so moved value is not stale. One wallet failing to refresh does not fail the transfer itself.
 
 ## Hide Dust & Unverified
 
-The same hide-dust / hide-unverified toggles used in the wallet panel apply here. If filters zero every visible balance, the empty prompt may appear — but the **accounts list stays** so you can still open Main for wallets and history.
+The same hide-dust / hide-unverified toggles used in the wallet panel apply here. If filters zero every visible balance, the empty prompt may appear — but the **wallets list stays** so you can still open Main for wallets and history.
 
 ## Related
 
