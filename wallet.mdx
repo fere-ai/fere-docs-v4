@@ -36,6 +36,8 @@ Day, Swing, and other automated strategies each get a **dedicated wallet** funde
 
 Pausing a strategy in Settings stops new checks but does **not** auto-sweep funds — use **Withdraw** or delete the strategy to return capital to your main wallet.
 
+Existing **Fere Earn (Yield)** balances remain visible in the wallet, but the dedicated Yield page and its **Manage** action are currently unavailable. Ask Fere in chat to review or manage an existing position.
+
 <Info icon="lock">
 
   **Powered by Coinbase CDP Server Wallets.** Every Fere wallet is a Coinbase Developer Platform Server Wallet — the same infrastructure trusted by the world's largest crypto exchange. Private keys live inside Trusted Execution Environments (TEEs) and never leave the secure enclave.
@@ -67,7 +69,7 @@ Open **Portfolio** in the top navigation for the full book — Main plus every s
 - **Wallets list** — **Main** is your parent account. Each deployed strategy has its own row and balances.
 - **Select a wallet** — Tap a row to open that wallet. Desktop keeps the book on the left and the selected wallet on the right. Mobile opens the wallet in a sheet.
 - **Shareable URL** — The selected wallet is in the address bar as `?wallet_id=main` or `?wallet_id=<strategy-id>`. An unknown id falls back to Main.
-- **Positions, Trades, Orders** — Each wallet shows holdings, trade history, and **open orders for that wallet only** (swap limit orders, Hyperliquid perps, and Polymarket). Canceling an order from a strategy acts on that strategy, not Main.
-- **Fund / Withdraw** — Deposit, fund, and withdraw on a strategy row stay on that strategy, including Hyperliquid and Polymarket cash.
+- **Positions, Trades, Orders** — Each wallet shows holdings, trade history, and **open orders for that wallet only** (including swap limit orders). Canceling an order from a strategy acts on that strategy, not Main.
+- **Fund / Withdraw** — Deposit, fund, and withdraw on a strategy row stay on that strategy.
 
 The right-hand **wallet panel** is still the quick view for the account you are chatting with. Portfolio is the book.
