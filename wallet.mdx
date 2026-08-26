@@ -3,7 +3,7 @@ title: "Wallet — Coinbase-Grade Security"
 sidebarTitle: "Wallet & Security"
 description: "Your Fere wallet shows balances and orders in real time — Coinbase CDP Server Wallets with keys in hardware-isolated TEE enclaves."
 icon: "wallet"
-keywords: ["wallet security", "Coinbase CDP", "TEE", "non-custodial", "private keys", "MetaMask", "Phantom", "wallet export"]
+keywords: ["wallet security", "Coinbase CDP", "TEE", "non-custodial", "private keys", "MetaMask", "Phantom", "wallet export", "portfolio", "strategy wallet"]
 canonical: "https://docs.fereai.xyz/wallet"
 ---
 
@@ -47,3 +47,16 @@ This is critical: **your wallet is fully owned by you.** Next to each wallet add
 - **Non-custodial** — Fere cannot seize, freeze, or move your funds. Period.
 
 **Infrastructure:** Coinbase CDP · Trusted Execution (TEE) · AWS Nitro Enclaves
+
+## Portfolio
+
+Open **Portfolio** in the top navigation for the full book — Main plus every strategy wallet — not just the always-on right-hand panel.
+
+- **Total Balance** — Combined live value across Main and every strategy, with realized PnL and traded volume.
+- **Wallets list** — **Main** is your parent account. Each deployed strategy has its own row and balances.
+- **Select a wallet** — Tap a row to open that wallet. Desktop keeps the book on the left and the selected wallet on the right. Mobile opens the wallet in a sheet.
+- **Shareable URL** — The selected wallet is in the address bar as `?wallet_id=main` or `?wallet_id=<strategy-id>`. An unknown id falls back to Main.
+- **Positions, Trades, Orders** — Each wallet shows holdings, trade history, and **open orders for that wallet only** (swap limit orders, Hyperliquid perps, and Polymarket). Canceling an order from a strategy acts on that strategy, not Main.
+- **Fund / Withdraw** — Deposit, fund, and withdraw on a strategy row stay on that strategy, including Hyperliquid and Polymarket cash.
+
+The right-hand **wallet panel** is still the quick view for the account you are chatting with. Portfolio is the book.
