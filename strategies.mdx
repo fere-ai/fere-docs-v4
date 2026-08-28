@@ -73,7 +73,7 @@ A few examples to get you started:
 >
 > *"Go to Base chain and find tokens between $10M-$20M market cap. Analyze them on socials and technical analysis and give them a score based on performance. Buy a token if it scores 90/100."*
 
-**Every hour, Fere will:** scan the chain for candidates, run social and TA analysis on each, score them, and only execute a trade if the quality bar is met. Open the strategy detail page after a run to read the executive summary, inspect past runs in the sidebar, and review any trades or files the agent produced.
+**Every hour, Fere will:** scan the chain for candidates, run social and TA analysis on each, score them, and only execute a trade if the quality bar is met. Open the strategy detail page after a run to read the executive briefing, then use the right rail for **Positions**, **Transactions**, **Runs**, and **Files**.
 
 ## The Strategies Page
 
@@ -181,21 +181,31 @@ A sticky bar at the bottom of the page shows:
 
 Just below that, the input bar accepts new instructions. Type `@` to mention another active or paused strategy when you want to reference or coordinate across automations.
 
-### Right sidebar — Past Runs, Transactions, Artifacts
+### Right sidebar — wallet, last run, and tabs
 
-On desktop, a sidebar on the right replaces the generic Files panel while you are on a strategy detail page. It stays visible for that strategy. If you open the wallet drawer, the sidebar shifts left — it is never hidden behind the wallet.
+On desktop, a compact **320px rail** on the right stays visible while you are on a strategy detail page. If you open the wallet drawer, the rail shifts left — it is never hidden behind the wallet.
 
-Strategy wallets also appear on **[Portfolio](/wallet#portfolio)** so you can inspect holdings, trades, and open orders for that strategy without opening its chat.
+Strategy wallets also appear on **[Portfolio](/portfolio)** so you can inspect holdings, trades, and open orders for that strategy without opening its chat.
 
-Three collapsible sections stack vertically. Drag the dividers to resize them, and your layout is remembered per strategy:
+From top to bottom:
 
-| Section | What you see |
+| Area | What you see |
 | --- | --- |
-| **Past Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. |
-| **Transactions** | Swaps, buys, sells, and other trades this strategy executed. Tap a row to expand full details inline. |
-| **Artifacts** | Files the agent generated across runs — reports, charts, exports. Click to preview or download. |
+| **Status bar** | How many times the strategy has run, **Live** or **Paused**, and **Pause** / **Resume**. |
+| **Wallet row** | Spendable balance (or *Balance unavailable*), **Open portfolio**, **Fund**, and the strategy wallet cluster. |
+| **Last run** | Outcome icon, the label **Last run**, and a relative timestamp. Click it to open that run. |
+| **Tabs** | **Positions**, **Transactions**, **Runs**, and **Files**. |
 
-On mobile, tap the floating **Strategy** button to open a bottom sheet with **Runs**, **Txns**, and **Files** tabs containing the same data.
+| Tab | What you see |
+| --- | --- |
+| **Positions** | Open holdings for this strategy wallet (same rows as portfolio), including sell actions when available. Empty and load-error copy match the wallet overlay. |
+| **Transactions** | Swaps, buys, sells, and other activity for this strategy. Scroll for more; tap a row for details. |
+| **Runs** | Numbered scheduled cycles (`Run #1`, `Run #2`, …) with timestamps. Click a row to open **Run details** (full outcome and activities from that cycle). |
+| **Files** | Files the agent generated — reports, scripts, exports. Click to preview or download. Copied or shared strategies may show that files are not available to your account. |
+
+If holdings fail to load, the Positions tab shows *Could not load holdings* with a **Refresh** action. Other tabs show a retry state if their feed cannot load.
+
+On mobile, tap the floating **Strategy** button to open a bottom sheet with the same tabs.
 
 <Tip>
   **Deep-link to a run or message.** Links from notifications and run history can scroll you directly to the relevant chat message or run in the detail page.
