@@ -159,6 +159,16 @@
       }
     ]
   },
+  "redirects": [
+    {
+      "source": "/src/_props/:slug*",
+      "destination": "/:slug*"
+    },
+    {
+      "source": "/src/_props",
+      "destination": "/"
+    }
+  ],
   "seo": {
     "indexing": "all",
     "metatags": {
