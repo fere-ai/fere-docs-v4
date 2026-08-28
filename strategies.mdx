@@ -136,12 +136,12 @@ Fields come prefilled with suggested values. Flip the toggle on to start — cha
 
 ### Managing a Farming Strategy
 
-The Farming detail page's sidebar mirrors the regular Strategy Detail Page's, minus Strategy chat and Artifacts — there's no free-form chat here, since Farming strategies run on fixed logic instead of an instruction you write. It shows:
+The Farming detail page's sidebar mirrors the regular Strategy Detail Page's, minus Strategy chat and Files — there's no free-form chat here, since Farming strategies run on fixed logic instead of an instruction you write. It shows:
 
-- **Past Runs** — every automated cycle.
+- **Runs** — every automated cycle.
 - **Transactions** — buys, sells, and other trades it executed.
 
-A **Strategy Wallet** card is pinned above these two sections, showing this strategy's own balance and its **Fund** / **Withdraw** buttons — see [Strategy Wallets](#strategy-wallets) below.
+A **Strategy Wallet** row is pinned above these tabs, showing this strategy's own balance, a **Fund** button, and an **Open portfolio** link for withdrawals and full history — see [Strategy Wallets](#strategy-wallets) below.
 
 On mobile, tap the **Strategy** button in the top app bar to open the same sidebar as a bottom sheet.
 
@@ -181,7 +181,8 @@ Fere swaps and bridges as needed, then credits the strategy's wallet or venue ba
 ### Where you see it
 
 - **Wallet panel** — a **Strategies** section lists a card for each of your active strategies, showing its balance and **Fund** / **Withdraw** buttons.
-- **Strategy detail page** — the same card is pinned at the top of the right sidebar (see [Right sidebar](#right-sidebar-past-runs-transactions-artifacts) above), so you can fund or withdraw without leaving the page.
+- **Strategy detail page** — a compact wallet row at the top of the right sidebar (see [Right sidebar](#right-sidebar-positions-transactions-runs-files) above) shows balance and **Fund**, with an **Open portfolio** link for everything else, including **Withdraw**.
+- **Portfolio** — select this strategy's account to fund, withdraw, or review its positions and history — see [Portfolio](/portfolio).
 
 ### Withdrawing funds
 
@@ -292,25 +293,30 @@ A sticky bar at the bottom of the page shows:
 
 Just below that, the input bar accepts new instructions. Type `@` to mention another active or paused strategy when you want to reference or coordinate across automations.
 
-### Right sidebar — Past Runs, Transactions, Artifacts
+### Right sidebar — Positions, Transactions, Runs, Files
 
-On desktop, a sidebar on the right replaces the generic Files panel while you are on a strategy detail page. It stays visible for that strategy. If you open the wallet drawer, the sidebar shifts left — it is never hidden behind the wallet.
+On desktop, a sidebar on the right replaces the generic Files panel while you are on a strategy detail page. It stays visible for that strategy. From top to bottom: a status bar (run count, next run, Pause/Resume), a compact **Strategy Wallet** row, a pinned **Last run** summary, then a tabbed pane.
 
-Three collapsible sections stack vertically. Drag the dividers to resize them, and your layout is remembered per strategy:
+The tabbed pane has four tabs — **Positions**, **Transactions**, **Runs**, **Files**:
 
-| Section | What you see |
+| Tab | What you see |
 | --- | --- |
-| **Past Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. |
+| **Positions** | This strategy's own wallet holdings. |
 | **Transactions** | Swaps, buys, sells, and other trades this strategy executed, newest first. Each row links out to the block explorer when a transaction hash is available. |
-| **Artifacts** | Files the agent generated across runs — reports, charts, exports. Click to preview or download. |
+| **Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. |
+| **Files** | Files the agent generated across runs — reports, charts, exports. Click to preview or download. |
 
-If this strategy trades on-chain, a **Strategy Wallet** card is pinned above these three sections — see [Strategy Wallets](#strategy-wallets) above for setup, funding, and withdrawal.
+The **Strategy Wallet** row shows this strategy's balance with a refresh button, a **Fund** button, and an **Open portfolio** link that opens this strategy's account in [Portfolio](/portfolio) in a new tab. Withdrawing is done from Portfolio, not from this row — see [Where you see it](#where-you-see-it) below.
 
-On mobile, tap the **Strategy** button in the top app bar (it only appears while you're on a strategy page) to open a bottom sheet with **Runs**, **Txns**, and **Files** tabs containing the same data.
+On mobile, tap the **Strategy** button in the top app bar (it only appears while you're on a strategy page) to open the same tabbed pane in a bottom sheet.
 
 <Tip>
   **Deep-link to a run or message.** Links from notifications and run history can scroll you directly to the relevant chat message or run in the detail page.
 </Tip>
+
+<Note>
+  **Strategy couldn't load?** If the page can't reach your strategy (session expired, no access, not found, or a temporary error), it shows a full-page message explaining why, with **Retry** and **Back to Strategies** buttons instead of the chat and sidebar.
+</Note>
 
 <Info>
   **Pause or stop anytime.** You are always in control. Pause from the Strategies list, or tell the agent in the detail input (*"Pause this strategy until Monday"*). No lock-in, no penalties — the agent stops on the next safe boundary.
