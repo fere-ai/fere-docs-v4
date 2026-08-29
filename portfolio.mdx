@@ -17,7 +17,7 @@ A summary banner sits at the top of the page and doesn't change as you switch ac
 - **Realized PnL** — profit or loss you've already locked in, all-time. This figure covers your **main wallet only** — strategy wallets don't yet report their own realized PnL.
 - **Traded Volume** — your cumulative trading volume, all-time, also **main-wallet only**.
 
-Below the numbers, an allocation bar shows how your combined net worth splits across accounts — a segment per account, plus an aggregated **Closed** segment if any strategy was cancelled while still holding a balance.
+Below the numbers, an allocation bar shows how your combined net worth splits across accounts — a segment per account, plus an aggregated **Inactive** segment if any paused, stopped, or closed strategy still holds a balance.
 
 <Tip>
   **Live vs. Realized.** Unrealized PnL moves with the market because it's based on what you still hold. Realized PnL only changes when you actually close a position — it won't move just because prices do.
@@ -25,7 +25,7 @@ Below the numbers, an allocation bar shows how your combined net worth splits ac
 
 ## Accounts
 
-The **Accounts** rail lists every wallet feeding your portfolio: **Main wallet** pinned first (marked "Parent account"), then one row per strategy wallet — each a separate, isolated wallet dedicated to a single trading strategy. Any strategy cancelled while its wallet still held a balance appears below in its own **Closed · still funded** group instead. An active strategy whose wallet has been drained to zero shows a dimmed row instead — you can still **Fund** it, but there's nothing to withdraw. Each row shows that account's balance and live PnL. On desktop, click a row to inspect it in a detail pane next to the rail. On mobile, tap a row to open the same detail view in a bottom sheet that slides up over the page. See [Strategy Wallets](/strategies#strategy-wallets) for how these wallets get created and funded.
+The **Accounts** rail lists every wallet feeding your portfolio: **Main wallet** pinned first (marked "Parent account"), then one row per strategy wallet — each a separate, isolated wallet dedicated to a single trading strategy. A wallet whose strategy is still active stays on the rail even once its balance is drained to zero — you can still **Fund** it from there. Wallets belonging to a strategy that's paused, stopped, or closed instead sit behind a **Show inactive** toggle at the bottom of the rail, whether or not they still hold a balance; you can still **Fund** a paused or stopped strategy's wallet from that list, but a closed strategy's wallet can only be viewed. Each row shows that account's balance and live PnL. On desktop, click a row to inspect it in a detail pane next to the rail. On mobile, tap a row to open the same detail view in a bottom sheet that slides up over the page. See [Strategy Wallets](/strategies#strategy-wallets) for how these wallets get created and funded.
 
 <Note>
   Not signed in yet? Visiting Portfolio shows a blurred preview of the book with no numbers, plus **Sign in** / **Create account** buttons — your net worth, wallets, and trade history stay private until you sign in.

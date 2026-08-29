@@ -53,7 +53,7 @@ Farming strategies (Polymarket Farming) and other on-chain scheduled strategies 
   **Pausing or stopping a strategy does not return its funds.** The strategy wallet and any open positions stay in place until you withdraw manually.
 </Warning>
 
-If a strategy is cancelled while its wallet still holds a balance, it moves to a **Closed · still funded** group in the Accounts rail — Withdraw is still available there, and the row disappears once the balance reaches zero.
+If a strategy is paused, stopped, or cancelled, its wallet moves behind the **Show inactive** toggle in the Accounts rail — whether or not it still holds a balance. Withdraw is still available there for a cancelled strategy's wallet, and the row stays listed even once the balance reaches zero.
 
 See [Strategies → Strategy Wallets](/strategies#strategy-wallets) for the full setup, funding, and withdrawal flow.
 
