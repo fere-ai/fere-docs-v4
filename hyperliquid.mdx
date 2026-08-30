@@ -1,7 +1,7 @@
 ---
 title: "Hyperliquid — Perpetual Futures from Fere"
 sidebarTitle: "Hyperliquid"
-description: "Set up Hyperliquid perps in Fere: fund USDC from any chain, trade with leverage and TP/SL, and run Day and Swing strategies."
+description: "Set up Hyperliquid perps in Fere: fund USDC from any chain, and trade with leverage and TP/SL from chat."
 icon: "chart-line"
 keywords: ["Hyperliquid", "perps", "perpetual futures", "leverage", "Bridge2", "API wallet", "funding rates"]
 canonical: "https://docs.fereai.xyz/hyperliquid"
@@ -9,7 +9,7 @@ canonical: "https://docs.fereai.xyz/hyperliquid"
 
 > **Gradual rollout.** Hyperliquid perp trading is being released to users gradually. If you do not see setup or trading options in the app yet, go to **Settings → Contact Us** and ask to join the waitlist — we will enable access in batches.
 
-Fere connects your existing EVM wallet to [Hyperliquid](https://hyperliquid.xyz) — the leading on-chain perpetuals exchange. Fund collateral from any chain, trade longs and shorts in chat with up to 50× leverage, manage positions from the wallet panel, and run automated Day or Swing strategies once you're set up.
+Fere connects your existing EVM wallet to [Hyperliquid](https://hyperliquid.xyz) — the leading on-chain perpetuals exchange. Fund collateral from any chain, trade longs and shorts in chat with up to 50× leverage, and manage positions from your [Portfolio](/portfolio).
 
 ## What Is This?
 
@@ -30,18 +30,15 @@ Fere handles the hard parts: linking an API trading key to your wallet, bridging
     Open and close positions, set leverage, attach TP/SL, check funding rates, and scale out with limit orders — all through natural language.
   </Card>
   <Card title="Wallet-native withdraw" icon="arrow-up-from-line">
-    Cash out **USDC (Hyperliquid)** from the wallet panel. Bridge back to Arbitrum, then optionally swap to USDC on Ethereum, Base, Polygon, or other supported chains.
+    Cash out **USDC (Hyperliquid)** from Portfolio. Bridge back to Arbitrum, then optionally swap to USDC on Ethereum, Base, Polygon, or other supported chains.
   </Card>
   <Card title="Position tracking" icon="chart-mixed">
-    Open perps and HyperCore USDC show under **Assets** with Hyperliquid branding. Tap a perp to open the market on Hyperliquid; use **Sell** to close or withdraw.
-  </Card>
-  <Card title="Strategy automation" icon="robot">
-    **Day Trading** and **Swing Trading** strategies (Settings) require Hyperliquid funding before they can run scheduled perp checks.
+    Open perps and HyperCore USDC show under **Assets** in [Portfolio](/portfolio) with Hyperliquid branding. Tap a perp to open the market on Hyperliquid; use **Sell** to close or withdraw.
   </Card>
 </CardGroup>
 
 <Tip>
-  **Your EVM wallet = your Hyperliquid account.** The same address you see in the wallet panel is credited on HyperCore. Fere never creates a separate Hyperliquid login — setup only adds an API key for automated trading.
+  **Your EVM wallet = your Hyperliquid account.** The same address you see in Portfolio is credited on HyperCore. Fere never creates a separate Hyperliquid login — setup only adds an API key for trading.
 </Tip>
 
 ## Minimum Amounts & Fees
@@ -66,8 +63,8 @@ Hyperliquid trading is a two-step flow: link the API wallet, then add USDC colla
   <Step title="Open Fund Hyperliquid">
     Launch the setup modal from any of these entry points:
 
-    - **Settings → Day Trading** or **Swing Trading** — tap **Fund Hyperliquid** on the banner
-    - **Wallet panel → Assets** — when prompted for Hyperliquid collateral (strategy or trading flows)
+    - **Portfolio → Assets** — when prompted for Hyperliquid collateral
+    - **Settings → Hyperliquid** — tap **Fund Hyperliquid**
 
     The modal opens to **Enable** if you have not completed setup yet, or straight to **Fund** if the API wallet is already linked.
   </Step>
@@ -102,11 +99,11 @@ Hyperliquid trading is a two-step flow: link the API wallet, then add USDC colla
 
 ## Withdraw — From HyperCore Back to Your Wallet
 
-Withdrawals are done from the **wallet panel**, not chat.
+Withdrawals are done from **Portfolio**, not chat.
 
 <Steps>
   <Step title="Find USDC (Hyperliquid) in Assets">
-    Open the wallet panel → **Assets**. Look for **USDC (Hyperliquid)** — this is your HyperCore collateral balance, not an open perp position.
+    Open [Portfolio](/portfolio) → **Assets**. Look for **USDC (Hyperliquid)** — this is your HyperCore collateral balance, not an open perp position.
   </Step>
   <Step title="Tap Sell / Withdraw">
     Click **Sell** on the USDC (Hyperliquid) row. The modal title reads **Withdraw from Hyperliquid**.
@@ -180,13 +177,12 @@ Sell half my DOGE perp at $0.18
 | Deposit USDC collateral | **Fund Hyperliquid** modal |
 | Withdraw USDC collateral | Wallet → **USDC (Hyperliquid)** → Sell |
 | Open / close / TP/SL perps | **Chat** |
-| Close perp from UI | Wallet → perp row → Sell |
+| Close perp from UI | Portfolio → perp row → Sell |
 | Manage API keys | **Settings → Hyperliquid** |
-| Day / Swing automation | **Settings** (requires funded HL account) |
 
 ### How Hyperliquid balances show up in your wallet
 
-The wallet panel sources Hyperliquid rows from your account state on HyperCore. Each value reflects your **actual stake**, not the leveraged notional, so totals match real exposure:
+Portfolio sources Hyperliquid rows from your account state on HyperCore. Each value reflects your **actual stake**, not the leveraged notional, so totals match real exposure:
 
 | Row | What it shows | How it's computed |
 | --- | --- | --- |
@@ -198,12 +194,6 @@ Implications:
 - The portfolio sum equals **`accountValue` (perp equity) + free spot USDC**, not the leveraged notional sum.
 - An underwater cross-margin position whose `|unrealizedPnL| > marginUsed` can momentarily show a **negative position value** before HL's liquidation engine fires. This is expected — the row reflects real-time stake.
 - USDC locked in open spot limit orders (`hold`) is intentionally excluded from cash. If you cancel those orders, the freed USDC will appear on the next refresh.
-
-## Automated Strategies
-
-**Day Trading** and **Swing Trading** under Settings run scheduled checks against your Hyperliquid account. Each shows a **Fund Hyperliquid** CTA until setup and collateral are in place.
-
-These strategies use the same API wallet and collateral as manual chat trading. Keep enough USDC on HyperCore for margin, and review open positions in the wallet panel or by asking the agent.
 
 ## Troubleshooting
 
@@ -225,7 +215,7 @@ These strategies use the same API wallet and collateral as manual chat trading. 
   </Accordion>
 
   <Accordion title="Position not showing after chat trade" icon="clock">
-    Hyperliquid writes are async. Wait **~5 seconds** and ask again, or refresh holdings in the wallet panel. The agent may say "submitted" until read-back confirms the fill.
+    Hyperliquid writes are async. Wait **~5 seconds** and ask again, or refresh holdings in [Portfolio](/portfolio). The agent may say "submitted" until read-back confirms the fill.
   </Accordion>
 
   <Accordion title="External API key on my address" icon="key">
