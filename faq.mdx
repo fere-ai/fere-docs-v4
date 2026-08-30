@@ -15,7 +15,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="Do I own my wallet? Can Fere access my funds?">
     **Yes, you fully own your wallet.** Fere uses Coinbase CDP Server Wallets, which are non-custodial. Your private keys live inside a Trusted Execution Environment (TEE) — a hardware-isolated enclave that neither Fere nor Coinbase can access.
 
-    You can export your private key at any time from [Portfolio](/portfolio) — tap the wallet cluster icon to open **Your Wallets**, then use **Reveal private key** next to your address. Once exported, you can import it into any external wallet like MetaMask or Phantom and access your funds completely independently of Fere.
+    You can export your private key at any time using the **key icon** next to your wallet address in the wallet panel. Once exported, you can import it into any external wallet like MetaMask or Phantom and access your funds completely independently of Fere.
 
     Fere cannot seize, freeze, move, or view your private key. This is enforced by architecture, not just policy.
   </Accordion>
@@ -23,7 +23,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="How do I export my private key to MetaMask?">
     Use this to move your **EVM wallet** (Base, Ethereum, Polygon, Arbitrum, etc.) to MetaMask:
 
-    **Step 1:** In [Portfolio](/portfolio), tap the wallet cluster icon to open **Your Wallets**, then find your EVM address (starts with 0x). Click **Reveal private key** next to it. Copy it.
+    **Step 1:** In Fere, find your EVM wallet address in the right panel (starts with 0x). Click the key icon next to it to reveal your private key. Copy it.
 
     **Step 2:** Open MetaMask (browser extension or mobile app).
 
@@ -39,7 +39,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="How do I export my private key to Phantom?">
     Use this to move your **Solana wallet** to Phantom:
 
-    **Step 1:** In [Portfolio](/portfolio), tap the wallet cluster icon to open **Your Wallets**, then find your Solana address (starts with a non-0x string). Click **Reveal private key**. Copy it.
+    **Step 1:** In Fere, find your Solana wallet address in the right panel (starts with a non-0x string). Click the key icon to reveal your Solana private key. Copy it.
 
     **Step 2:** Open Phantom (browser extension or mobile app).
 
@@ -53,11 +53,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   </Accordion>
 
   <Accordion title="What is &quot;Hide dust&quot; in the wallet?">
-    [Portfolio](/portfolio) includes a dust/unverified-balance filter that hides tokens with very small or unverified balances — typically leftover fragments from trades. This keeps your asset list clean and focused on your meaningful holdings. Turn it off to see everything.
-  </Accordion>
-
-  <Accordion title="Can I delete my account?">
-    Yes. Go to **Settings → Privacy → Delete Account**. Fere walks you through a short preview-then-confirm flow so you can see what will be removed before you finalize it, and shows a scheduled purge date once the request is submitted. If your account has something blocking deletion (for example, an open payment dispute), Fere tells you the specific reason so you can resolve it first.
+    The **"Hide dust (&lt;$0.05)"** checkbox in your wallet panel hides tokens with very small balances — typically leftover fragments from trades. This keeps your asset list clean and focused on your meaningful holdings. Uncheck it to see everything.
   </Accordion>
 </AccordionGroup>
 
@@ -71,11 +67,11 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="What is TP/SL and how does it work?">
     **TP (Take-Profit)** automatically sells your token when it rises to a price you set — locking in gains. **SL (Stop-Loss)** automatically sells when it drops to a price you set — limiting losses.
 
-    What makes Fere special is that you can set TP/SL on **any token**, including obscure memecoins and microcaps that other platforms can't support. Just tell Fere: *"Set TP at +50% and SL at -20% on my BRETT position"* and it's done. Active TP/SL orders appear right under the token in [Portfolio](/portfolio).
+    What makes Fere special is that you can set TP/SL on **any token**, including obscure memecoins and microcaps that other platforms can't support. Just tell Fere: *"Set TP at +50% and SL at -20% on my BRETT position"* and it's done. Active TP/SL orders appear right under the token in your wallet panel.
   </Accordion>
 
   <Accordion title="How do limit orders work on Fere?">
-    Limit orders let you set a price at which you want to buy or sell a token. Once the market reaches your target price, Fere executes the trade automatically. You can view all your active limit orders in the **Limit Orders** section of [Portfolio](/portfolio).
+    Limit orders let you set a price at which you want to buy or sell a token. Once the market reaches your target price, Fere executes the trade automatically. You can view all your active limit orders in the **Limit Orders** tab of your wallet panel.
 
     Unlike centralized exchanges, Fere can place limit orders on any DEX token — even ones that aren't listed anywhere else.
   </Accordion>
@@ -109,7 +105,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
 
 <AccordionGroup>
   <Accordion title="How much does it cost to use Fere?">
-    Each AI agent conversation costs **15 credits**. You get 200 credits free at signup (valid for 14 days). Credit packs start at **$5 for 300 credits**, so a single agent query costs about $0.25. Larger packs give you more credits per dollar.
+    Each AI agent conversation costs **15 credits**. A scheduled Market Pulse execution costs **70 credits**. You get 200 credits free at signup (valid for 14 days). Credit packs start at **$5 for 300 credits**, so a single agent query costs about $0.25. Larger packs give you more credits per dollar.
   </Accordion>
 
   <Accordion title="How do I get free credits?">
@@ -135,11 +131,11 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   </Accordion>
 
   <Accordion title="Which chains does Fere support?">
-    Fere supports **6 chains** for swaps, transfers, and bridging: Ethereum, Base, Arbitrum, BNB Chain, Polygon, and Solana — plus **Hyperliquid** for perpetual futures. You can see all supported chains in your [Portfolio](/portfolio). New chains are added regularly.
+    Fere supports **6 chains** for swaps, transfers, and bridging: Ethereum, Base, Arbitrum, BNB Chain, Polygon, and Solana — plus **Hyperliquid** for perpetual futures. You can see all supported chains at the bottom of your wallet panel. New chains are added regularly.
   </Accordion>
 
   <Accordion title="How do I add funds to my wallet?">
-    Click the **"Add Funds"** button on [Portfolio](/portfolio). You can deposit crypto directly to your Fere wallet addresses — send EVM tokens to your 0x address or SOL to your Solana address. Both addresses are visible in the **Your Wallets** modal (tap the wallet cluster icon) and can be copied with one click.
+    Click the **"Add Funds"** button at the top of your wallet panel. You can deposit crypto directly to your Fere wallet addresses — send EVM tokens to your 0x address or SOL to your Solana address. Both addresses are visible in the wallet panel and can be copied with one click.
   </Accordion>
 
   <Accordion title="Is my trading data private?">
@@ -147,10 +143,6 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   </Accordion>
 
   <Accordion title="Can I see my past conversations?">
-    Yes. All your past conversations are saved and listed under **Chats**. Click any conversation to reopen it and continue where you left off. This makes it easy to reference previous trades, strategies, or analysis.
-  </Accordion>
-
-  <Accordion title="Where can I see a history of my on-chain activity and notifications?">
-    Open **Activities** to see a full history of your swaps, transfers, and other on-chain events, filterable by time range (today, yesterday, last 7/30 days, or a custom range). The notification bell in the top bar surfaces the same events in real time as they happen.
+    Yes. All your past conversations are saved and listed in the left sidebar under **Chats**. Click any conversation to reopen it and continue where you left off. This makes it easy to reference previous trades, strategies, or analysis.
   </Accordion>
 </AccordionGroup>

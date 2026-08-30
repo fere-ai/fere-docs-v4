@@ -11,11 +11,14 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Features
 
+- [Market Pulse](https://docs.fereai.xyz/market-pulse): Social and news digest distilled into actionable crypto summaries.
 - [Recipes](https://docs.fereai.xyz/recipes): One-click workflows for common trading and research tasks.
 - [Strategies](https://docs.fereai.xyz/strategies): Automate instructions on a schedule with memory across runs.
 - [Strategy Tools (fere_tools)](https://docs.fereai.xyz/strategy-tools): Sandbox SDK catalog for strategy automation.
-- [Hyperliquid](https://docs.fereai.xyz/hyperliquid): Perpetual futures, funding, leverage, and manual chat trading.
+- [Polymarket](https://docs.fereai.xyz/polymarket): Discover, analyze, and trade prediction markets from Fere.
+- [Hyperliquid](https://docs.fereai.xyz/hyperliquid): Perpetual futures, funding, leverage, and automated strategies.
 - [Cross-Chain](https://docs.fereai.xyz/cross-chain): Gasless bridging and swaps across major chains.
+- [Discover](https://docs.fereai.xyz/discover): AI-curated token feed from on-chain and smart-money signals.
 
 ## Developer Tools
 
@@ -23,8 +26,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Wallet & Rewards
 
-- [Wallet](https://docs.fereai.xyz/wallet): Coinbase CDP security, key export, and non-custodial ownership.
-- [Portfolio](https://docs.fereai.xyz/portfolio): Balances, PnL, deposits, and withdrawals across your accounts.
+- [Wallet](https://docs.fereai.xyz/wallet): Coinbase CDP security, balances, and key export.
 - [Credits](https://docs.fereai.xyz/credits): How agent actions are billed and how to top up.
 - [Subscriptions](https://docs.fereai.xyz/subscriptions): Lite, Pro, and Whale monthly credit plans.
 - [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): Invite friends and earn credits.

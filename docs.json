@@ -35,11 +35,14 @@
       {
         "group": "Features",
         "pages": [
+          "market-pulse",
           "recipes",
           "strategies",
           "strategy-tools",
+          "polymarket",
           "hyperliquid",
-          "cross-chain"
+          "cross-chain",
+          "discover"
         ]
       },
       {
@@ -51,8 +54,7 @@
       {
         "group": "Your Wallet",
         "pages": [
-          "wallet",
-          "portfolio"
+          "wallet"
         ]
       },
       {
@@ -101,12 +103,16 @@
             "href": "/agent"
           },
           {
+            "label": "Market Pulse",
+            "href": "/market-pulse"
+          },
+          {
             "label": "Strategies",
             "href": "/strategies"
           },
           {
-            "label": "Hyperliquid",
-            "href": "/hyperliquid"
+            "label": "Discover",
+            "href": "/discover"
           }
         ]
       },
@@ -124,10 +130,6 @@
           {
             "label": "Wallet & Security",
             "href": "/wallet"
-          },
-          {
-            "label": "Portfolio",
-            "href": "/portfolio"
           }
         ]
       },
