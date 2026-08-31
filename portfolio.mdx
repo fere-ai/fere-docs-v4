@@ -54,7 +54,7 @@ Selecting a strategy row instead shows that strategy's own isolated wallet:
 - Balance, its EVM and/or Solana address (each with a copy button), and **Fund** / **Withdraw** buttons. **Fund** doesn't appear for a closed strategy — only **Withdraw** does.
 - **Withdraw** opens a token-and-amount modal (with a **Max** shortcut) for spot holdings, or a separate Polymarket cash withdrawal flow when the balance you're pulling is Polymarket cash — Fere routes you to the right one based on what the wallet is holding. Funds tied up in an open Hyperliquid or Polymarket position must be closed first; only free balance can be withdrawn.
 - A **Composition** donut and the same **venue lens**, built from that strategy's own holdings, filtering the positions list below it.
-- A read-only **Positions** list. Strategies trade automatically from their own wallet, so there's no **Sell** or **TP/SL** here, and no separate trade history for a single strategy — use Main Wallet's Trade History for a cross-account activity feed instead.
+- A **Positions** list. Strategies trade automatically from their own wallet, so there's no general **Sell** or **TP/SL** here and no separate trade history for a single strategy — use Main Wallet's Trade History for a cross-account activity feed instead. Two exits still work on a strategy position because Withdraw can't move them to Main directly: **Redeem** a resolved Polymarket position, and **Sell** on a Hyperliquid spot holding.
 
 <Info>
   Each venue's PnL is sourced from that venue where possible — Polymarket and Hyperliquid report their own lifetime PnL, while token PnL is calculated from your trade history on Fere. If a venue's data is temporarily unavailable, its PnL shows as `--` instead of a number.
