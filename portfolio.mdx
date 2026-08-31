@@ -11,10 +11,12 @@ The **Portfolio** page (`/portfolio`) is your book of accounts — Main plus eve
 
 ## What You See on the Book
 
-- **Total net worth** — Main + active strategies (+ funded closed strategies). There is no separate “Balance” label on these totals.
+- **Total net worth** — Main + every strategy wallet (active and inactive). There is no separate “Balance” label on these totals.
 - **Realized PnL** and **traded volume** — portfolio-level figures.
-- **Allocation** — how value is split across Main and strategies.
+- **Allocation** — how value is split across Main, active strategies, and inactive wallets.
 - **Wallets** — sticky heading; each row shows name, status, and USD.
+
+The main list is **Main + wallets bound to an active strategy**. Those rows stay visible even at $0. Paused, stopped, or leftover wallets sit behind **Show inactive** even when they still hold funds. There is no separate Closed section.
 
 Day one (nothing funded yet) shows a short **Deposit** / **Browse strategies** prompt above the wallets list. Main still appears so you can open it and deposit.
 
@@ -37,8 +39,9 @@ If Main has no open positions and no strategy fills yet, you see **No strategy t
 ### Strategy wallet
 
 - Isolated addresses, **Fund** / **Withdraw** on the wallet header.
-- Empty (unfunded) strategies are **Inactive · no balance**. The mark is an empty well — not a letter badge. Fund from Main to activate.
+- Empty (unfunded) **active** strategies stay on the main rail at $0. Fund from Main to add capital.
 - Empty holdings show **No holdings yet** and **Open strategy**. Fund lives on the header, not on the deposit-wallets row.
+- **Positions** hide swap **Sell** — isolated-wallet swaps would hit Main, so unwind ordinary tokens with **Withdraw**. **Redeem** stays for resolved Polymarket shares, and **Sell** stays on Hyperliquid spot rows. Withdraw cannot move those until they are converted to cash.
 
 ## Fund / Deposit / Withdraw From the List
 
