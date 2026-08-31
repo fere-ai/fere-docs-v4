@@ -1,0 +1,64 @@
+---
+title: "Portfolio — Book & Wallet"
+sidebarTitle: "Portfolio"
+description: "See combined net worth across Main and every strategy wallet, then inspect positions, history, Fund, and Deposit in the selected wallet."
+icon: "chart-pie"
+keywords: ["portfolio", "net worth", "Main wallet", "strategy wallet", "trade history", "fund", "deposit", "inactive"]
+canonical: "https://docs.fereai.xyz/portfolio"
+---
+
+The **Portfolio** page (`/portfolio`) is your book of accounts — Main plus every strategy wallet — with a combined net worth that does not change when you drill into a single wallet. The header chip left of notifications is that same combined total and opens this page.
+
+## What You See on the Book
+
+- **Total net worth** — Main + every strategy wallet (active and inactive). There is no separate “Balance” label on these totals.
+- **Realized PnL** and **traded volume** — portfolio-level figures.
+- **Allocation** — how value is split across Main, active strategies, and inactive wallets.
+- **Wallets** — sticky heading; each row shows name, status, and USD.
+
+The main list is **Main + wallets bound to an active strategy**. Those rows stay visible even at $0. Paused, stopped, or leftover wallets sit behind **Show inactive** even when they still hold funds. There is no separate Closed section.
+
+Day one (nothing funded yet) shows a short **Deposit** / **Browse strategies** prompt above the wallets list. Main still appears so you can open it and deposit.
+
+## Open a Wallet
+
+Tap an account row:
+
+- **Desktop** — in-page split: book on the left, selected wallet on the right (no overlay).
+- **Mobile** — bottom sheet for the selected wallet.
+
+### Main wallet
+
+- Balance, primary **Add Funds**, and wallet details (EVM + Solana cluster → Your Wallets).
+- Venue lens (All / Tokens / Polymarket / Hyperliquid / Yield) filters what is below.
+- **Open Positions** — live holdings (sell / redeem where available).
+- **History** — cross-venue activity; scrolls to load older pages (no “Load more”).
+
+If Main has no open positions and no strategy fills yet, you see **No strategy trades yet** with **Go to strategies**. Positions and History are not stacked on top of each other.
+
+### Strategy wallet
+
+- Isolated addresses, **Fund** / **Withdraw** on the wallet header.
+- Empty (unfunded) **active** strategies stay on the main rail at $0. Fund from Main to add capital.
+- Empty holdings show **No holdings yet** and **Open strategy**. Fund lives on the header, not on the deposit-wallets row.
+- **Positions** hide swap **Sell** — isolated-wallet swaps would hit Main, so unwind ordinary tokens with **Withdraw**. **Redeem** stays for resolved Polymarket shares, and **Sell** stays on Hyperliquid spot rows. Withdraw cannot move those until they are converted to cash.
+
+## Fund / Deposit / Withdraw From the List
+
+On each account row:
+
+| Account | Actions |
+| --- | --- |
+| Main | **Deposit** → same Add Funds flow as elsewhere |
+| Strategy | **Fund** / **Withdraw** → strategy transfer modals |
+
+These open the modal directly. After a successful fund, withdraw, or sell, **every wallet in the book refreshes** (Main + strategies) so moved value is not stale. One wallet failing to refresh does not fail the transfer itself.
+
+## Hide Dust & Unverified
+
+The same hide-dust / hide-unverified toggles used in the wallet panel apply here. If filters zero every visible balance, the empty prompt may appear — but the **wallets list stays** so you can still open Main for wallets and history.
+
+## Related
+
+- [Wallet & Security](/wallet) — panel on `/app`, key export, Add Funds.
+- [Strategies](/strategies) — create and run strategy agents that get their own wallets.

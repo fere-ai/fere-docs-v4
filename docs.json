@@ -54,7 +54,8 @@
       {
         "group": "Your Wallet",
         "pages": [
-          "wallet"
+          "wallet",
+          "portfolio"
         ]
       },
       {
