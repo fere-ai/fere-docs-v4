@@ -109,3 +109,11 @@ In Codex, open the MCP settings and choose **Add Streamable HTTP MCP**. Paste `h
 <Warning>
   **OAuth Is Handled By Your Client.** Fere never sees your client credentials. Each provider runs its own OAuth flow against your Fere account — the URL above is the only thing you ever paste. Revoke access anytime from your Fere account settings.
 </Warning>
+
+## Trading tools and wait time
+
+Write tools — `fere_swap`, `fere_limit_order`, earn deposit/withdraw/enable, perp open/close/fund/withdraw, and spot buy/sell — **wait up to 90 seconds** for the on-chain result. You do **not** pass a `timeout`. The server always uses the API max (90).
+
+The matching REST query is `?wait=true&timeout=` with a **5–90 second** range (default 60). Values above 90 return **422** before the body is parsed. For longer waits, call the REST API with `wait=false` and poll `GET /v1/tasks/{task_id}`.
+
+Read-only tools (`fere_wallets`, `fere_holdings`, `fere_credits`, `fere_chains`, markets, open orders) return immediately.
