@@ -46,12 +46,6 @@ A few examples to get you started:
   <Card title="Whale-Gated Entry" icon="arrow-trend-up">
     *"Every hour, scan Base and Solana for $10M–$100M mcap tokens. Only buy if whale net-buy exceeds $200k in 24h and the score is above 85."*
   </Card>
-  <Card title="Polymarket Farming Autopilot" icon="chart-line">
-    *"Every hour, check my Polymarket balance and daily credit usage. Scan macro and entertainment markets, cap exposure at $100, and place $5 limit buys 2% below market when conditions pass."*
-  </Card>
-  <Card title="High-Frequency YES Entry" icon="bolt">
-    *"Every 5 minutes, verify Polymarket cash is above $20, scan politics and geopolitics markets (no sports), buy $10 YES, and set a 10% take-profit limit sell."*
-  </Card>
   <Card title="Portfolio Drawdown Manager" icon="shield-halved">
     *"Every 4 hours, check open positions. If any drops 20% from entry, reduce by half and set a re-entry alert at -10% from current price."*
   </Card>
@@ -59,7 +53,7 @@ A few examples to get you started:
     *"Daily at 5:30am, surface the 3 highest-conviction asymmetric setups across all chains. Score by sentiment plus on-chain signal. Report only — no trades."*
   </Card>
   <Card title="Silent Background Runner" icon="moon">
-    *"Every 5 minutes, run my Polymarket entry rules in the background. Execute trades when conditions are met but do not post chat responses unless something fails."*
+    *"Every 5 minutes, run my entry rules in the background. Execute trades when conditions are met but do not post chat responses unless something fails."*
   </Card>
 </CardGroup>
 
@@ -151,7 +145,7 @@ While a new pass is running after a completed run, you may see *"Updating recomm
 Recommendations are produced by a **dedicated background job** that runs in parallel with the executive briefing — not copied from the briefing text.
 
 1. **Gather evidence** — Fere assembles a structured snapshot of your strategy: recent and older scheduled runs, trade outcomes, holdings, error patterns (with extra weight on *recent* failures), your active strategy text, saved workspace scripts when present, optimizer metrics if enabled, and your past Strategy chat follow-ups.
-2. **Detect signals** — Rule-based checks flag themes worth addressing (for example, repeated run failures, stale errors that are already resolved, or script-specific trading context on Hyperliquid or Polymarket).
+2. **Detect signals** — Rule-based checks flag themes worth addressing (for example, repeated run failures, stale errors that are already resolved, or script-specific trading context).
 3. **Generate cards** — An AI model reads only that evidence and outputs structured recommendations. Each card must cite supporting evidence; invented balances, prices, or trade counts are not allowed.
 4. **Sanitize for product context** — Post-processing drops generic coding advice (logging, refactoring, *"edit your `.py` file"*). Steps stay in owner language: schedule changes, risk guardrails, notifications, and workspace updates via Fere — aligned with how strategies actually run (saved scripts and `strategy_builder`, not manual IDE edits).
 5. **Respect your choices** — Declined recommendations are stored so refresh passes do not suggest the same intent again.
@@ -214,9 +208,6 @@ On mobile, tap the floating **Strategy** button to open a bottom sheet with **Ru
   <Card title="DCA With Brains" icon="chart-line">
     *"Every Monday, buy $50 of ETH — but only if the 7-day RSI is below 40. Otherwise, skip."*
   </Card>
-  <Card title="Polymarket Risk Sweep" icon="shield-halved">
-    *"Every hour, exit Polymarket positions held longer than 7 days (3 days for high-risk markets). Enforce take-profit and stop-loss guardrails before scanning for new entries."*
-  </Card>
   <Card title="Cross-Chain Sentiment Scout" icon="globe">
     *"Every day at 7am, find the top 5 trending tokens on Solana and Base. Cross-check Twitter and Farcaster sentiment. Deliver a ranked report with scores — no trades."*
   </Card>
@@ -226,15 +217,10 @@ On mobile, tap the floating **Strategy** button to open a bottom sheet with **Ru
 
 ## Strategy system capabilities (`fere_tools`)
 
-Scheduled strategies run Python in a sandbox with **`fere_tools`** — a synchronous SDK aligned with Fere's gateway tools (market data, analysis, wallets, on-chain writes, [Hyperliquid](/hyperliquid), and Polymarket).
+Scheduled strategies run Python in a sandbox with **`fere_tools`** — a synchronous SDK aligned with Fere's gateway tools (market data, analysis, wallets, and on-chain writes).
 
-The full catalog (69 tools, invoke patterns, and examples) lives on a dedicated page so crawlers and readers can load Strategies without a multi-megabyte HTML document.
+The full catalog (invoke patterns and examples) lives on a dedicated page so crawlers and readers can load Strategies without a multi-megabyte HTML document.
 
 <Card title="fere_tools reference" icon="book" href="/strategy-tools">
-  Client API (`call`, `describe`, `catalog`), read/write tool list, Polymarket and Hyperliquid examples, and scheduling limits.
+  Client API (`call`, `describe`, `catalog`), read/write tool list, and scheduling limits.
 </Card>
-
-
-<Info>
-  **Day and Swing Trading strategies** (Settings) automate Hyperliquid perp checks. They require [Hyperliquid setup and funding](/hyperliquid) before the first scheduled run.
-</Info>
