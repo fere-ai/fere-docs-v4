@@ -1,6 +1,6 @@
 # Fere AI Documentation
 
-> Official docs for Fere AI — autonomous crypto trading agents, strategies, Polymarket, Hyperliquid, wallets, credits, and MCP.
+> Official docs for Fere AI — autonomous crypto trading agents, strategies, wallets, credits, and MCP.
 
 Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
@@ -13,8 +13,6 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 - [Strategies](https://docs.fereai.xyz/strategies): Automate instructions on a schedule with memory across runs.
 - [Strategy Tools (fere_tools)](https://docs.fereai.xyz/strategy-tools): Sandbox SDK catalog for strategy automation.
-- [Polymarket](https://docs.fereai.xyz/polymarket): Discover, analyze, and trade prediction markets from Fere.
-- [Hyperliquid](https://docs.fereai.xyz/hyperliquid): Perpetual futures, funding, leverage, and automated strategies.
 - [Cross-Chain](https://docs.fereai.xyz/cross-chain): Gasless bridging and swaps across major chains.
 
 ## Developer Tools
