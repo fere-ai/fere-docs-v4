@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Fere AI",
-  "description": "Official Fere AI documentation: autonomous crypto trading agents, Market Pulse, recipes, strategies, Polymarket, Hyperliquid perps, cross-chain execution, wallet security, credits, and FAQ.",
+  "description": "Official Fere AI documentation: autonomous crypto trading agents, strategies, cross-chain execution, wallet security, credits, and FAQ.",
   "colors": {
     "primary": "#EBCB8B",
     "light": "#EBCB8B",
@@ -35,14 +35,9 @@
       {
         "group": "Features",
         "pages": [
-          "market-pulse",
-          "recipes",
           "strategies",
           "strategy-tools",
-          "polymarket",
-          "hyperliquid",
-          "cross-chain",
-          "discover"
+          "cross-chain"
         ]
       },
       {
@@ -76,7 +71,8 @@
       {
         "group": "Help",
         "pages": [
-          "faq"
+          "faq",
+          "support"
         ]
       },
       {
@@ -110,16 +106,8 @@
             "href": "/agent"
           },
           {
-            "label": "Market Pulse",
-            "href": "/market-pulse"
-          },
-          {
             "label": "Strategies",
             "href": "/strategies"
-          },
-          {
-            "label": "Discover",
-            "href": "/discover"
           }
         ]
       },
@@ -129,6 +117,10 @@
           {
             "label": "FAQ",
             "href": "/faq"
+          },
+          {
+            "label": "Support",
+            "href": "/support"
           },
           {
             "label": "MCP Support",
@@ -166,6 +158,26 @@
     },
     {
       "source": "/src/_props",
+      "destination": "/"
+    },
+    {
+      "source": "/market-pulse",
+      "destination": "/"
+    },
+    {
+      "source": "/recipes",
+      "destination": "/strategies"
+    },
+    {
+      "source": "/discover",
+      "destination": "/"
+    },
+    {
+      "source": "/polymarket",
+      "destination": "/"
+    },
+    {
+      "source": "/hyperliquid",
       "destination": "/"
     }
   ],
