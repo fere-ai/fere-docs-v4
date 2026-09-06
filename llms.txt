@@ -27,6 +27,11 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 - [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): Invite friends and earn credits.
 - [Points](https://docs.fereai.xyz/points): On-chain and spend rewards with weekly leaderboard.
 
+## Account
+
+- [Settings](https://docs.fereai.xyz/settings): Email, privacy, Hyperliquid keys, invite code, account deletion.
+- [Activities](https://docs.fereai.xyz/activities): Notification and transaction history with time filters.
+
 ## Help & Legal
 
 - [FAQ](https://docs.fereai.xyz/faq): Wallet ownership, TP/SL, limit orders, credits, and points.

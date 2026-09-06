@@ -56,7 +56,8 @@
       {
         "group": "Account",
         "pages": [
-          "settings"
+          "settings",
+          "activities"
         ]
       },
       {
