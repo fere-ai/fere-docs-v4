@@ -11,7 +11,7 @@ Fere AI is the central intelligence you interact with. It's a conversational AI 
 
 ## How It Works
 
-The main interface is a chat. You'll see the **"Ask Fere Anything..."** input front and center, with your wallet always visible on the right. Below the input, you'll notice **trending topic suggestions** — these are AI-generated conversation starters based on what's happening in crypto right now. You can click any of them, or type your own message.
+The core interface is a chat. The **Home** dashboard puts an *"Ask Fere Anything..."* box front and center (alongside a Portfolio snapshot and quick views of your Market Pulse, Strategies, and trending tokens), or click **Chats** in the sidebar for the dedicated full-page chat view. Either way, your wallet stays visible on the right, and you'll see **trending topic suggestions** — AI-generated conversation starters based on what's happening in crypto right now. You can click any of them, or type your own message.
 
 When you send a message, Fere doesn't just pattern-match keywords and fire off a trade. It **decomposes your request into tasks**, reasons about each one, and executes them in the right order. If something is ambiguous, it asks you to clarify before acting.
 
@@ -74,10 +74,26 @@ This is what makes Fere different from bots that just execute a fixed command. F
   </Card>
 </CardGroup>
 
+## Confirming What Fere Does
+
+When Fere needs your input before continuing — a live-trading confirmation, a preference, or a value like an amount or percentage — it pauses and shows a card in the chat instead of guessing:
+
+- **Live trades get an explicit caution.** Approving real-money execution is called out separately from a routine yes/no or paper-trading confirmation, so "Live trading (real orders)" never looks identical to an ordinary question.
+- **Your answer stays visible.** Once you respond, the card shows the decision you made instead of disappearing — scroll back up later and you'll still see what you approved, declined, or answered.
+- **A failed reply can be retried.** If your response doesn't go through, the card shows that and lets you retry from the same card rather than losing your choice.
+
 ## Chat History
 
 Every conversation with Fere is saved. You'll see your past chats listed in the left sidebar under **Chats** — click any one to pick up where you left off.
 
+## Jumping Around a Long Thread
+
+On desktop, once a conversation is long enough to scroll, a thin navigation rail appears along the right edge of the chat pane — one tick per turn. Hover a tick to preview that turn's question, or click it to jump straight there. The rail is desktop-only and stays hidden on touch devices and small screens.
+
 ## Private Chat
 
-Need to do research without saving the conversation? Use **Private Chat** mode — your messages won't be stored in your chat history.
+Need to do research without it showing up in your history? Turn on **Private chats by default** under **Settings → Privacy**. New conversations started while it's on won't appear in your **Chats** list — you can still reopen one later via a direct link. See [Settings](/settings) for details.
+
+## Generated Files
+
+When Fere produces a file as part of its work — a chart, an export, a report — it shows up in a **Generated Files** panel alongside the conversation, where you can preview it or open it in a dedicated modal without leaving the chat.

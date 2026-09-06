@@ -27,6 +27,14 @@ Every time a strategy runs, it carries forward what it found before. By day 7 of
 
 Go to the main chat at **/app** and describe what you want to automate. The AI sets it up and it appears in **/strategies**.
 
+<Info>
+  **Ongoing trading bots need a saved script before they'll schedule.**
+
+  For a Polymarket, Hyperliquid, or on-chain trading bot you want running on autopilot, ask Fere to build and save it first (for example, *"build this as a script"*) so it writes a runnable script to the strategy's workspace. Fere then schedules it in **script mode**, rerunning that exact script every cycle instead of re-reasoning from scratch each time.
+
+  One-off research summaries and digests don't need this — they stay in **agent mode**, where Fere reasons fresh each cycle. But if you ask Fere to *"schedule this"* for a trading bot before a script exists, Fere won't silently fall back to agent mode — it'll **decline to create the schedule** and ask you to build the script first, then try scheduling again.
+</Info>
+
 <Warning>
   **Deployed strategies and the chat that created them are separate workspaces.**
 
@@ -89,6 +97,102 @@ The **Start a Strategy** section inside the Strategies page has pre-built templa
   </Card>
 </CardGroup>
 
+## Farming Strategies
+
+Alongside the templates above, **Start a Strategy** also surfaces a **Farming** preset — a ready-made, always-on automation for Polymarket. Unlike a custom strategy, you don't write an instruction: you flip a switch and tune a few numeric settings. Once started, an active Farming strategy also shows up at the top of **Your Strategies**.
+
+<CardGroup cols={1}>
+  <Card title="Polymarket Farming" icon="seedling">
+    Auto-trade small buys and sells on Polymarket to build up volume, on a timer you control.
+  </Card>
+</CardGroup>
+
+<Note>
+  Swing Trading and Day Trading farming strategies have been retired and are no longer available to start, pause, or resume. If you ran one previously, its past trades still appear in your Portfolio activity under their original label, but the strategy's detail page is no longer reachable.
+</Note>
+
+Each preset gets its own page at **/strategies/farming/[kind]**, opened by clicking its card. A status pill shows exactly where it stands, since every Farming strategy trades from its own dedicated wallet and isn't actually running just because it's switched on:
+
+- **Inactive** — the switch is off.
+- **Setting up…** — switched on, but its dedicated wallet is still being created.
+- **Setup needed** — the wallet exists, but funding or venue setup isn't finished yet, so it isn't trading.
+- **Active** — funded, set up, and trading.
+
+### Polymarket Farming
+
+Requires a Polymarket wallet with approvals set up first — the page prompts you to **Go to Polymarket setup** if you haven't. Once set up, you can tune:
+
+- **Trade size (USD)** — dollars spent per buy.
+- **Pause below balance (USD)** — stop buying if your Polymarket wallet drops below this.
+- **How often to buy / sell** — minutes between attempts.
+- **Advanced settings** (collapsed by default) — delay before the first buy and first sell, and how many market pages to scan per round.
+
+Fields come prefilled with suggested values. Flip the toggle on to start — changes take effect within a minute. Turning it off keeps your settings saved for next time.
+
+### Managing a Farming Strategy
+
+The Farming detail page's sidebar mirrors the regular Strategy Detail Page's, minus Strategy chat and Files — there's no free-form chat here, since Farming strategies run on fixed logic instead of an instruction you write. It shows:
+
+- **Runs** — every automated cycle.
+- **Transactions** — buys, sells, and other trades it executed.
+
+A **Strategy Wallet** row is pinned above these tabs, showing this strategy's own balance, a **Fund** button, and an **Open portfolio** link for withdrawals and full history — see [Strategy Wallets](#strategy-wallets) below.
+
+On mobile, tap the **Strategy** button in the top app bar to open the same sidebar as a bottom sheet.
+
+## Strategy Wallets
+
+Farming strategies (Polymarket Farming) and scheduled strategies that trade on-chain each get their own **dedicated strategy wallet** — a separate EVM and Solana address from your main wallet. The strategy's trading capital or Polymarket balance lives in this wallet, not your main one.
+
+A script-mode strategy that only reads data — a research digest or a threshold scanner with nothing to buy or sell — is the exception: it can run straight from your main wallet, skipping the fund-and-activate checklist below entirely. Fere checks the script itself to decide this, not what you typed to create it — anything that could move funds, or that Fere can't confirm is read-only, always gets its own isolated wallet instead.
+
+<Info>
+  **Started your strategy a while back?** Strategies created before dedicated wallets launched still run on your main wallet. On those, a dismissible **"Strategies v2 is here"** banner appears on the Farming card/detail page or schedule detail page, letting you know it isn't isolated yet. For a Farming strategy, stop it and start it again to move it onto its own wallet automatically; for a scheduled strategy, pause it and recreate it from chat.
+</Info>
+
+### Getting a strategy ready to trade
+
+Right after you start a Farming strategy, its detail page briefly shows **"Setting up your strategy"** — its dedicated wallet is being created (usually under a minute) — with a preview of the steps still to come: add funds, set up the venue, and activate. Once the wallet is ready, this gives way to the checklist itself.
+
+Before a new strategy can trade, its detail page (or Farming page) shows a **"Get this strategy ready"** checklist:
+
+- **Fund wallet** — deposit into the strategy's own wallet.
+- **Venue setup** — for Hyperliquid strategies, funding and enabling the account are combined into one step: depositing automatically triggers Hyperliquid setup in the background (you'll see *"Finishing trading setup in the background — usually about a minute"*). For Polymarket, setup and funding stay as two separate steps.
+- **Activate strategy** — a final switch to start it trading.
+
+Only the next incomplete step is clickable at a time. Once everything is done, the checklist collapses into a single line — *"This strategy is set up and ready to trade"* — with a **Details** toggle to re-expand the individual steps if you need to check something.
+
+### Funding a strategy wallet
+
+Tap **Fund** (or **Fund Hyperliquid** / **Fund Polymarket**) to open the fund modal:
+
+- Pick any token you hold on any supported chain — the same chain/token picker used elsewhere in Fere.
+- A **Max** shortcut fills in your full available balance for the selected token.
+- A live conversion preview shows what you'll deposit.
+- Minimums: **$50** for a Hyperliquid strategy wallet, **$5** for a Polymarket strategy wallet. Entering an amount below the minimum shows an inline "Minimum $X required" hint rather than just disabling the button.
+
+Fere swaps and bridges as needed, then credits the strategy's wallet or venue balance. A "processing" banner stays up until the deposit settles.
+
+### Where you see it
+
+- **Wallet panel** — a **Strategies** section lists a card for each of your active strategies, showing its balance and **Fund** / **Withdraw** buttons.
+- **Strategy detail page** — a compact wallet row at the top of the right sidebar (see [Right sidebar](#right-sidebar-positions-transactions-runs-files) above) shows balance and **Fund**, with an **Open portfolio** link for everything else, including **Withdraw**.
+- **Portfolio** — select this strategy's account to fund, withdraw, or review its positions and history — see [Portfolio](/portfolio).
+
+### Withdrawing funds
+
+Use **Withdraw** on the strategy wallet card to move spot tokens back to your main wallet — a **Max** shortcut fills in the full withdrawable balance. The strategy keeps running; withdrawing does not pause or stop it.
+
+Open Hyperliquid or Polymarket positions aren't included in Withdraw — close or redeem them first through the strategy's own venue flow (the same way you would from the main wallet), then withdraw the resulting spot balance.
+
+<Warning>
+  **Pausing or stopping a strategy does not return its funds.** The strategy wallet and any open positions stay exactly as they are — pausing only stops new scheduled runs. Use **Withdraw** whenever you want funds back in your main wallet.
+</Warning>
+
+### Archived strategies
+
+If a strategy is paused, stopped, or cancelled, its wallet moves behind the **Show inactive** toggle in the Accounts rail on [Portfolio](/portfolio) — whether or not it still holds a balance. Cancelled ("Closed") accounts only offer **Withdraw** (no more funding); the row stays listed even once the balance is fully withdrawn.
+
 ## Strategy Detail Page
 
 Click any strategy card to open its detail page at **/strategies/[id]**. This is your command center for one strategy — what it has done, what it traded, what it produced, and what you want it to do next.
@@ -97,22 +201,35 @@ Click any strategy card to open its detail page at **/strategies/[id]**. This is
   **This page is the home workspace for the live strategy.** Strategy chat here updates the deployed automation. The original **/app** chat where you created it remains a separate workspace — continuing there spawns a **new** strategy instead of editing this one. See [How to Create a Strategy](#how-to-create-a-strategy) for the full split.
 </Warning>
 
-### Executive briefing
+### Fund performance
 
-At the top of the page, a briefing card shows:
+For strategies with venue-reported trading data (most active strategies — spot, Hyperliquid, or Polymarket), the briefing card leads with a **Fund performance** report instead of going straight to operational stats. Newer or research-only strategies without enough data yet fall back to the plain [Operations](#operations) summary described below.
 
-- **Strategy name and description** — the label Fere assigned plus your original instruction.
-- **Health and headline** — whether the strategy is on track, degraded, blocked, paused, or research-only, plus a one-line verdict.
+- **Coverage badge** — **Full performance data**, **Partial (Hyperliquid)**, **Mixed venues**, **Research only**, or **Performance unavailable**, telling you how complete the numbers below are. A bullet list under the badge explains any gaps, including which venue's figures are missing and why (its API didn't respond).
+- **Headline** — a one-line summary of how the fund is doing.
+- **Two top tiles**:
+  - **Strategy equity** (Hyperliquid-only strategies — live margin used plus unrealized PnL), **Strategy exposure** (mixed-venue strategies — total holdings value across venues), or **Strategy cost basis** (spot-only, no live pricing available) — the label always matches what the number actually measures, it's never guessed from the strategy type.
+  - **Open PnL** — current unrealized profit/loss, when available.
+- **PnL reported by each venue** — one card per venue that traded (Tokens, Hyperliquid, Polymarket), each showing **Realized** PnL and, when the venue supports it, **Unrealized** PnL, plus a "via [source]" credit line. Every figure comes straight from that venue's own API rather than being calculated by Fere. If a venue's API is unavailable, its card says so instead of showing a stale or fabricated number. There's deliberately no combined total across venues, since each one reports over a different time window (for example, token PnL covers the last year while Hyperliquid and Polymarket report since the position opened) — summing them would imply a coverage guarantee Fere can't make.
+- **Performance commentary** and **Mandate adherence** — narrative write-ups of how the strategy has performed and whether it's still doing what you asked for.
+- **Fund exposure** — a list of current open positions (token/market, chain, allocation %, side and leverage for perps), each with its value and unrealized PnL.
+- **Risk & outlook** — a short note on risk and what to watch going forward, when Fere has something to flag.
+
+### Operations
+
+Below Fund performance (or at the top of the card, for strategies without a fund report yet) is an **Operations** section:
+
+- **Health status** — whether the strategy is on track, degraded, blocked, paused, or research-only.
 - **Key metrics** — run success rate, trade outcomes, and next scheduled run.
 - **Since last update** — bullet changes since the previous briefing (incremental window).
-- **Top positions** — largest holdings when portfolio data is available (hidden for research-only agents).
+- **Top positions** — largest holdings when portfolio data is available, shown here only for strategies without a Fund performance report above (otherwise see **Fund exposure**, hidden for research-only agents).
 - **Narrative sections** — at-a-glance, recent performance, and since-last-update prose grounded in verified run and trade data.
 
 A compatibility markdown summary is still stored for exports and older clients. The briefing refreshes after each completed run. If a run just finished, you may briefly see *"Updating briefing after the latest run…"* while new content is generated.
 
 ### Recommendations
 
-**Recommended actions** sit in the same briefing card, directly under the metrics and positions. They are separate from the narrative briefing: short, actionable cards tuned for *what to do next*, not a prose recap of the last run.
+**Recommended actions** sit in the same briefing card, directly under Operations' metrics (and positions, when shown). They are separate from the narrative briefing: short, actionable cards tuned for *what to do next*, not a prose recap of the last run.
 
 #### What you see on each card
 
@@ -171,23 +288,30 @@ A sticky bar at the bottom of the page shows:
 
 Just below that, the input bar accepts new instructions. Type `@` to mention another active or paused strategy when you want to reference or coordinate across automations.
 
-### Right sidebar — Past Runs, Transactions, Artifacts
+### Right sidebar — Positions, Transactions, Runs, Files
 
-On desktop, a sidebar on the right replaces the generic Files panel while you are on a strategy detail page. It stays visible for that strategy. If you open the wallet drawer, the sidebar shifts left — it is never hidden behind the wallet.
+On desktop, a sidebar on the right replaces the generic Files panel while you are on a strategy detail page. It stays visible for that strategy. From top to bottom: a status bar (run count, next run, Pause/Resume), a compact **Strategy Wallet** row, a pinned **Last run** summary, then a tabbed pane.
 
-Three collapsible sections stack vertically. Drag the dividers to resize them, and your layout is remembered per strategy:
+The tabbed pane has four tabs — **Positions**, **Transactions**, **Runs**, **Files**:
 
-| Section | What you see |
+| Tab | What you see |
 | --- | --- |
-| **Past Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. |
-| **Transactions** | Swaps, buys, sells, and other trades this strategy executed. Tap a row to expand full details inline. |
-| **Artifacts** | Files the agent generated across runs — reports, charts, exports. Click to preview or download. |
+| **Positions** | This strategy's own wallet holdings. |
+| **Transactions** | Swaps, buys, sells, and other trades this strategy executed, newest first. Each row links out to the block explorer when a transaction hash is available. |
+| **Runs** | Numbered list of every scheduled cycle (`Run #1`, `Run #2`, …) with timestamps. Click a run to open a detail modal with the full agent outcome and any on-chain **Activities** from that cycle. |
+| **Files** | Files the agent generated across runs — reports, charts, exports. Click to preview or download. |
 
-On mobile, tap the floating **Strategy** button to open a bottom sheet with **Runs**, **Txns**, and **Files** tabs containing the same data.
+The **Strategy Wallet** row shows this strategy's balance with a refresh button, a **Fund** button, and an **Open portfolio** link that opens this strategy's account in [Portfolio](/portfolio) in a new tab. Withdrawing is done from Portfolio, not from this row — see [Where you see it](#where-you-see-it) below.
+
+On mobile, tap the **Strategy** button in the top app bar (it only appears while you're on a strategy page) to open the same tabbed pane in a bottom sheet.
 
 <Tip>
   **Deep-link to a run or message.** Links from notifications and run history can scroll you directly to the relevant chat message or run in the detail page.
 </Tip>
+
+<Note>
+  **Strategy couldn't load?** If the page can't reach your strategy (session expired, no access, not found, or a temporary error), it shows a full-page message explaining why, with **Retry** and **Back to Strategies** buttons instead of the chat and sidebar.
+</Note>
 
 <Info>
   **Pause or stop anytime.** You are always in control. Pause from the Strategies list, or tell the agent in the detail input (*"Pause this strategy until Monday"*). No lock-in, no penalties — the agent stops on the next safe boundary.

@@ -1,0 +1,72 @@
+---
+title: "Portfolio — Your Cross-Venue Dashboard"
+sidebarTitle: "Portfolio"
+description: "See your total value, live and realized PnL, and full trade history across every venue — tokens, Polymarket, and Hyperliquid — in one place."
+icon: "gauge-high"
+keywords: ["Fere portfolio", "PnL dashboard", "trade history", "cross-venue", "realized PnL", "unrealized PnL"]
+---
+
+Portfolio pulls your holdings, profit and loss, and trade history from every venue into a single dashboard. Open **Portfolio** from the navigation to see it. The page has two parts: a summary banner across the top, and an **Accounts** rail on the left that switches the detail pane on the right between your main wallet and each strategy wallet.
+
+## Total Net Worth
+
+A summary banner sits at the top of the page and doesn't change as you switch accounts below it:
+
+- **Total Net Worth** — the combined USD value of your main wallet plus every strategy wallet, with a caption ("Main wallet only", or "Main wallet + N strategies") showing how many accounts feed it.
+- **Unrealized today** — combined live position PnL across all of those accounts.
+- **Realized PnL** — profit or loss you've already locked in, all-time. This figure covers your **main wallet only** — strategy wallets don't yet report their own realized PnL.
+- **Traded Volume** — your cumulative trading volume, all-time, also **main-wallet only**.
+
+Below the numbers, an allocation bar shows how your combined net worth splits across accounts — a segment per account, plus an aggregated **Inactive** segment if any paused, stopped, or closed strategy still holds a balance.
+
+<Tip>
+  **Live vs. Realized.** Unrealized PnL moves with the market because it's based on what you still hold. Realized PnL only changes when you actually close a position — it won't move just because prices do.
+</Tip>
+
+## Accounts
+
+The **Accounts** rail lists every wallet feeding your portfolio: **Main wallet** pinned first (marked "Parent account"), then one row per strategy wallet — each a separate, isolated wallet dedicated to a single trading strategy. A wallet whose strategy is still active stays on the rail even once its balance is drained to zero — you can still **Fund** it from there. Wallets belonging to a strategy that's paused, stopped, or closed instead sit behind a **Show inactive** toggle at the bottom of the rail, whether or not they still hold a balance; you can still **Fund** a paused or stopped strategy's wallet from that list, but a closed strategy's wallet can only be viewed. Each row shows that account's balance and live PnL. On desktop, click a row to inspect it in a detail pane next to the rail. On mobile, tap a row to open the same detail view in a bottom sheet that slides up over the page. See [Strategy Wallets](/strategies#strategy-wallets) for how these wallets get created and funded.
+
+<Note>
+  Not signed in yet? Visiting Portfolio shows a blurred preview of the book with no numbers, plus **Sign in** / **Create account** buttons — your net worth, wallets, and trade history stay private until you sign in.
+</Note>
+
+## Main Wallet
+
+Selecting **Main wallet** (the default) shows your parent account in full:
+
+- Balance, a **"By chain / protocol"** composition donut showing how your holdings break down, and a **venue lens** — a chip for **Tokens** (your regular on-chain holdings), **Polymarket**, and **Hyperliquid**. Click a chip to filter both **Open Positions** and **Trade History** below down to that venue; click it again to clear the filter.
+- **Open Positions** — everything you currently hold: expand a row for details, **Sell**, **Redeem** a resolved Polymarket position, or manage an attached **TP/SL** order.
+- **Trade History** — a chronological log of every trade and transfer, newest first. Each row shows the asset, side, and USD value. An **Activity** tag shows what originated it — a **Strategy** or **Chat** you can click through to, an automated **AI** action (like a scheduled rebalance), a **manual** order, or **off-platform** activity that happened directly on a venue outside of Fere. Scroll down and older history loads automatically.
+- A **Filters** control opens **Hide dust** and **Hide unverified** — toggles that filter small balances and unverified tokens out of the view.
+- A refresh icon next to your balance forces an immediate re-fetch of your holdings, instead of waiting for the automatic refresh.
+- The wallet-cluster icon next to your balance opens **Your Wallets** — every wallet address with copy, block-explorer, and reveal-private-key controls. See [Wallet & Security](/wallet).
+- **Add Funds** opens the deposit flow, which also lists every chain Fere currently supports.
+
+<Note>
+  Trade History rows show what happened, not a per-trade profit number — for PnL, use the summary banner and venue lens above.
+</Note>
+
+## A Strategy Wallet
+
+Selecting a strategy row instead shows that strategy's own isolated wallet:
+
+- Balance, its EVM and/or Solana address (each with a copy button), and **Fund** / **Withdraw** buttons. **Fund** doesn't appear for a closed strategy — only **Withdraw** does.
+- **Withdraw** opens a token-and-amount modal (with a **Max** shortcut) for spot holdings, or a separate Polymarket cash withdrawal flow when the balance you're pulling is Polymarket cash — Fere routes you to the right one based on what the wallet is holding. Funds tied up in an open Hyperliquid or Polymarket position must be closed first; only free balance can be withdrawn.
+- A **Composition** donut and the same **venue lens**, built from that strategy's own holdings, filtering the positions list below it.
+- A **Positions** list. Strategies trade automatically from their own wallet, so there's no general **Sell** or **TP/SL** here and no separate trade history for a single strategy — use Main Wallet's Trade History for a cross-account activity feed instead. Two exits still work on a strategy position because Withdraw can't move them to Main directly: **Redeem** a resolved Polymarket position, and **Sell** on a Hyperliquid spot holding.
+
+<Info>
+  Each venue's PnL is sourced from that venue where possible — Polymarket and Hyperliquid report their own lifetime PnL, while token PnL is calculated from your trade history on Fere. If a venue's data is temporarily unavailable, its PnL shows as `--` instead of a number.
+</Info>
+
+<Tip>
+  Portfolio refreshes automatically about once a minute, and whenever you switch back to the tab.
+</Tip>
+
+## Related
+
+- [Wallet & Security](/wallet) — your wallet, key ownership, and key export
+- [Strategies](/strategies#strategy-wallets) — how strategy wallets get created and funded
+- [Polymarket](/polymarket) — prediction-market positions shown here
+- [Hyperliquid](/hyperliquid) — perp positions shown here
