@@ -22,6 +22,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 ## Wallet & Rewards
 
 - [Wallet](https://docs.fereai.xyz/wallet): Coinbase CDP security, balances, and key export.
+- [Portfolio](https://docs.fereai.xyz/portfolio): Cross-venue dashboard — net worth, positions, trade history, and orders.
 - [Credits](https://docs.fereai.xyz/credits): How agent actions are billed and how to top up.
 - [Subscriptions](https://docs.fereai.xyz/subscriptions): Lite, Pro, and Whale monthly credit plans.
 - [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): Invite friends and earn credits.

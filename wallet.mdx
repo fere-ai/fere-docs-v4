@@ -7,19 +7,16 @@ keywords: ["wallet security", "Coinbase CDP", "TEE", "non-custodial", "private k
 canonical: "https://docs.fereai.xyz/wallet"
 ---
 
-Your wallet is always visible on the right side of the screen — showing your balance, assets, and active orders in real time. Under the hood, it's powered by Coinbase's most advanced wallet infrastructure.
+Your wallet shows balances, assets, and active orders in real time from the **Portfolio** page. Under the hood, it's powered by Coinbase's most advanced wallet infrastructure.
 
 ## What You See
 
-The wallet panel is always visible on the right side of the Fere interface. At a glance, you can see:
+Open **Portfolio** from the top navigation, then select **Main wallet** (pinned first in the Accounts rail — this is your parent Fere wallet, as opposed to a strategy's own dedicated wallet). From there you can see:
 
-- **Total balance** — Your aggregate holdings across all chains.
-- **Wallet addresses** — Both your EVM address (for Base, Ethereum, Polygon, etc.) and your Solana address, each with a key icon to export your private key.
-- **Add Funds** — One-click deposit into your wallet.
-- **Assets tab** — Your token holdings with USD values, organized by chain. A "Hide dust" checkbox filters out tiny balances under $0.05.
-- **Limit Orders tab** — All your active limit orders in one place.
-- **TP/SL Orders** — Active take-profit and stop-loss positions appear right under the relevant token.
-- **Supported chains** — Shown at the bottom of the wallet panel.
+- **Total balance** — Your aggregate holdings across all chains, with a composition donut and a venue lens (Tokens / Polymarket / Hyperliquid) to filter what's below it.
+- **Your Wallets** — Click the wallet-cluster icon next to your balance to open a modal listing every wallet address (EVM and Solana), each with copy, block-explorer, and reveal-private-key controls.
+- **Add Funds** — Opens the deposit flow, which also lists every chain Fere currently supports.
+- **Positions / Trades / Orders** — A segmented control switches the view below between your current holdings (with a "Hide dust" filter for tiny balances), your trade history, and your active limit orders. Take-profit and stop-loss orders attached to a position are managed from that position's row under **Positions**.
 
 <Info icon="lock">
   **Powered by Coinbase CDP Server Wallets.** Every Fere wallet is a Coinbase Developer Platform Server Wallet — the same infrastructure trusted by the world's largest crypto exchange. Private keys live inside Trusted Execution Environments (TEEs) and never leave the secure enclave.
@@ -27,7 +24,7 @@ The wallet panel is always visible on the right side of the Fere interface. At a
 
 ## You Own Your Wallet
 
-This is critical: **your wallet is fully owned by you.** Next to each wallet address in the panel, you'll see a key icon. Click it to reveal and export your private key. You can then import that key into any external wallet like MetaMask or Phantom — meaning your funds are never locked inside Fere.
+This is critical: **your wallet is fully owned by you.** In **Your Wallets** (Portfolio → wallet-cluster icon), each wallet card has a reveal-private-key control. Click it to reveal and export your private key. You can then import that key into any external wallet like MetaMask or Phantom — meaning your funds are never locked inside Fere.
 
 <Check>
   **Full Key Ownership.** Your private key is yours. Export it anytime and use it in MetaMask (for EVM chains) or Phantom (for Solana). Fere is non-custodial — you can always access your funds independently. See the [FAQ](/faq) for step-by-step export instructions.
@@ -42,3 +39,9 @@ This is critical: **your wallet is fully owned by you.** Next to each wallet add
 - **Non-custodial** — Fere cannot seize, freeze, or move your funds. Period.
 
 **Infrastructure:** Coinbase CDP · Trusted Execution (TEE) · AWS Nitro Enclaves
+
+## Related
+
+- [Portfolio](/portfolio) — balances, positions, trade history, and orders
+- [Cross-Chain](/cross-chain) — supported chains and how bridging works
+- [Settings](/settings#hyperliquid) — connect and manage your Hyperliquid trading key
