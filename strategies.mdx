@@ -181,6 +181,7 @@ Tap **Fund** (or **Fund Hyperliquid** / **Fund Polymarket**) to open the fund mo
 - Pick any token you hold on any supported chain — the same chain/token picker used elsewhere in Fere.
 - A **Max** shortcut fills in your full available balance for the selected token.
 - A live conversion preview shows what you'll deposit.
+- Strategy wallets always trade from a stablecoin on their chain (usually USDC). If the token you pick isn't already that stablecoin, a note appears under the amount — *"Converted to [stablecoin] on [chain] — strategies trade from stablecoins"* — and Fere converts it automatically before crediting the wallet. The **Deposit** address tab shows the same reminder.
 - Minimums: **$50** for a Hyperliquid strategy wallet, **$5** for a Polymarket strategy wallet. Entering an amount below the minimum shows an inline "Minimum $X required" hint rather than just disabling the button.
 
 Fere swaps and bridges as needed, then credits the strategy's wallet or venue balance. A "processing" banner stays up until the deposit settles.
