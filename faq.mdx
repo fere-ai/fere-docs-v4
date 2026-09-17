@@ -15,7 +15,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="Do I own my wallet? Can Fere access my funds?">
     **Yes, you fully own your wallet.** Fere uses Coinbase CDP Server Wallets, which are non-custodial. Your private keys live inside a Trusted Execution Environment (TEE) — a hardware-isolated enclave that neither Fere nor Coinbase can access.
 
-    You can export your private key at any time using the **key icon** next to your wallet address in the wallet panel. Once exported, you can import it into any external wallet like MetaMask or Phantom and access your funds completely independently of Fere.
+    You can export your private key at any time from **Your Wallets** on your Portfolio — click the wallet-cluster icon next to your Main wallet balance, then the reveal-private-key control on the wallet you want. Once exported, you can import it into any external wallet like MetaMask or Phantom and access your funds completely independently of Fere.
 
     Fere cannot seize, freeze, move, or view your private key. This is enforced by architecture, not just policy.
   </Accordion>
@@ -23,7 +23,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="How do I export my private key to MetaMask?">
     Use this to move your **EVM wallet** (Base, Ethereum, Polygon, Arbitrum, etc.) to MetaMask:
 
-    **Step 1:** In Fere, find your EVM wallet address in the right panel (starts with 0x). Click the key icon next to it to reveal your private key. Copy it.
+    **Step 1:** Open **Portfolio**, select **Main wallet**, and click the wallet-cluster icon next to your balance to open **Your Wallets**. Find your EVM wallet card (starts with 0x) and click the reveal-private-key control to reveal your private key. Copy it.
 
     **Step 2:** Open MetaMask (browser extension or mobile app).
 
@@ -39,7 +39,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="How do I export my private key to Phantom?">
     Use this to move your **Solana wallet** to Phantom:
 
-    **Step 1:** In Fere, find your Solana wallet address in the right panel (starts with a non-0x string). Click the key icon to reveal your Solana private key. Copy it.
+    **Step 1:** Open **Portfolio**, select **Main wallet**, and click the wallet-cluster icon next to your balance to open **Your Wallets**. Find your Solana wallet card (starts with a non-0x string) and click the reveal-private-key control to reveal your Solana private key. Copy it.
 
     **Step 2:** Open Phantom (browser extension or mobile app).
 
@@ -53,7 +53,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   </Accordion>
 
   <Accordion title="What is &quot;Hide dust&quot; in the wallet?">
-    The **"Hide dust (&lt;$0.05)"** checkbox in your wallet panel hides tokens with very small balances — typically leftover fragments from trades. This keeps your asset list clean and focused on your meaningful holdings. Uncheck it to see everything.
+    The **"Hide dust"** filter on the **Positions** view of your Portfolio hides tokens with very small balances — typically leftover fragments from trades. This keeps your asset list clean and focused on your meaningful holdings. Turn it off to see everything.
   </Accordion>
 </AccordionGroup>
 
@@ -67,11 +67,11 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="What is TP/SL and how does it work?">
     **TP (Take-Profit)** automatically sells your token when it rises to a price you set — locking in gains. **SL (Stop-Loss)** automatically sells when it drops to a price you set — limiting losses.
 
-    What makes Fere special is that you can set TP/SL on **any token**, including obscure memecoins and microcaps that other platforms can't support. Just tell Fere: *"Set TP at +50% and SL at -20% on my BRETT position"* and it's done. Active TP/SL orders appear right under the token in your wallet panel.
+    What makes Fere special is that you can set TP/SL on **any token**, including obscure memecoins and microcaps that other platforms can't support. Just tell Fere: *"Set TP at +50% and SL at -20% on my BRETT position"* and it's done. Active TP/SL orders are managed from that position's row under **Positions** on your Portfolio's Main wallet.
   </Accordion>
 
   <Accordion title="How do limit orders work on Fere?">
-    Limit orders let you set a price at which you want to buy or sell a token. Once the market reaches your target price, Fere executes the trade automatically. You can view all your active limit orders in the **Limit Orders** tab of your wallet panel.
+    Limit orders let you set a price at which you want to buy or sell a token. Once the market reaches your target price, Fere executes the trade automatically. You can view all your active limit orders in the **Orders** tab of your Portfolio's Main wallet.
 
     Unlike centralized exchanges, Fere can place limit orders on any DEX token — even ones that aren't listed anywhere else.
   </Accordion>
@@ -99,7 +99,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
 
 <AccordionGroup>
   <Accordion title="How much does it cost to use Fere?">
-    Each AI agent conversation costs **15 credits**. You get 200 credits free at signup (valid for 14 days). Credit packs start at **$5 for 300 credits**, so a single agent query costs about $0.25. Larger packs give you more credits per dollar.
+    Agent queries use **dynamic pricing based on complexity** — a simple question costs fewer credits than one that requires multiple tools or deep research. See [Credits](/credits) for details. You get 200 credits free at signup (valid for 14 days), and credit packs start at **$5 for 300 credits**. Larger packs give you more credits per dollar.
   </Accordion>
 
   <Accordion title="How do I get free credits?">
@@ -125,11 +125,11 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   </Accordion>
 
   <Accordion title="Which chains does Fere support?">
-    Fere supports **6 chains** for swaps, transfers, and bridging: Ethereum, Base, Arbitrum, BNB Chain, Polygon, and Solana. You can see all supported chains at the bottom of your wallet panel. New chains are added regularly.
+    Fere supports **7 chains** for swaps, transfers, and bridging: Ethereum, Base, Arbitrum, BNB Chain, Polygon, Robinhood Chain, and Solana. You can see all supported chains in the **Add Funds** deposit view on your Portfolio. New chains are added regularly.
   </Accordion>
 
   <Accordion title="How do I add funds to my wallet?">
-    Click the **"Add Funds"** button at the top of your wallet panel. You can deposit crypto directly to your Fere wallet addresses — send EVM tokens to your 0x address or SOL to your Solana address. Both addresses are visible in the wallet panel and can be copied with one click.
+    Click the **"Add Funds"** button on your Portfolio's Main wallet. You can deposit crypto directly to your Fere wallet addresses — send EVM tokens to your 0x address or SOL to your Solana address. Both addresses are visible in **Your Wallets** (the wallet-cluster icon) and can be copied with one click.
   </Accordion>
 
   <Accordion title="Is my trading data private?">
@@ -142,5 +142,15 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
 
   <Accordion title="How do I contact support?">
     Email **[aron@fereai.xyz](mailto:aron@fereai.xyz)**, or DM **[@0xAron](https://x.com/0xAron)** on X for the fastest response. See the [Support](/support) page for details.
+  </Accordion>
+
+  <Accordion title="I signed up with a wallet — why am I asked to pick a strategy and a way to get updates?">
+    If you sign up by connecting a wallet, Fere shows a short one-time setup step right after signup: first it shows a short list of strategies to **follow**, then it asks how you'd like to get updates on it — **Email** or **Telegram**. Pick Telegram and you'll be asked to link your Telegram username; pick Email and updates go to the email on your account.
+
+    Following a strategy is read-only — you get periodic updates with that strategy's notes for a couple of days after you follow it, but Fere does **not** place any trades for you. You can review those updates and act on them manually whenever you want, and you're never locked into following a strategy long-term.
+
+    This step only appears for wallet-connect signups; if you sign up with email, you can start chatting with Fere right away.
+
+    If a step won't load, or you want to back out, click the help icon (a circled question mark) in the top-right of the setup dialog — it opens **Contact support** and **Sign out**.
   </Accordion>
 </AccordionGroup>
