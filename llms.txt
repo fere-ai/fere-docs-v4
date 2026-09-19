@@ -13,7 +13,9 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 - [Strategies](https://docs.fereai.xyz/strategies): Automate instructions on a schedule with memory across runs.
 - [Strategy Tools (fere_tools)](https://docs.fereai.xyz/strategy-tools): Sandbox SDK catalog for strategy automation.
+- [Portfolio](https://docs.fereai.xyz/portfolio): Total value, live and realized P&L, and positions across all your accounts.
 - [Cross-Chain](https://docs.fereai.xyz/cross-chain): Gasless bridging and swaps across major chains.
+- [Share](https://docs.fereai.xyz/share): Publish a chat as a public link and browse Explore.
 
 ## Developer Tools
 
@@ -26,6 +28,11 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 - [Subscriptions](https://docs.fereai.xyz/subscriptions): Lite, Pro, and Whale monthly credit plans.
 - [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): Invite friends and earn credits.
 - [Points](https://docs.fereai.xyz/points): On-chain and spend rewards with weekly leaderboard.
+
+## Account
+
+- [Settings](https://docs.fereai.xyz/settings): Appearance, email, privacy, Hyperliquid keys, and account deletion.
+- [Activity](https://docs.fereai.xyz/activity): Notification history for trades, transfers, and strategy runs.
 
 ## Help & Legal
 

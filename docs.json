@@ -37,7 +37,9 @@
         "pages": [
           "strategies",
           "strategy-tools",
-          "cross-chain"
+          "portfolio",
+          "cross-chain",
+          "share"
         ]
       },
       {
@@ -59,6 +61,13 @@
           "subscriptions",
           "refer-and-earn",
           "points"
+        ]
+      },
+      {
+        "group": "Account",
+        "pages": [
+          "settings",
+          "activity"
         ]
       },
       {
@@ -101,6 +110,10 @@
           {
             "label": "Strategies",
             "href": "/strategies"
+          },
+          {
+            "label": "Portfolio",
+            "href": "/portfolio"
           }
         ]
       },
