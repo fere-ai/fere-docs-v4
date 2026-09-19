@@ -1,0 +1,60 @@
+---
+title: "Settings — Manage Your Account"
+sidebarTitle: "Settings"
+description: "Appearance, email, private chats, Hyperliquid trading keys, support, and account deletion — everything you control from the Fere Settings panel."
+icon: "gear"
+keywords: ["account settings", "privacy settings", "private chat", "Hyperliquid keys", "delete account", "appearance"]
+canonical: "https://docs.fereai.xyz/settings"
+---
+
+Settings is where you manage your account, not your trading — from the theme you see to whether your chats are saved.
+
+## Opening Settings
+
+Open **Settings** from the profile menu (top-right avatar). It opens as a panel over whatever you were doing, so you can jump back to chat, Strategies, or Portfolio without losing your place.
+
+## What's Inside
+
+<CardGroup cols={2}>
+  <Card title="Appearance" icon="palette">
+    Choose how Fere looks on this device (theme).
+  </Card>
+  <Card title="Email" icon="envelope">
+    View or update the email linked to your account.
+  </Card>
+  <Card title="Privacy" icon="shield-check">
+    Toggle **Private chats by default** — new conversations won't appear in your chat history, though you can still reach them via a direct link. This is separate from turning Private Chat on for a single conversation (see the [Fere AI Agent](/agent#private-chat) page) — this setting makes it the default for every new chat.
+  </Card>
+  <Card title="Hyperliquid" icon="bolt">
+    Set up and monitor the trading keys Fere uses to trade Hyperliquid perpetuals and spot on your behalf. Shows activation status, lists every API key Hyperliquid currently authorizes for your account, and lets you re-run setup or rotate a Fere-managed key.
+  </Card>
+  <Card title="Contact Us" icon="message">
+    Reach the Fere team by email or on X. Check the [FAQ](/faq) first — most questions are answered there.
+  </Card>
+  <Card title="Refer & Earn" icon="gift">
+    Quick access to your referral link and rewards — see [Refer & Earn](/refer-and-earn) for the full program.
+  </Card>
+</CardGroup>
+
+## Deleting Your Account
+
+At the bottom of Settings is **Delete account**. This starts a multi-step confirmation flow:
+
+<Steps>
+  <Step title="Preview">
+    Fere shows you what deleting your account will affect before you confirm anything.
+  </Step>
+  <Step title="Export your keys">
+    You're prompted to export your wallet's private keys first — once your account is deleted, Fere can no longer show them to you. See [Wallet & Security](/wallet) for how key export works.
+  </Step>
+  <Step title="Tell us why (optional)">
+    You can share a reason for leaving.
+  </Step>
+  <Step title="Confirmation">
+    Your deletion request is scheduled. If you change your mind before it completes, you can cancel from the same Settings panel.
+  </Step>
+</Steps>
+
+<Warning>
+  **Export your keys before you confirm.** Fere is non-custodial, but once your account is deleted you lose the in-app way to view your private keys. If you haven't exported them beforehand, any funds left in the wallet become unreachable through Fere.
+</Warning>
