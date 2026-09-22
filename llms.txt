@@ -7,7 +7,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 ## Get Started
 
 - [Welcome](https://docs.fereai.xyz/): AI agents that actually trade — research, reason, and execute across chains.
-- [Meet Your AI Agent](https://docs.fereai.xyz/agent): How Fere decomposes requests and acts with a built-in wallet.
+- [Meet Your AI Agent](https://docs.fereai.xyz/research): How Fere decomposes requests and acts with a built-in wallet. Reached via **Research** in the top navigation.
 
 ## Features
 
