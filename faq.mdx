@@ -140,6 +140,12 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
     Yes. All your past conversations are saved and listed in the left sidebar under **Chats**. Click any conversation to reopen it and continue where you left off. This makes it easy to reference previous trades, strategies, or analysis.
   </Accordion>
 
+  <Accordion title="When I share a chat, will Google index it?">
+    Public share links (`/share/...`) are crawlable when the answer has enough substance — roughly **80 words** of real prose (code blocks and chart placeholders do not count). Short replies like “Done, bought $1 of ETH” stay out of the search index (`noindex, follow`) so thin pages do not dilute Fere’s sitewide quality signals.
+
+    Longer answers in any language — including Chinese or Japanese without spaces between words — are counted with proper word segmentation and can still be indexed. Unresolved chart placeholders (`chart_0`, `chart_1`, …) are stripped from the crawler HTML so search bots never chase a redirect loop.
+  </Accordion>
+
   <Accordion title="How do I contact support?">
     Email **[aron@fereai.xyz](mailto:aron@fereai.xyz)**, or DM **[@0xAron](https://x.com/0xAron)** on X for the fastest response. See the [Support](/support) page for details.
   </Accordion>
