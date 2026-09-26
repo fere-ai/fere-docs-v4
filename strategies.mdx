@@ -1,9 +1,9 @@
 ---
 title: "Strategies — Trade While You Sleep"
 sidebarTitle: "Strategies"
-description: "Automate any Fere instruction on a schedule — buy, rebalance, and watch markets while strategies compound context across every run."
+description: "Automate any Fere instruction on a schedule, or deploy a ready-made strategy from Discover — buy, rebalance, and watch markets while strategies compound context across every run."
 icon: "clock"
-keywords: ["trading strategies", "automated crypto", "DCA", "AI agent strategy", "scheduled trading", "autonomous strategies"]
+keywords: ["trading strategies", "automated crypto", "DCA", "AI agent strategy", "scheduled trading", "autonomous strategies", "deploy a strategy", "clone a strategy"]
 canonical: "https://docs.fereai.xyz/strategies"
 ---
 
@@ -11,7 +11,7 @@ Strategies let you automate any instruction — no matter how complex — and ha
 
 ## What Are Strategies?
 
-A strategy is an automated instruction that runs on repeat. You describe it in the chat at **/app**, tell Fere how often to run it, and sit back. Every cycle, the agent goes through the full reasoning process — scanning, analyzing, deciding, and (if conditions are met) trading.
+A strategy is an automated instruction that runs on repeat. You describe it in the chat at **/research**, tell Fere how often to run it, and sit back. Every cycle, the agent goes through the full reasoning process — scanning, analyzing, deciding, and (if conditions are met) trading.
 
 And here's what makes it powerful: **Fere remembers.**
 
@@ -25,17 +25,17 @@ Every time a strategy runs, it carries forward what it found before. By day 7 of
 
 ## How to Create a Strategy
 
-Go to the main chat at **/app** and describe what you want to automate. The AI sets it up and it appears in **/strategies**.
+Go to the main chat at **/research** and describe what you want to automate. The AI sets it up and it appears in **/strategies**.
 
 <Warning>
   **Deployed strategies and the chat that created them are separate workspaces.**
 
-  When you deploy a strategy from a chat, Fere copies the logic into a **dedicated workspace** bound to that strategy on **/strategies/[id]**. The original thread at **/app** and the live strategy **do not share files or edits** after deployment.
+  When you deploy a strategy from a chat, Fere copies the logic into a **dedicated workspace** bound to that strategy on **/strategies/[id]**. The original thread at **/research** and the live strategy **do not share files or edits** after deployment.
 
   | Where you work | What it affects |
   | --- | --- |
   | **Strategy chat** on **/strategies/[id]** | The **live** scheduled strategy — its workspace, scripts, and schedule. Use this (or **Accept** on a recommendation) to change what runs on autopilot. |
-  | **Main chat** at **/app** | A **separate** workspace. You can keep iterating there, but that work creates a **new** strategy — it does **not** update the one already deployed. |
+  | **Main chat** at **/research** | A **separate** workspace. You can keep iterating there, but that work creates a **new** strategy — it does **not** update the one already deployed. |
 
   **Rule of thumb:** To change a running strategy, open its detail page and use Strategy chat there — not the conversation where you first built it.
 </Warning>
@@ -71,11 +71,15 @@ Click **Strategies** in the top navigation bar. Here's what you'll see:
 
 - **Active / Paused tabs** — The page opens on Active. Switch to Paused to see anything you've stopped, with counts on each tab so you always know where you stand.
 - **Strategy cards** — Each card shows your original instruction, how often it runs, when it runs next (or last ran if paused), and how many times it's executed so far.
-- **Start a Strategy** — At the bottom of the page, pre-built templates let you launch a strategy in one click without typing anything.
+- **Discover** — At the bottom of the page, one grid mixes pre-built templates you can fill in and ready-made strategies published by the Fere team that you can deploy as your own with a couple of clicks.
 
-## Start a Strategy
+## Discover
 
-The **Start a Strategy** section inside the Strategies page has pre-built templates that get you running in one click. Pick one, fill in a few parameters, and Fere creates the full automated strategy for you.
+The **Discover** section inside the Strategies page is where you start something new. Every card in the grid says what it takes to get it running — some are templates you fill in yourself, others are published strategies you deploy as-is.
+
+### Pre-built templates
+
+Pick one, fill in a few parameters, and Fere creates the full automated strategy for you — same as describing it in chat, just faster.
 
 <CardGroup cols={3}>
   <Card title="Trending Tokens" icon="fire">
@@ -84,17 +88,56 @@ The **Start a Strategy** section inside the Strategies page has pre-built templa
   <Card title="DCA on Frequency" icon="rotate">
     Dollar-cost average into any token on a daily, weekly, or custom schedule.
   </Card>
+  <Card title="Advanced DCA with Condition" icon="filter">
+    Dollar-cost average, but only when a condition you set is met.
+  </Card>
   <Card title="Buy Token on Chain" icon="coins">
     Buy a specific token on any supported chain with automatic routing and verification.
   </Card>
+  <Card title="Profitable Coin Search on Chain" icon="magnifying-glass-chart">
+    Scan a chain for promising tokens and buy the ones that clear your bar.
+  </Card>
+  <Card title="Buy with TP/SL" icon="bullseye">
+    Buy a token with take-profit and stop-loss set automatically.
+  </Card>
 </CardGroup>
+
+### Published strategies
+
+Alongside the templates, Discover lists strategies the Fere team has built, tested, and published for anyone to run. Each card shows the strategy's name, a one-line thesis, and tags for its venue, asset type, and chain, so you know what it trades and where before you deploy it. Cards with enough of a track record also show a backtest badge and how many people have already deployed it.
+
+Deploying doesn't copy the strategy's logic into your own workspace the way a template does — you get your own isolated **copy** of it (a "clone"), with its own wallet, that runs the same published logic and receives the same signals as the original.
+
+<Steps>
+  <Step title="Deploy the strategy">
+    Click **Deploy** on a card to open the deploy sheet. The first section, **Deploy the strategy**, lets you tune a small set of sizing and risk knobs (tucked under an **Advanced** disclosure) and creates your clone. No funds move at this step.
+  </Step>
+  <Step title="Fund it and start">
+    Once your clone exists, the second section unlocks. Fund its wallet either by transferring from your main Fere wallet or by depositing directly to its deposit address (shown as a QR code) — both options are on screen at once. Each venue has its own minimum (for example, $50 on Hyperliquid); the deposit side shows that minimum next to the QR code so you don't send less than the strategy needs to place its first trade. You can also close the sheet and fund it later — the clone stays parked until you do.
+
+    As soon as the wallet clears the minimum, the strategy starts itself — there's no separate "Activate" step to remember. The sheet's close button switches to **Open the strategy**, which takes you straight to its detail page.
+  </Step>
+</Steps>
+
+Once deployed, a clone shows up in your Active list like any other strategy, and clicking it opens the same [Strategy Detail Page](#strategy-detail-page) — with a state card at the top instead of the executive briefing:
+
+| State | What it means |
+| --- | --- |
+| **Setting up** | Your clone's wallet is being created. This is usually done in under a minute. |
+| **Add funds to start** | The wallet exists but doesn't hold enough to clear the venue's minimum yet. |
+| **Funded and running** | The wallet is funded. The card shows the balance, an estimate of the next buy size, and how many trades it has placed so far. |
+| **Paused** | The clone stops acting on signals. Its balance stays in the wallet — pausing never moves funds — until you resume it or move the balance back to your main wallet. |
+
+<Info>
+  A clone follows the published strategy's logic — you don't get to edit its trading rules the way you can with a strategy you built yourself in chat. What you control is sizing, risk knobs, funding, and whether it runs at all (pause, resume, or archive it).
+</Info>
 
 ## Strategy Detail Page
 
 Click any strategy card to open its detail page at **/strategies/[id]**. This is your command center for one strategy — what it has done, what it traded, what it produced, and what you want it to do next.
 
 <Warning>
-  **This page is the home workspace for the live strategy.** Strategy chat here updates the deployed automation. The original **/app** chat where you created it remains a separate workspace — continuing there spawns a **new** strategy instead of editing this one. See [How to Create a Strategy](#how-to-create-a-strategy) for the full split.
+  **This page is the home workspace for the live strategy.** Strategy chat here updates the deployed automation. The original **/research** chat where you created it remains a separate workspace — continuing there spawns a **new** strategy instead of editing this one. See [How to Create a Strategy](#how-to-create-a-strategy) for the full split.
 </Warning>
 
 ### Executive briefing
@@ -154,7 +197,7 @@ The executive briefing and recommendations share the same trigger (after a compl
 
 ### Strategy chat
 
-Below the summary is **Strategy chat** — your follow-up conversation with **this deployed strategy's workspace**. This is the right place to change what runs on the schedule (not the original **/app** thread). Strategy chat is also separate from scheduled runs themselves:
+Below the summary is **Strategy chat** — your follow-up conversation with **this deployed strategy's workspace**. This is the right place to change what runs on the schedule (not the original **/research** thread). Strategy chat is also separate from scheduled runs themselves:
 
 - Ask clarifying questions (*"Why did you skip the last trade?"*)
 - Request changes (*"Raise the score threshold to 90 and cap buys at $25"*)

@@ -29,7 +29,7 @@
         "group": "Get Started",
         "pages": [
           "index",
-          "agent"
+          "research"
         ]
       },
       {
@@ -37,7 +37,9 @@
         "pages": [
           "strategies",
           "strategy-tools",
-          "cross-chain"
+          "portfolio",
+          "cross-chain",
+          "share"
         ]
       },
       {
@@ -59,6 +61,13 @@
           "subscriptions",
           "refer-and-earn",
           "points"
+        ]
+      },
+      {
+        "group": "Account",
+        "pages": [
+          "settings",
+          "activity"
         ]
       },
       {
@@ -96,11 +105,15 @@
         "items": [
           {
             "label": "Fere AI Agent",
-            "href": "/agent"
+            "href": "/research"
           },
           {
             "label": "Strategies",
             "href": "/strategies"
+          },
+          {
+            "label": "Portfolio",
+            "href": "/portfolio"
           }
         ]
       },
@@ -145,6 +158,10 @@
     ]
   },
   "redirects": [
+    {
+      "source": "/agent",
+      "destination": "/research"
+    },
     {
       "source": "/src/_props/:slug*",
       "destination": "/:slug*"
