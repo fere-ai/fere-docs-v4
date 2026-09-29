@@ -35,6 +35,7 @@
       {
         "group": "Features",
         "pages": [
+          "agents",
           "strategies",
           "strategy-tools",
           "portfolio",

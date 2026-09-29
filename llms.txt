@@ -11,6 +11,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Features
 
+- [Agents](https://docs.fereai.xyz/agents): Browse published trading agents, fund one, and track your deployed agents.
 - [Strategies](https://docs.fereai.xyz/strategies): Automate instructions on a schedule with memory across runs.
 - [Strategy Tools (fere_tools)](https://docs.fereai.xyz/strategy-tools): Sandbox SDK catalog for strategy automation.
 - [Portfolio](https://docs.fereai.xyz/portfolio): Total value, live and realized P&L, and positions across all your accounts.
