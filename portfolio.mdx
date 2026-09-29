@@ -43,7 +43,7 @@ If Main has no open positions and no strategy fills yet, you see **No strategy t
 - Isolated addresses, **Fund** / **Withdraw** on the wallet header.
 - Empty (unfunded) **active** strategies stay on the main rail at $0. Fund from Main to add capital.
 - Empty holdings show **No holdings yet** and **Open strategy**. Fund lives on the header, not on the deposit-wallets row.
-- **Positions** hide swap **Sell** — isolated-wallet swaps would hit Main, so unwind ordinary tokens with **Withdraw**. **Redeem** stays for resolved Polymarket shares, and **Sell** stays on Hyperliquid spot rows. Withdraw cannot move those until they are converted to cash.
+- **Positions** have **Sell** on every coin and position the strategy holds. It asks once — *"Sell {coin}? About $x goes to {strategy}'s wallet as USDC"* — then sells the whole position from that strategy's wallet, never from Main. Coins swap into the chain's stablecoin (a full sell also clears that coin's take-profit and cut-loss), Hyperliquid spot and perps go back to the strategy's Hyperliquid cash, and Polymarket shares sell at the live bid into its Polymarket cash. Cash rows have no Sell, and resolved Polymarket markets show **Redeem** instead. The sale shows in **Trades** once it settles.
 
 ## Fund / Deposit / Withdraw From the List
 
