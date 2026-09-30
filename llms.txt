@@ -1,6 +1,6 @@
 # Fere AI Documentation
 
-> Official docs for Fere AI — autonomous crypto trading agents, Market Pulse, recipes, strategies, Polymarket, Hyperliquid, wallets, credits, and MCP.
+> Official docs for Fere AI — autonomous crypto trading agents, strategies, wallets, credits, and MCP.
 
 Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
@@ -11,14 +11,9 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Features
 
-- [Market Pulse](https://docs.fereai.xyz/market-pulse): Social and news digest distilled into actionable crypto summaries.
-- [Recipes](https://docs.fereai.xyz/recipes): One-click workflows for common trading and research tasks.
 - [Strategies](https://docs.fereai.xyz/strategies): Automate instructions on a schedule with memory across runs.
 - [Strategy Tools (fere_tools)](https://docs.fereai.xyz/strategy-tools): Sandbox SDK catalog for strategy automation.
-- [Polymarket](https://docs.fereai.xyz/polymarket): Discover, analyze, and trade prediction markets from Fere.
-- [Hyperliquid](https://docs.fereai.xyz/hyperliquid): Perpetual futures, funding, leverage, and automated strategies.
 - [Cross-Chain](https://docs.fereai.xyz/cross-chain): Gasless bridging and swaps across major chains.
-- [Discover](https://docs.fereai.xyz/discover): AI-curated token feed from on-chain and smart-money signals.
 
 ## Developer Tools
 
@@ -35,6 +30,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 ## Help & Legal
 
 - [FAQ](https://docs.fereai.xyz/faq): Wallet ownership, TP/SL, limit orders, credits, and points.
+- [Support](https://docs.fereai.xyz/support): Email aron@fereai.xyz or DM @0xAron on X for help.
 - [Terms of Service](https://docs.fereai.xyz/legal/terms): Terms of Use for the FereAI service.
 - [Privacy Policy](https://docs.fereai.xyz/legal/privacy): GDPR-aligned privacy practices.
 - [Security Policy](https://docs.fereai.xyz/legal/security-policy): Responsible vulnerability disclosure.
