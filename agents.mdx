@@ -26,6 +26,23 @@ Agents you have already deployed leave the catalogue grid and appear together un
 - The value of its holdings
 - A link to its detail page, and an inline **Fund** button if it is still waiting for money
 
+## Cash, Selling, and Withdrawing
+
+Each agent's wallet holds its money as **Cash** (USDC on Base) alongside any positions it has opened. You'll see this on the agent's detail page and on its [Portfolio](/portfolio) strategy account.
+
+- **Fund** — Deposit USDC to the agent's wallet. The deposit picker lists USDC on each supported chain (USDG on Robinhood Chain) — it no longer mentions USDT or bridged stablecoins.
+- **Sell a position** — Use the sell button on a token row. A slider sets how much to sell, and the proceeds go to the agent's **Cash** row. Sells below a minimum size aren't available, and the dialog says so.
+- **Withdraw** — Use **Withdraw** on the **Cash** row, enter an amount in USD (or **Max**) and the address to send to. Only Cash on Base is sent out; a Withdraw button on other rows isn't offered. To withdraw money held elsewhere, sell positions to cash first.
+- **Move venue cash** — Cash sitting on Hyperliquid or Polymarket has a **Move** action that brings it back to the agent's wallet, where it can become Cash again automatically.
+
+While a sell or withdrawal is processing, its dialog can't be closed. If it takes longer than expected, you'll see a "still processing" message and balances update once it completes.
+
+Cash movements (deposits, conversions, and withdrawals) also appear as rows in the agent's trade history, under a **Cash** filter, and as cards in [Activity](/activity) with a **View Agent** link.
+
+<Note>
+  Agent wallets are managed by Fere, so they don't show a wallet address or private key the way your Main Wallet does.
+</Note>
+
 ## Find Another Agent
 
 Below your own agents, the catalogue (headed **All agents** until you have deployed one, then **Find another agent**) lists everything available.
