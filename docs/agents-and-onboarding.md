@@ -13,6 +13,7 @@ Customer-facing behavior for the Alpha Engine agent experience (webapp).
 - On `/agents/{slug}`, **Alpha editors** (same entitlement as full strategy detail in Alpha Engine) see **Edit strategy** beside “← All agents”.
 - The link opens `/strategies/{origin_schedule_id}` — the house schedule chat for that published agent.
 - Non-editors do not see the control; the edit-target API returns 404 for them.
+- If someone opens a house schedule id without editor access, the app redirects to their deployed clone (`/strategies/{clone_id}`) or the public agent page (`/agents/{slug}`).
 
 ## Onboarding strategy cards
 
