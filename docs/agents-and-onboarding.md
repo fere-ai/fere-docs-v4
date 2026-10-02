@@ -19,6 +19,11 @@ Customer-facing behavior for the Alpha Engine agent experience (webapp).
 
 `GET /onboarding/strategies` cards now include the same public facts as the catalogue where relevant: slug, assets, exit rule, leverage, take-profit / stop-loss knobs, asset types, and chains. Cards still omit scripts, hashes, and wallet internals.
 
+## Onboarding ticket (`GET /onboarding/subscription`)
+
+- **No active ticket:** the gateway returns **404**. The webapp treats that as “no subscription” (`null`) and does **not** report it as a client error in PostHog.
+- **Refresh cadence:** on **Agents** and other surfaces that read the ticket, React Query keeps the last successful response for **five minutes** (`staleTime`). Navigating away and back within that window reuses cached data; after five minutes, a remount, or an explicit refetch, the app calls the gateway again. The onboarding banner on Agents can therefore lag ticket changes by up to five minutes unless the user triggers a refetch (for example by reloading the page).
+
 ## Agent cash in wallet and activity
 
 - In an **agent wallet**, Base USDC is shown as **Cash** (withdrawable balance), distinct from spot token rows.
