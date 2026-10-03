@@ -23,3 +23,7 @@ Customer-facing behavior for the Alpha Engine agent experience (webapp).
 
 - In an **agent wallet**, Base USDC is shown as **Cash** (withdrawable balance), distinct from spot token rows.
 - **Activity** and **portfolio history** label Cash only for cash lifecycle events (fund, convert, withdraw) — not for ordinary Base USDC swap or bridge legs in a personal or agent trading flow.
+
+## Latest calls and spot liquidity (published Alpha agents)
+
+On the public agent page, **Latest calls** lists spot **buy** signals from the house strategy run. A buy is recorded only if it passes the same Codex deepest-pool liquidity floor used at trade time (`ALPHA_ENGINE_MIN_ASSET_LIQUIDITY_USD`, default **$100k**). Illiquid spot buys are rejected when the strategy emits the decision and are dropped again when the run is promoted to a signal, so a call should not appear if followers could not buy. **Sells** and **perps** are not screened this way. Chat trending-token discovery is unchanged.
