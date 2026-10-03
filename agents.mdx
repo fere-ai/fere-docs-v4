@@ -1,0 +1,64 @@
+---
+title: "Agents — Browse and Run Published Trading Agents"
+sidebarTitle: "Agents"
+description: "Browse the Agents catalogue in the Fere web app, pick a published trading agent, fund its wallet, and track it from one page."
+icon: "robot"
+keywords: ["trading agents", "agent catalogue", "copy trading", "deploy agent", "fund agent"]
+canonical: "https://docs.fereai.xyz/agents"
+---
+
+**Agents** is the first tab in the top navigation bar. It lists the trading agents the Fere team has published, and once you have started some, it keeps them in one place above the catalogue. An agent is a published strategy: you fund a wallet, it trades that wallet, and you can stop it any time. Nothing on the page is a promise of a return.
+
+## Getting Started
+
+The page follows three steps: **pick an agent**, **fund its wallet**, and let it trade. If you haven't started an agent yet, a banner at the top invites you to start with the first suggested one. After you deploy an agent that doesn't have enough funds yet, the banner changes to a **Fund** prompt for that agent. The same next step is also offered in a bar along the bottom of the page when the banner scrolls out of view.
+
+If you follow an agent without running it, the banner reminds you that we send you its trades, with a link to fund it and let it trade.
+
+For the full deploy-and-fund walkthrough, see [Published strategies](/strategies#published-strategies).
+
+## Your Agents
+
+Agents you have already deployed leave the catalogue grid and appear together under **Your agents**. Each row shows:
+
+- The agent's name and an avatar that matches the one used in [Portfolio](/portfolio) (a green ring for running or waiting, grey for stopped)
+- Its status, or a blank P&L until it has traded
+- The value of its holdings
+- A link to its detail page, and an inline **Fund** button if it is still waiting for money
+
+## Cash, Selling, and Withdrawing
+
+Each agent's wallet holds its money as **Cash** (USDC on Base) alongside any positions it has opened. You'll see this on the agent's detail page and on its [Portfolio](/portfolio) strategy account.
+
+- **Fund** — Deposit USDC to the agent's wallet. The deposit picker lists USDC on each supported chain (USDG on Robinhood Chain) — it no longer mentions USDT or bridged stablecoins.
+- **Sell a position** — Use the sell button on a token row. A slider sets how much to sell, and the proceeds go to the agent's **Cash** row. Sells below a minimum size aren't available, and the dialog says so.
+- **Withdraw** — Use **Withdraw** on the **Cash** row, enter an amount in USD (or **Max**) and the address to send to. The dialog reminds you to enter the address carefully — withdrawals are irreversible, and funds sent to the wrong address may be permanently lost. Only Cash on Base is sent out; a Withdraw button on other rows isn't offered. To withdraw money held elsewhere, sell positions to cash first.
+- **Move venue cash** — Cash sitting on Hyperliquid or Polymarket has a **Move** action that brings it back to the agent's wallet, where it can become Cash again automatically.
+
+While a sell or withdrawal is processing, its dialog can't be closed. If it takes longer than expected, you'll see a "still processing" message and balances update once it completes.
+
+Cash movements (deposits, conversions, and withdrawals) also appear as rows in the agent's trade history, under a **Cash** filter, and as cards in [Activity](/activity) with a **View Agent** link.
+
+<Note>
+  Agent wallets are managed by Fere, so they don't show a wallet address or private key the way your Main Wallet does.
+</Note>
+
+## Find Another Agent
+
+Below your own agents, the catalogue (headed **All agents** until you have deployed one, then **Find another agent**) lists everything available.
+
+- **Type filter** — Narrow the list to one kind of agent, or show all of them. Agents are grouped as **Copy trading**, **Trend & signals**, and **Predictions**.
+- **Sort** — Order the catalogue by **Recommended** (the default, which weighs track record, how many trades back it, and whether the agent is running on schedule) or **Best** (each agent's headline number, highest first; agents without one come last).
+- **Agent cards** — Each card shows the agent's name, a headline result with a caption saying what it is based on (for example a backtest period, or "No trades yet" / "No track record yet" when there is nothing to show), a small chart when there is history, and a row of stats. Click a card to open its detail page, where you can deploy it.
+
+A ticker of recent agent results runs across the top of the page.
+
+If the catalogue doesn't load, refresh the page to try again.
+
+## Your Custom Strategies
+
+Strategies you built yourself through chat are listed at the bottom of the page under **Your custom strategies**, with a count. Click one to open its [Strategy Detail Page](/strategies#strategy-detail-page).
+
+## Visiting Without an Account
+
+You can browse the catalogue before you sign in. Signed-out visitors see the three steps above and a short explanation of what an agent is instead of the banners and **Your agents** list.

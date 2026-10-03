@@ -15,7 +15,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="Do I own my wallet? Can Fere access my funds?">
     **Yes, you fully own your wallet.** Fere uses Coinbase CDP Server Wallets, which are non-custodial. Your private keys live inside a Trusted Execution Environment (TEE) — a hardware-isolated enclave that neither Fere nor Coinbase can access.
 
-    You can export your private key at any time using the **key icon** next to your wallet address in the wallet panel. Once exported, you can import it into any external wallet like MetaMask or Phantom and access your funds completely independently of Fere.
+    You can export your private key at any time using the **key icon** next to your wallet address — open your wallet from [Portfolio](/portfolio) to find it. Once exported, you can import it into any external wallet like MetaMask or Phantom and access your funds completely independently of Fere.
 
     Fere cannot seize, freeze, move, or view your private key. This is enforced by architecture, not just policy.
   </Accordion>
@@ -23,7 +23,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="How do I export my private key to MetaMask?">
     Use this to move your **EVM wallet** (Base, Ethereum, Polygon, Arbitrum, etc.) to MetaMask:
 
-    **Step 1:** In Fere, find your EVM wallet address in the right panel (starts with 0x). Click the key icon next to it to reveal your private key. Copy it.
+    **Step 1:** In Fere, open your wallet from [Portfolio](/portfolio) and find your EVM wallet address (starts with 0x). Click the key icon next to it to reveal your private key. Copy it.
 
     **Step 2:** Open MetaMask (browser extension or mobile app).
 
@@ -39,7 +39,7 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="How do I export my private key to Phantom?">
     Use this to move your **Solana wallet** to Phantom:
 
-    **Step 1:** In Fere, find your Solana wallet address in the right panel (starts with a non-0x string). Click the key icon to reveal your Solana private key. Copy it.
+    **Step 1:** In Fere, open your wallet from [Portfolio](/portfolio) and find your Solana wallet address (starts with a non-0x string). Click the key icon to reveal your Solana private key. Copy it.
 
     **Step 2:** Open Phantom (browser extension or mobile app).
 
@@ -93,13 +93,17 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
   <Accordion title="Can I stop a strategy once it's running?">
     **Yes, absolutely.** Click **Strategies** in the top navigation, find the strategy you want to stop, and pause or cancel it. It stops immediately — no lock-in, no waiting for the next cycle to complete. You can also restart it later if you change your mind.
   </Accordion>
+
+  <Accordion title="What's the difference between a strategy I build and one I deploy from Discover?">
+    A strategy you describe in chat runs the instructions you wrote, and you can keep changing that logic from its Strategy chat. A strategy you **deploy** from **Discover** is a **clone** of one the Fere team has already built and published — you get your own copy with its own wallet, running the same logic and receiving the same signals as the original, but you can't edit its trading rules. Either way, deploying (or cloning) doesn't move any funds by itself — you fund the strategy's wallet as a separate step. See [Discover](/strategies#discover) for the full flow.
+  </Accordion>
 </AccordionGroup>
 
 ## Credits & Rewards
 
 <AccordionGroup>
   <Accordion title="How much does it cost to use Fere?">
-    Each AI agent conversation costs **15 credits**. You get 200 credits free at signup (valid for 14 days). Credit packs start at **$5 for 300 credits**, so a single agent query costs about $0.25. Larger packs give you more credits per dollar.
+    Fere uses **dynamic pricing** — each agent query is billed on its actual complexity (how much reasoning and tool use it took), not a flat rate. You get 200 credits free at signup (valid for 14 days). Credit packs start at **$5 for 300 credits**. Larger packs give you more credits per dollar. See [Credits](/credits) for the full breakdown.
   </Accordion>
 
   <Accordion title="How do I get free credits?">
