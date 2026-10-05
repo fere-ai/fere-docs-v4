@@ -5,6 +5,7 @@ Customer-facing behavior for the Alpha Engine agent experience (webapp).
 ## Agents catalogue
 
 - Signed-in users see **Agents** with owned agents, category filters, and an optional banner for the next step (start an agent or fund one awaiting cash).
+- A clone the user **archived before funding** shows as **Stopped** in Your agents (no Fund banner or inline Fund on that row). Restart from Discover or the agent page if they want back in. The schedules drawer may still list unfunded deploys separately.
 - Banner actions use short labels (**Start**, **Fund**); the agent name appears in the banner copy.
 - Category chips reflect how many agents in each template the user has already deployed.
 
