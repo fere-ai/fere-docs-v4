@@ -1,0 +1,27 @@
+---
+title: "Share pages"
+description: "How Fere AI public research share pages work, including automated feed pages."
+---
+
+# Share pages
+
+Fere AI can publish **public research share pages** at `/share/{id}/…`. These
+pages show a question and an AI research answer with sources. They are meant
+for discovery (search / social), not as a substitute for your private chats.
+
+## Automated share feed
+
+When enabled by Fere AI ops (feature flag on the Friday backend), a scheduled
+job may:
+
+1. Collect recent crypto news and market signals
+2. Write research-style questions
+3. Answer them with the same research agent stack used in chat
+4. Quality-check the answer, then list the page publicly
+
+Automated pages are published under a system account. They are research
+summaries with sources — not personalized portfolio advice, and not a signal
+that Fere executed a trade for you.
+
+This feed is **off by default**. Turning it on is an environment/ops change,
+not a user setting in the app.
