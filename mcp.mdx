@@ -1,17 +1,44 @@
 ---
-title: "MCP Support — Use Fere From Any AI Client"
+title: "MCP Support — Research & Trade From Any AI Client"
 sidebarTitle: "MCP Support"
-description: "Use Fere's hosted MCP server to run on-chain research, swaps, and portfolio actions from Claude, ChatGPT, Cursor, Codex, and more."
+description: "Connect Fere's hosted MCP server to Claude, ChatGPT, Codex, Cursor, Hermes, OpenClaw, and more to research markets and trade on-chain."
 icon: "plug"
-keywords: ["MCP", "Model Context Protocol", "Claude", "ChatGPT", "Cursor", "Codex", "Hermes", "Claude Code", "AI integrations"]
+keywords: ["MCP", "Model Context Protocol", "Claude", "ChatGPT", "Cursor", "Codex", "Hermes", "OpenClaw", "Claude Code", "AI integrations", "crypto research"]
 canonical: "https://docs.fereai.xyz/mcp"
 ---
 
-FereAI exposes a hosted MCP (Model Context Protocol) server, so you can drive on-chain research, swaps, and portfolio actions from Claude, ChatGPT, Cursor, Codex, Hermes, or Claude Code — wherever you already work.
+Want to do your own research or trade on your own terms? Connect Fere to the AI you already use. FereAI runs a hosted MCP (Model Context Protocol) server, so you can research markets and trade on-chain from Claude, ChatGPT, Codex, Cursor, Hermes, OpenClaw, Claude Code — or any other MCP client.
 
 <Info>
-  **One URL, Every Client.** Point any MCP-aware client at `https://api.fereai.xyz/mcp`. Each provider handles OAuth its own way — usually a one-time browser sign-in linked to your Fere account. After that, the client can call Fere tools directly inside your conversations.
+  **One URL, Every Client.** Point any MCP-aware client at `https://api.fereai.xyz/mcp`. The MCP is live and open to everyone — no approval needed. Each client handles sign-in its own way, usually a one-time browser login linked to your Fere account.
 </Info>
+
+## What You Can Do
+
+Once connected, just ask your AI in plain language. It calls Fere's tools for you.
+
+<CardGroup cols={2}>
+  <Card title="Research" icon="magnifying-glass">
+    Look up prices and markets, check whether a token looks safe, and dig into prediction markets — all from your AI chat.
+  </Card>
+  <Card title="Trade" icon="arrow-right-arrow-left">
+    Swap tokens, place limit orders, open and close perps, set take-profit and stop-loss, and trade prediction markets.
+  </Card>
+  <Card title="Earn" icon="seedling">
+    Deposit into and withdraw from yield positions.
+  </Card>
+  <Card title="Manage your wallets" icon="wallet">
+    Check holdings and balances across your Fere wallets.
+  </Card>
+</CardGroup>
+
+<Info>
+  **Your MCP wallets.** Each Fere account you use through the MCP gets two wallets — one **EVM** and one **Solana**. Ask your AI *"What are my Fere wallet addresses?"* to see them, then send funds there to start trading.
+</Info>
+
+<Tip>
+  **Research in the Fere app now lives here.** The Research section of the Fere app points to this MCP — connect your own AI to research and trade with Fere's tools.
+</Tip>
 
 ## Pick Your Client
 
@@ -33,6 +60,9 @@ FereAI exposes a hosted MCP (Model Context Protocol) server, so you can drive on
   </Card>
   <Card title="Codex" icon="bolt">
     Use the **Streamable HTTP MCP** add flow and paste the URL.
+  </Card>
+  <Card title="OpenClaw & other clients" icon="puzzle-piece">
+    Add `https://api.fereai.xyz/mcp` as a remote (HTTP) MCP server.
   </Card>
 </CardGroup>
 
@@ -106,6 +136,18 @@ Open **Settings → MCP** in Cursor and add an entry under `mcpServers`. Cursor 
 
 In Codex, open the MCP settings and choose **Add Streamable HTTP MCP**. Paste `https://api.fereai.xyz/mcp` as the endpoint and approve the OAuth handshake when prompted.
 
+## OpenClaw & Other MCP Clients
+
+Any client that supports remote MCP servers over HTTP works with Fere. Add a new MCP server, use the URL below, and complete the sign-in when prompted.
+
+```
+https://api.fereai.xyz/mcp
+```
+
 <Warning>
   **OAuth Is Handled By Your Client.** Fere never sees your client credentials. Each provider runs its own OAuth flow against your Fere account — the URL above is the only thing you ever paste. Revoke access anytime from your Fere account settings.
 </Warning>
+
+## Want Fere AI for Something Custom?
+
+The MCP gives you Fere's tools inside your own AI. If you want to use Fere AI itself for custom work or to create your own strategies — or you're a KOL, influencer, or pro trader with a strategy you'd like to deploy as a Fere agent — [contact us](/support).
