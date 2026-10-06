@@ -32,7 +32,7 @@ Once you're signed in, the agents you've already started appear at the top, alon
 Click any agent to open its page. You'll see:
 
 - **What it does** — the strategy in plain language: what it trades, on which markets, and how it decides to exit.
-- **Track record** — how the strategy has performed, plus its recent trades and wins. The number at the top comes from either the agent's live record or a backtest, and it's always labelled **Live** or **Backtest** so you know which one you're looking at.
+- **Track record** — how the strategy has performed, plus its recent trades and wins.
 - **Setup** — the minimum it needs to start, its fees, and any settings you can adjust.
 
 <Info>
@@ -41,33 +41,7 @@ Click any agent to open its page. You'll see:
 
 ## How Backtests Work
 
-A backtest replays a strategy's rules over past market data to show how it would have performed. No real money is traded, so backtests show what the strategy does, not what any user earned.
-
-### How they're run
-
-Each strategy is tested over periods that suit it. A fast-moving memecoin strategy might be tested over a few months, while a slower strategy on BTC or ETH might cover a year or more. The replay accounts for real market conditions where it can, such as the liquidity of the tokens traded, so the results reflect trades that could actually have been filled.
-
-Some strategies come from outside Fere: TradingView, the community, or pro traders who share their approach. These usually come with their own backtests over the window their creator chose. Every backtest goes through the same checks before it appears on an agent, wherever it came from.
-
-### Why returns are annualized
-
-Backtests cover different lengths of time, so their raw results can't be compared directly. Earning 30% in three months is a very different result from earning 30% over two years. To compare them fairly, Fere converts every backtest result into an **annualized return**: the yearly rate that would compound to the same result over the backtest's period.
-
-| Backtest result | Period | Annualized return |
-| --- | --- | --- |
-| +60% | 1 year | **+60%** |
-| +300% | 2 years | **+100%** |
-| +30% | 90 days | **+190%** |
-
-A one-year backtest stays as it is. Longer periods are converted to their yearly average rate, and shorter periods are compounded up to a full year.
-
-<Info>
-  **What you'll see in the app.** Agent cards in the catalogue show the annualized return labelled **Backtest**. The agent's page shows the backtest's period, its total return over that period, and a link back to this section.
-</Info>
-
-<Warning>
-  **Backtests aren't a promise.** A backtest shows how a strategy's rules would have played out on past prices, not what it will do next. Annualizing a short backtest assumes its pace would hold for a whole year, which rarely happens, so treat a high annualized number as a sign of a strong period rather than an expected yearly return. Live results can and do differ.
-</Warning>
+A backtest replays a strategy's rules on past market data, factoring in things like token liquidity. Each strategy is tested over a period that suits it, and some come from TradingView, the community, or pro traders, tested over the windows they chose. To make results comparable, every backtest is **annualized**: converted to the yearly rate that would produce the same result. For example, +30% over 90 days is about +190% a year. Backtests aren't real trades and don't guarantee future results.
 
 ## Settings You Can Adjust
 
