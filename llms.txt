@@ -10,7 +10,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Agents
 
-- [Agents](https://docs.fereai.xyz/agents): The agents catalogue, starting and funding an agent, settings, stopping, withdrawing, and fees.
+- [Agents](https://docs.fereai.xyz/agents): The agents catalogue, how backtests are run and annualized, starting and funding an agent, settings, stopping, withdrawing, and fees.
 - [Wallet & Security](https://docs.fereai.xyz/wallet): Agent wallets, Cash in US dollars, MCP wallets, and Coinbase CDP security.
 
 ## Research & Trading via MCP
