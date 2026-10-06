@@ -1,36 +1,31 @@
 # Fere AI Documentation
 
-> Official docs for Fere AI — autonomous crypto trading agents, strategies, wallets, credits, and MCP.
+> Official docs for Fere AI — AI trading agents that each run a unique strategy, agent wallets, the Fere MCP for research and trading, and points.
 
 Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Get Started
 
-- [Welcome](https://docs.fereai.xyz/): AI agents that actually trade — research, reason, and execute across chains.
-- [Meet Your AI Agent](https://docs.fereai.xyz/agent): How Fere decomposes requests and acts with a built-in wallet.
+- [Welcome](https://docs.fereai.xyz/): Pick an agent, fund it, and it trades — or research and trade from your own AI with the Fere MCP.
 
-## Features
+## Agents
 
-- [Strategies](https://docs.fereai.xyz/strategies): Automate instructions on a schedule with memory across runs.
-- [Strategy Tools (fere_tools)](https://docs.fereai.xyz/strategy-tools): Sandbox SDK catalog for strategy automation.
-- [Cross-Chain](https://docs.fereai.xyz/cross-chain): Gasless bridging and swaps across major chains.
+- [Agents](https://docs.fereai.xyz/agents): The agents catalogue, starting and funding an agent, settings, stopping, withdrawing, and fees.
+- [Wallet & Security](https://docs.fereai.xyz/wallet): Agent wallets, Cash in US dollars, MCP wallets, and Coinbase CDP security.
 
-## Developer Tools
+## Research & Trading via MCP
 
-- [MCP Support](https://docs.fereai.xyz/mcp): Drive Fere from Claude, ChatGPT, Cursor, and other MCP clients.
+- [MCP Support](https://docs.fereai.xyz/mcp): Research and trade with Fere from Claude, ChatGPT, Codex, Cursor, Hermes, OpenClaw, and other MCP clients.
 
-## Wallet & Rewards
+## Rewards
 
-- [Wallet](https://docs.fereai.xyz/wallet): Coinbase CDP security, balances, and key export.
-- [Credits](https://docs.fereai.xyz/credits): How agent actions are billed and how to top up.
-- [Subscriptions](https://docs.fereai.xyz/subscriptions): Lite, Pro, and Whale monthly credit plans.
-- [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): Invite friends and earn credits.
-- [Points](https://docs.fereai.xyz/points): On-chain and spend rewards with weekly leaderboard.
+- [Points & Leaderboard](https://docs.fereai.xyz/points): Points from on-chain trading volume, with a weekly leaderboard.
+- [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): New fee-share referral program with tiers — coming soon.
 
 ## Help & Legal
 
-- [FAQ](https://docs.fereai.xyz/faq): Wallet ownership, TP/SL, limit orders, credits, and points.
-- [Support](https://docs.fereai.xyz/support): Email aron@fereai.xyz or DM @0xAron on X for help.
+- [FAQ](https://docs.fereai.xyz/faq): Agents, funding and withdrawing, fees, wallet security, the MCP, and points.
+- [Support](https://docs.fereai.xyz/support): Email aron@fereai.xyz or DM @0xAron on X — including custom agents and deploying your own strategy.
 - [Terms of Service](https://docs.fereai.xyz/legal/terms): Terms of Use for the FereAI service.
 - [Privacy Policy](https://docs.fereai.xyz/legal/privacy): GDPR-aligned privacy practices.
 - [Security Policy](https://docs.fereai.xyz/legal/security-policy): Responsible vulnerability disclosure.

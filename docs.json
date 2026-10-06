@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Fere AI",
-  "description": "Official Fere AI documentation: autonomous crypto trading agents, strategies, cross-chain execution, wallet security, credits, and FAQ.",
+  "description": "Official Fere AI documentation: AI trading agents that each run a unique strategy, agent wallets and security, the Fere MCP for research and trading, points, and FAQ.",
   "colors": {
     "primary": "#EBCB8B",
     "light": "#EBCB8B",
@@ -28,37 +28,27 @@
       {
         "group": "Get Started",
         "pages": [
-          "index",
-          "agent"
+          "index"
         ]
       },
       {
-        "group": "Features",
+        "group": "Agents",
         "pages": [
-          "strategies",
-          "strategy-tools",
-          "cross-chain"
+          "agents",
+          "wallet"
         ]
       },
       {
-        "group": "Developer Tools",
+        "group": "Research & Trading via MCP",
         "pages": [
           "mcp"
         ]
       },
       {
-        "group": "Your Wallet",
-        "pages": [
-          "wallet"
-        ]
-      },
-      {
         "group": "Rewards",
         "pages": [
-          "credits",
-          "subscriptions",
-          "refer-and-earn",
-          "points"
+          "points",
+          "refer-and-earn"
         ]
       },
       {
@@ -82,7 +72,7 @@
     "primary": {
       "type": "button",
       "label": "Launch App",
-      "href": "https://fereai.xyz/app"
+      "href": "https://www.fereai.xyz/agents"
     }
   },
   "footer": {
@@ -95,12 +85,12 @@
         "header": "Product",
         "items": [
           {
-            "label": "Fere AI Agent",
-            "href": "/agent"
+            "label": "Agents",
+            "href": "/agents"
           },
           {
-            "label": "Strategies",
-            "href": "/strategies"
+            "label": "MCP Support",
+            "href": "/mcp"
           }
         ]
       },
@@ -114,10 +104,6 @@
           {
             "label": "Support",
             "href": "/support"
-          },
-          {
-            "label": "MCP Support",
-            "href": "/mcp"
           },
           {
             "label": "Wallet & Security",
@@ -158,10 +144,6 @@
       "destination": "/"
     },
     {
-      "source": "/recipes",
-      "destination": "/strategies"
-    },
-    {
       "source": "/discover",
       "destination": "/"
     },
@@ -172,6 +154,34 @@
     {
       "source": "/hyperliquid",
       "destination": "/"
+    },
+    {
+      "source": "/recipes",
+      "destination": "/agents"
+    },
+    {
+      "source": "/strategies",
+      "destination": "/agents"
+    },
+    {
+      "source": "/agent",
+      "destination": "/agents"
+    },
+    {
+      "source": "/strategy-tools",
+      "destination": "/agents"
+    },
+    {
+      "source": "/cross-chain",
+      "destination": "/mcp"
+    },
+    {
+      "source": "/credits",
+      "destination": "/agents"
+    },
+    {
+      "source": "/subscriptions",
+      "destination": "/agents"
     }
   ],
   "seo": {
