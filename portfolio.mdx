@@ -23,6 +23,10 @@ Click **Portfolio** in the top navigation bar. You'll land on a master–detail 
   **Numbers can still be settling.** If a deposit or withdrawal is still confirming on-chain, the summary shows a loading state for the affected figures rather than a number that would immediately be wrong.
 </Info>
 
+**Rail order and stopped accounts** — Your Main Wallet stays at the top. Strategy accounts below it are sorted by balance, highest first; when balances tie, running strategies come before ones waiting for money. A stopped strategy that still holds funds stays in the list. Stopped strategies that are empty or hold only a few cents of dust are tucked behind **Show stopped & empty** at the bottom of the rail — click it to expand (it then reads **Hide stopped & empty**).
+
+For a strategy account, the positions list has a **Hide dust** toggle that hides tiny balances, the same one used in the wallet panel.
+
 ## Main Wallet vs. Strategy Accounts
 
 Your **Main Wallet** is the account you fund directly and trade from in chat. Each **strategy account** is a separate, dedicated wallet Fere creates when you deploy a [strategy](/strategies) that trades with its own funds — its Portfolio row shows only that strategy's positions, trades, and P&L, kept apart from your main balance.

@@ -34,7 +34,7 @@ Each agent's wallet holds its money as **Cash** (USDC on Base) alongside any pos
 
 - **Fund** — Deposit USDC to the agent's wallet. The deposit picker lists USDC on each supported chain (USDG on Robinhood Chain) — it no longer mentions USDT or bridged stablecoins.
 - **Sell a position** — Use the sell button on a token row. A slider sets how much to sell, and the proceeds go to the agent's **Cash** row. Sells below a minimum size aren't available, and the dialog says so.
-- **Withdraw** — Use **Withdraw** on the **Cash** row, enter an amount in USD (or **Max**) and the address to send to. The dialog reminds you to enter the address carefully — withdrawals are irreversible, and funds sent to the wrong address may be permanently lost. Only Cash on Base is sent out; a Withdraw button on other rows isn't offered. To withdraw money held elsewhere, sell positions to cash first.
+- **Withdraw** — Use **Withdraw** on the **Cash** row, enter an amount in USD (or **Max**) and the address to send to. A small hint under the address field reminds you to use your exchange's address on Base. While it sends, the dialog shows three steps — checking the address, sending the amount, and waiting for the network to confirm. Only Cash on Base is sent out; a Withdraw button on other rows isn't offered. To withdraw money held elsewhere, sell positions to cash first. Double-check the address before you confirm: on-chain transfers can't be undone.
 - **Move venue cash** — Cash sitting on Hyperliquid or Polymarket has a **Move** action that brings it back to the agent's wallet, where it can become Cash again automatically.
 
 While a sell or withdrawal is processing, its dialog can't be closed. If it takes longer than expected, you'll see a "still processing" message and balances update once it completes.
@@ -53,9 +53,20 @@ Below your own agents, the catalogue (headed **All agents** until you have deplo
 - **Sort** — Order the catalogue by **Recommended** (the default, which weighs track record, how many trades back it, and whether the agent is running on schedule) or **Best** (each agent's headline number, highest first; agents without one come last).
 - **Agent cards** — Each card shows the agent's name, a headline result with a caption saying what it is based on (for example a backtest period, or "No trades yet" / "No track record yet" when there is nothing to show), a small chart when there is history, and a row of stats. The count of people running an agent is shown only when at least one person is running it, and drawdown is not part of the card's stats row. Under the name, small tags show the agent's asset class and where its strategy comes from, followed by the chains, tickers, and leverage it uses. Click a card to open its detail page, where you can deploy it.
 
+If you have a strategy you stopped and archived, its catalogue card offers **Start again** to restart it from here.
+
 A ticker of recent agent results runs across the top of the page.
 
 If the catalogue doesn't load, refresh the page to try again.
+
+## How Backtests Work
+
+Some agents have no live track record yet, so their card and detail page show a **Backtest** instead. A backtest replays the agent's rules on past prices to show what it would have done. It is not a record of real trades, and past results don't predict future ones.
+
+- **Headline number** — For a backtest, the headline is the replay's total return converted to a yearly rate (the total return compounded over a 365-day year), so a long replay doesn't look better than a short one just for being long. An agent with live trades shows its plain total return instead.
+- **Period** — The detail page shows the dates the backtest covers beneath the chart, next to a **How backtests work** link that points here.
+- **Sorting** — **Best** compares the number each card actually shows. A backtest whose return can't be converted to a yearly rate isn't ranked on an unconverted number.
+- **Live trades are separate** — Open and closed trades listed on the page are real positions, not part of the backtest chart. Until an agent has opened one, the page says **No live trades yet**.
 
 ## Your Custom Strategies
 
