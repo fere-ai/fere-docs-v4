@@ -106,7 +106,7 @@ At the top of the page, a briefing card shows:
 - **Key metrics** — run success rate, trade outcomes, and next scheduled run.
 - **Since last update** — bullet changes since the previous briefing (incremental window).
 - **Top positions** — largest holdings when portfolio data is available (hidden for research-only agents).
-- **Narrative sections** — at-a-glance, recent performance, and since-last-update prose grounded in verified run and trade data.
+- **Narrative sections** — at-a-glance, recent performance, and since-last-update prose grounded in verified run and trade data. The return subtracts trading fees: 10 bps of spot turnover and 4.5 bps of perp turnover, on the amount of each fill.
 
 A compatibility markdown summary is still stored for exports and older clients. The briefing refreshes after each completed run. If a run just finished, you may briefly see *"Updating briefing after the latest run…"* while new content is generated.
 
