@@ -93,6 +93,18 @@ The **Start a Strategy** section inside the Strategies page has pre-built templa
 
 Click any strategy card to open its detail page at **/strategies/[id]**. This is your command center for one strategy — what it has done, what it traded, what it produced, and what you want it to do next.
 
+## Trade explanations
+
+On **agent detail** pages and in **Portfolio → History**, Fere can show a one-line explanation under a trade or call when the strategy logged a decision reason at execution time (for example: *It bought because …*).
+
+| Where you see it | What it describes |
+| --- | --- |
+| **Latest calls** (copy strategies) | Why the house called a token |
+| **Open now** / **Closed trades** (directional strategies) | Why a live position was opened or closed |
+| **Portfolio history** | Why your strategy wallet bought or sold a token |
+
+Explanations are **optional**. If no reason was stored for that chain, asset, and side, the row shows timing and performance only — there is no empty “why” placeholder. Click a row to open token details (spot) or your external venue link (for example Hyperliquid perps).
+
 <Warning>
   **This page is the home workspace for the live strategy.** Strategy chat here updates the deployed automation. The original **/app** chat where you created it remains a separate workspace — continuing there spawns a **new** strategy instead of editing this one. See [How to Create a Strategy](#how-to-create-a-strategy) for the full split.
 </Warning>
