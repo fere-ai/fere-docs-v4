@@ -31,6 +31,8 @@ On the public agent page, **Latest calls** lists spot **buy** signals from the h
 
 ## In-app notifications — event time
 
-Notification rows and date-range filters (`from_ts` / `to_ts` on the notifications API) use each event’s **publish time** — when the backend emitted the event onto the message bus — not when the database writer finished persisting it. That matches the timestamp carried on the RabbitMQ envelope.
+Notification rows and date-range filters use each event’s **publish time** — when the backend recorded the event — not the moment it finished saving to storage. If processing is delayed, the shown time can be earlier than when the row appeared in your feed.
 
-If a consumer is delayed (retries, backlog, or DLQ replay), the shown time can be earlier than when the row appeared in your feed. Thread ordering in chat still uses `created_at` (insert order); only notification display and time-window filters use this publish timestamp.
+The notifications list is still ordered by insert time (`created_at`). Only the time shown on each row and the dates you pick in notification filters use publish time.
+
+<!-- engineering: envelope timestamp from the message bus; db_writer coerce_utc_datetime; API from_ts/to_ts filter Events.timestamp -->
