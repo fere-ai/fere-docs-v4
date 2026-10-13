@@ -28,3 +28,11 @@ Customer-facing behavior for the Alpha Engine agent experience (webapp).
 ## Latest calls and spot liquidity (published Alpha agents)
 
 On the public agent page, **Latest calls** lists spot **buy** signals from the house strategy run. A buy is recorded only if it passes the same Codex deepest-pool liquidity floor used at trade time (`ALPHA_ENGINE_MIN_ASSET_LIQUIDITY_USD`, default **$100k**). Illiquid spot buys are rejected when the strategy emits the decision and are dropped again when the run is promoted to a signal, so a call should not appear if followers could not buy. **Sells** and **perps** are not screened this way. Chat trending-token discovery is unchanged.
+
+## In-app notifications — event time
+
+Notification rows and date-range filters use each event’s **publish time** — when the backend recorded the event — not the moment it finished saving to storage. If processing is delayed, the shown time can be earlier than when the row appeared in your feed.
+
+The notifications list is still ordered by insert time (`created_at`). Only the time shown on each row and the dates you pick in notification filters use publish time.
+
+<!-- engineering: envelope timestamp from the message bus; db_writer coerce_utc_datetime; API from_ts/to_ts filter Events.timestamp -->
