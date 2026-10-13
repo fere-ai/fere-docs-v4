@@ -38,6 +38,7 @@ If Main has no open positions and no strategy fills yet, you see **No strategy t
 
 - Isolated addresses, **Fund** / **Withdraw** on the wallet header.
 - Empty (unfunded) strategies are **Inactive · no balance**. The mark is an empty well — not a letter badge. Fund from Main to activate.
+- **Fund** shows the amount that strategy needs before it can trade. When the strategy targets a share of the wallet, that amount is large enough that the smallest share still clears the venue's smallest trade. On a perp, the cash the strategy keeps aside is included, so the share that actually gets posted still clears.
 - Empty holdings show **No holdings yet** and **Open strategy**. Fund lives on the header, not on the deposit-wallets row.
 
 ## Fund / Deposit / Withdraw From the List
