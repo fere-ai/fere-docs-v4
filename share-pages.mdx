@@ -19,6 +19,10 @@ job may:
 3. Answer them with the same research agent stack used in chat
 4. Quality-check the answer, then list the page publicly
 
+Question writing uses one model. If that model returns no usable questions,
+the job tries a second model once. If that call is also empty, the run stops
+and publishes no pages. The quality check on an answer is unchanged.
+
 Automated pages are published under a system account. They are research
 summaries with sources — not personalized portfolio advice, and not a signal
 that Fere executed a trade for you.
