@@ -50,7 +50,7 @@ Fere handles the hard parts: linking an API trading key to your wallet, bridging
 | --- | --- | --- |
 | **Minimum deposit (Fere)** | **$50 USD** | Enforced in the Fund Hyperliquid modal and API. |
 | **Bridge2 protocol floor** | **$5 USDC** | Hyperliquid's on-chain minimum per Bridge2 transfer. Fere's product minimum is higher ($50) for safety. |
-| **First-deposit activation** | **~$1 USDC** | HyperCore deducts a one-time activation fee on the first inbound transfer to a new EOA. Your tradable balance is slightly less than the gross deposit. |
+| **First-deposit activation** | **~$1 USDC** | HyperCore deducts a one-time activation fee on the first inbound transfer to a new EOA. Your tradable balance is slightly less than the gross deposit. A deployed Hyperliquid strategy bridges from its own wallet once that wallet holds the $50 minimum plus this fee, then approves the trading key on its own. |
 | **Minimum withdraw** | **$6 USD gross** | **$1** Hyperliquid Bridge2 fee + **$5** minimum net to Arbitrum. You cannot withdraw your exact full balance — leave room for the fee. |
 | **Minimum perp trade (chat)** | **~$10.50 notional** | `size × price` must meet this before the agent opens a position (small slippage buffer). |
 
