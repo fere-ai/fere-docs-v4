@@ -59,7 +59,6 @@
         "group": "Rewards",
         "pages": [
           "credits",
-          "subscriptions",
           "refer-and-earn",
           "points"
         ]
@@ -159,6 +158,10 @@
     ]
   },
   "redirects": [
+    {
+      "source": "/subscriptions",
+      "destination": "/credits"
+    },
     {
       "source": "/agent",
       "destination": "/research"
