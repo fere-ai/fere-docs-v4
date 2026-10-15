@@ -17,6 +17,8 @@ If you follow an agent without running it, the banner reminds you that we send y
 
 If you deploy an agent but aren't ready to fund it yet, the deposit steps on its detail page offer a **Fund later** button. It collapses the deposit flow into a compact panel showing a **Needs money** status, what is in the agent's wallet, the minimum it needs to start trading, and **Fund Agent** and **Stop** buttons. **Fund Agent** reopens the deposit steps. The choice lasts for that browser tab only, and the full deposit flow returns in a new session. If you stop an agent that hasn't started trading yet, the confirmation says it cancels the pending start; the agent's wallet stays available and you can start it again later.
 
+Once the wallet has enough money, an agent that trades on Hyperliquid may still have steps left before it starts. The panel then reads **Moving USDC to Hyperliquid** while your funds are deposited there, and **Connecting the trading key** while the trading-key approval finishes. A **Stop** button stays available during these steps. Agents that don't use Hyperliquid start as soon as the wallet is funded.
+
 For the full deploy-and-fund walkthrough, see [Published strategies](/strategies#published-strategies).
 
 ## Your Agents
@@ -38,6 +40,8 @@ Each agent's wallet holds its money as **Cash** (USDC on Base) alongside any pos
 - **Move venue cash** — Cash sitting on Hyperliquid or Polymarket has a **Move** action that brings it back to the agent's wallet, where it can become Cash again automatically.
 
 While a sell or withdrawal is processing, its dialog can't be closed. If it takes longer than expected, you'll see a "still processing" message and balances update once it completes.
+
+A move of funds onto Hyperliquid shows as **Moved** with **to Hyperliquid** as the asset in the same history, and Hyperliquid perpetual trades are labelled **Opened long**, **Opened short**, **Closed long**, or **Closed short**.
 
 Cash movements (deposits, conversions, and withdrawals) also appear as rows in the agent's trade history, under a **Cash** filter, and as cards in [Activity](/activity) with a **View Agent** link.
 
