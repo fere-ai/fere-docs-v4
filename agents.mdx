@@ -33,7 +33,7 @@ Click any agent to open its page. You'll see:
 
 - **What it does** — the strategy in plain language: what it trades, on which markets, and how it decides to exit.
 - **Track record** — how the strategy has performed, plus its recent trades and wins.
-- **Setup** — the minimum it needs to start, its fees, and any settings you can adjust.
+- **Setup** — how much to deposit, the minimum it needs to start, its fees, and any settings you can adjust.
 
 <Info>
   **Strategies are fixed.** Each agent's strategy is built and maintained by Fere — you can't change its logic. If you want a custom agent or want to run your own strategy, [contact us](/support).
@@ -66,7 +66,9 @@ Other agents run with fixed settings and show nothing to adjust — that's by de
     Set the amount per trade, stop loss, and other options the agent allows.
   </Step>
   <Step title="Fund its wallet">
-    The funding screen shows the agent's **minimum**, the networks you can send from, and the wallet address for each. Minimums differ from agent to agent. If an agent's minimum is out of reach, its page may suggest a smaller agent with a similar strategy.
+    The funding screen asks you to send the agent's **minimum plus $5**, and shows the minimum underneath. The extra covers fees and a stablecoin priced a cent under $1, so the deposit still clears the minimum when it lands. It also shows the networks you can send from and the wallet address for each. Minimums differ from agent to agent. If an agent's minimum is out of reach, its page may suggest a smaller agent with a similar strategy.
+
+    A Hyperliquid agent's minimum also covers Hyperliquid's one-time **$1** activation fee and about **1%** to move the money onto Hyperliquid. For a $50 Hyperliquid account that is about **$52**, and the funding screen asks for **$57**. If a deposit falls short, the money stays in the agent's wallet and the page says how much more to add.
   </Step>
   <Step title="It goes live">
     The agent starts the moment enough money lands in its wallet. You'll get a message by email (or Telegram, if that's how you signed up) once it's live.
