@@ -70,6 +70,14 @@ Everything you need to know about using Fere AI — from wallet ownership to tra
 ## Trading
 
 <AccordionGroup>
+  <Accordion title="Who can I send funds to?">
+    Paste the recipient's full wallet address in the chat, or give an ENS name such as `vitalik.eth`. Fere sends only to an address you named that way.
+
+    It will not send to a token contract from your holdings, to an address it only found while looking something up, or to your own Fere wallet on a same-chain transfer. If you have not named a recipient, it asks you for the address before anything moves.
+
+    A bridge or a swap can still deliver to your own wallet on the destination chain.
+  </Accordion>
+
   <Accordion title="What happens if a trade fails?">
     Fere has **intelligent retries and fallback routing** built in — so most failures that would stop a normal wallet are handled automatically. If a route fails due to slippage or liquidity, Fere retries with an alternative path before giving up. If it truly can't execute (e.g., a chain is down), it tells you exactly why and suggests what to do next. No funds leave your wallet on a failed transaction — everything is reverted on-chain.
   </Accordion>
