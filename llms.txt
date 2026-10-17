@@ -30,6 +30,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 ## Help & Legal
 
 - [FAQ](https://docs.fereai.xyz/faq): Wallet ownership, TP/SL, limit orders, credits, and points.
+- [Telegram messages](https://docs.fereai.xyz/telegram): When a product message arrives on Telegram.
 - [Support](https://docs.fereai.xyz/support): Email aron@fereai.xyz or DM @0xAron on X for help.
 - [Terms of Service](https://docs.fereai.xyz/legal/terms): Terms of Use for the FereAI service.
 - [Privacy Policy](https://docs.fereai.xyz/legal/privacy): GDPR-aligned privacy practices.
