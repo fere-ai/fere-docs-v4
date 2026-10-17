@@ -15,6 +15,8 @@ The page follows three steps: **pick an agent**, **fund its wallet**, and let it
 
 If you follow an agent without running it, the banner reminds you that we send you its trades, with a link to fund it and let it trade.
 
+When an agent asks for money, the deposit steps read **Send $X**, where X is the agent's minimum plus a few dollars so fees (or a stablecoin priced slightly under $1) don't leave you short. A short note under it gives the exact minimum and, if the wallet already holds some money, how much of the minimum it has. Money already in the agent's wallet counts toward the minimum, so a small top-up can be enough.
+
 If you deploy an agent but aren't ready to fund it yet, the deposit steps on its detail page offer a **Fund later** button. It collapses the deposit flow into a compact panel showing a **Needs money** status, what is in the agent's wallet, the minimum it needs to start trading, and **Fund Agent** and **Stop** buttons. **Fund Agent** reopens the deposit steps. The choice lasts for that browser tab only, and the full deposit flow returns in a new session. If you stop an agent that hasn't started trading yet, the confirmation says it cancels the pending start; the agent's wallet stays available and you can start it again later.
 
 Once the wallet has enough money, an agent that trades on Hyperliquid may still have steps left before it starts. The panel then reads **Moving USDC to Hyperliquid** while your funds are deposited there, and **Connecting the trading key** while the trading-key approval finishes. A **Stop** button stays available during these steps. Agents that don't use Hyperliquid start as soon as the wallet is funded.
@@ -37,7 +39,7 @@ Each agent's wallet holds its money as **Cash** (USDC on Base) alongside any pos
 - **Fund** — Deposit USDC to the agent's wallet. The deposit picker lists USDC on each supported chain (USDG on Robinhood Chain) — it no longer mentions USDT or bridged stablecoins.
 - **Sell a position** — Use the sell button on a token row. A slider sets how much to sell, and the proceeds go to the agent's **Cash** row. Sells below a minimum size aren't available, and the dialog says so.
 - **Withdraw** — Use **Withdraw** on the **Cash** row, enter an amount in USD (or **Max**) and the address to send to. A small hint under the address field reminds you to use your exchange's address on Base. While it sends, the dialog shows three steps — checking the address, sending the amount, and waiting for the network to confirm. Only Cash on Base is sent out; a Withdraw button on other rows isn't offered. To withdraw money held elsewhere, sell positions to cash first. Double-check the address before you confirm: on-chain transfers can't be undone.
-- **Move venue cash** — Cash sitting on Hyperliquid or Polymarket has a **Move** action that brings it back to the agent's wallet, where it can become Cash again automatically.
+- **Move venue cash** — Cash sitting on Hyperliquid or Polymarket has a **Move** action (on Hyperliquid cash it reads **Move to cash**) that brings it back to the agent's wallet, where it can become Cash again automatically.
 
 While a sell or withdrawal is processing, its dialog can't be closed. If it takes longer than expected, you'll see a "still processing" message and balances update once it completes.
 
@@ -59,7 +61,7 @@ Below your own agents, the catalogue (headed **All agents** until you have deplo
 
 If you have a strategy you stopped and archived, its catalogue card offers **Start again** to restart it from here.
 
-A ticker of recent agent results runs across the top of the page.
+A ticker of recent agent wins runs under the navigation bar at the top of the page. It is always shown: while results load it displays a placeholder, and when there are none yet it reads "Quiet hour. Wins show here as agents close them."
 
 If the catalogue doesn't load, refresh the page to try again.
 
