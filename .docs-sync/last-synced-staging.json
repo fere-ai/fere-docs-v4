@@ -1,6 +1,7 @@
 {
   "repo": "fere-ai/all-in-one",
   "branch": "staging",
-  "synced_commit": "aadfba82af70b81189c4a6a012f407bd261716d4",
-  "synced_at": "2026-10-17"
+  "synced_commit": "a65306c465b20ffaa532b37f777d1532bea1ab4d",
+  "synced_at": "2026-10-18",
+  "notes": "Run 2026-10-18: diffed aadfba8..a65306c (11 commits). OUTDATED agents.mdx: signed-in users with no agent keep the 'Pick an agent' intro (ad21486). Skipped: onboarding @bitpack.me-only gate (29a1009; internal audience, covered by open PR #43), backend-only changes (Robinhood Chain stock planner, on-chain decimals, timezone storage). No flag changes."
 }
