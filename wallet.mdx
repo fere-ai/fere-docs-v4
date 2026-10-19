@@ -3,7 +3,7 @@ title: "Wallet — Coinbase-Grade Security"
 sidebarTitle: "Wallet & Security"
 description: "Every Fere agent trades from its own wallet, secured by Coinbase CDP Server Wallets with keys in hardware-isolated TEE enclaves."
 icon: "wallet"
-keywords: ["wallet security", "Coinbase CDP", "TEE", "agent wallet", "cash balance", "withdraw"]
+keywords: ["wallet security", "Coinbase CDP", "TEE", "agent wallet", "cash balance", "withdraw", "dust", "unverified tokens"]
 canonical: "https://docs.fereai.xyz/wallet"
 ---
 
@@ -26,6 +26,25 @@ Use **Fund** (or **Fund more**) on an agent's page. The funding screen shows the
 ### Withdraw
 
 Choose **Withdraw** on the agent's page, enter an amount in USD, and the address to send it to. If the agent is holding positions rather than Cash, sell them back to Cash first. You can withdraw whether the agent is running or stopped.
+
+### Dust and unverified tokens
+
+To keep your wallet easy to read, Fere hides two kinds of tokens by default. They're still in your wallet. Nothing is moved or deleted.
+
+- **Dust**: any token worth less than **$2.00**. Small leftovers from trades and rounding build up over time, so we hide them.
+- **Unverified**: a token flagged as a likely scam, or one with less than **$10,000** of trading liquidity. Anyone can send any token to any wallet, so unverified tokens are often "airdrops" you never asked for. Their price is also unreliable: a thin or fake market can show a value you could never actually sell for.
+
+**To see them**, turn off **Hide dust** at the top of the holdings list in your wallet or in **Portfolio**. Unverified tokens then appear with an **Unverified** tag next to their quoted value.
+
+**What this means for your balance:**
+
+- Unverified tokens are **never counted** in your totals or toward an agent's minimum, even when they're visible. The value on their row is a quote, not money you can count on.
+- While **Hide dust** is on, your total only includes what you see, so tiny dust amounts are left out. Turn it off to include them.
+- If an unverified token is worth more than **$2.00**, you can try to **Sell** it from the agent's page. Because these tokens have little liquidity, the trade may not always go through, and when it does you may get less than the quoted value. Some scam tokens can't be sold at all.
+
+<Warning>
+  If a token you don't recognize shows up in your wallet, don't interact with it, and never visit a website named in a token's name or description. These are common scam tactics.
+</Warning>
 
 <Info icon="lock">
   **Powered by Coinbase CDP Server Wallets.** Every Fere wallet is a Coinbase Developer Platform Server Wallet — the same infrastructure trusted by the world's largest crypto exchange. Private keys live inside Trusted Execution Environments (TEEs) and never leave the secure enclave.
