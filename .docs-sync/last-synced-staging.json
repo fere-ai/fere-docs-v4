@@ -1,0 +1,7 @@
+{
+  "repo": "fere-ai/all-in-one",
+  "branch": "staging",
+  "synced_commit": "527be933b779e0d7966ac702ca611e73b4234116",
+  "synced_at": "2026-10-19",
+  "notes": "Run 2026-10-19: diffed a65306c..527be93. MISSING: blocking Updated-terms consent modal (013bef8). OUTDATED: Realized P&L vs Profit / loss label (79db964, 5686568). Skipped: agent Hide dust toggle + $0.10 floor (5be22fb; covered by open PR #45), landing wins dedupe (7ff1b82, cosmetic), backend-only changes. No flag changes. Note: sync-state file was only on stale PR #32 branch (diverged from main's agents/MCP reframe), so this run is based on main."
+}
