@@ -163,6 +163,10 @@
       "destination": "/strategies"
     },
     {
+      "source": "/agents",
+      "destination": "/agent"
+    },
+    {
       "source": "/discover",
       "destination": "/"
     },
@@ -181,7 +185,9 @@
       "canonical": "https://docs.fereai.xyz",
       "og:type": "website",
       "og:site_name": "Fere AI",
+      "og:image": "https://www.fereai.xyz/og-image.png",
       "twitter:card": "summary_large_image",
+      "twitter:image": "https://www.fereai.xyz/og-image.png",
       "twitter:site": "@fere_ai",
       "robots": "index, follow"
     },
