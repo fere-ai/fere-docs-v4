@@ -89,6 +89,14 @@ Under the wins ticker on **/agents**:
 - **Signed out**, or **signed in with no deployed agent yet** — you see **Pick an agent. It trades for you.** (plus the short lead and the three steps: pick, fund, it trades). That is the same intro for visitors and for accounts that have not set up a clone.
 - **Signed in with at least one deployed agent** (including stopped clones still listed in Discover) — the page switches to the plain **Agents** heading, **Your agents**, and **Find another agent**.
 
+## Spot tokens and the wins list
+
+A spot agent only buys a token it can sell. The token's deepest trading pool must be at least $100,000. Several smaller pools do not add up to that figure. If the pool size cannot be read, the token is not bought.
+
+Selling a token the agent already holds is not held to this rule. Perpetual trades are not held to it. A chain's own gas token, such as ETH or SOL, is not held to it. A named asset in a basket, such as ETH, is chosen from the venues that already clear this same pool size.
+
+The wins on the site use the same rule. A past spot call whose deepest pool is now under $100,000, or whose pool cannot be read, is left off that list. A perpetual win stays.
+
 ## Your first agent (onboarding)
 
 During early access, the first-agent onboarding overlay opens only for **`@bitpack.me`** accounts. Wallet-only logins skip the overlay and go straight into the app.
