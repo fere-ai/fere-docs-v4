@@ -39,6 +39,14 @@ Click any agent to open its page. You'll see:
   **Strategies are fixed.** Each agent's strategy is built and maintained by Fere — you can't change its logic. If you want a custom agent or want to run your own strategy, [contact us](/support).
 </Info>
 
+## Spot tokens and the wins list
+
+A spot agent only buys a token it can sell. The token's deepest trading pool must be at least $100,000. Several smaller pools do not add up to that figure. If the pool size cannot be read, the token is not bought.
+
+Selling a token the agent already holds is not held to this rule. Perpetual trades are not held to it. A chain's own gas token, such as ETH or SOL, is not held to it. A named asset in a basket, such as ETH, is chosen from the venues that already clear this same pool size.
+
+The wins on the site use the same rule. A past spot call whose deepest pool is now under $100,000, or whose pool cannot be read, is left off that list. A perpetual win stays.
+
 ## How Backtests Work
 
 A backtest replays a strategy's rules on past market data, factoring in things like token liquidity. Each strategy is tested over a period that suits it, and some come from TradingView, the community, or pro traders, tested over the windows they chose. To make results comparable, every backtest is **annualized**: converted to the yearly rate that would produce the same result. For example, +30% over 90 days is about +190% a year. Backtests aren't real trades and don't guarantee future results. We're continually improving how we backtest, so we can stress-test strategies more thoroughly.
