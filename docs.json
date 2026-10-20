@@ -29,7 +29,8 @@
         "group": "Get Started",
         "pages": [
           "index",
-          "agent"
+          "agent",
+          "ios-app"
         ]
       },
       {

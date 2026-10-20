@@ -1,0 +1,60 @@
+---
+title: "Fere AI for iOS"
+sidebarTitle: "iOS App"
+description: "The iOS app uses the revamp shell: Clerk sign-in, four tabs, external deposit funding, withdrawals, home-screen widgets, and Research deploy."
+icon: "mobile-screen"
+keywords: ["Fere iOS", "iPhone app", "Sign in with Apple", "Clerk", "deposit", "withdraw", "widgets"]
+canonical: "https://docs.fereai.xyz/ios-app"
+---
+
+The Fere AI iPhone app (`xyz.fereai.app`) uses the same gateway and wallets as the web app. After launch, signed-out users see a welcome screen; signed-in users land in the **revamp shell** with four bottom tabs.
+
+## Sign in
+
+- **Sign in with Apple** is the primary option on the welcome screen.
+- **Clerk** handles the session (email, Google, Discord, and wallet options are available from **More sign-in options**).
+- OAuth callbacks return to the app; the session JWT is exchanged with the Fere gateway before trading features unlock.
+- If the gateway rejects a session, the app prompts you to sign in again.
+
+## Four tabs
+
+| Tab | What you do |
+| --- | --- |
+| **Portfolio** | Net worth chart, recent trades, suggestions, and shortcuts to fund or withdraw. |
+| **Agents** | Browse the catalog, open agents you run, and start or manage strategies. |
+| **Activity** | Ledger-style feed of deposits, trades, and agent events. |
+| **Search** | Find tokens and agents across the catalog. |
+
+First-time signed-in users may see a short **onboarding** flow (pick a goal and fund an agent) before the tab bar appears.
+
+## Funding agents
+
+When you start or add money to an agent:
+
+1. Choose amount and network.
+2. If your **main wallet** already holds enough on that chain, Fere can move funds into the agent wallet in-app.
+3. Otherwise the app shows **external deposit** instructions — EVM and Solana addresses (and QR codes) so you can send crypto from another wallet or exchange. The app can wait for the transfer and show a **Live Activity** on the Lock Screen while funding completes.
+
+Card and Apple Pay rails used on web may appear where the payment gateway supports them for your region; on-chain **external deposit** is always available when in-wallet transfer is not.
+
+## Withdraw
+
+From **Portfolio** or an agent’s running screen, open **Withdraw** to move funds from an agent wallet back to your main wallet. You can require **Face ID** for withdrawals in **Account → Settings**.
+
+## Widgets and Live Activities
+
+Add Fere widgets from the iOS widget gallery:
+
+- **Today’s total** — portfolio snapshot.
+- **Week trades** — recent activity count.
+- **Running agent** — highlights an active strategy.
+
+During agent funding, a **Live Activity** (and Dynamic Island on supported devices) shows progress until the deposit lands.
+
+## Research and deploy
+
+**Agents → Build** opens **Research** — the same chat-style research surface as before. From a strategy card you can still open the **Deploy** sheet to configure and launch an agent on your account.
+
+## Account
+
+Tap your avatar on **Portfolio** for **Account**: appearance (system / light / dark), withdrawal Face ID, notifications, support links, and sign out.
