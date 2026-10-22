@@ -84,6 +84,14 @@ Other agents run with fixed settings and show nothing to adjust — that's by de
 
 You can also choose **Fund later** — the agent waits until its wallet reaches the minimum, then starts on its own.
 
+## Emails
+
+Trade, funding, and withdrawal emails print the clock in the timezone on your account. With no timezone set, that clock is UTC. Dollar amounts are shown to the cent.
+
+A withdrawal email is sent when cash leaves the agent's wallet for another address. A transfer into the agent's own wallet is a deposit, so it does not send that email.
+
+A Hyperliquid agent's funding email does not list spot deposit networks unless that agent names those networks.
+
 ## Welcome email after onboarding
 
 After you set up your first agent, Fere sends a welcome summary by email (and Telegram when you use that). The agent is **already deployed** — the primary button is **Fund**, not Deploy. That link opens the agent's page with the deposit panel ready (`/agents/{slug}?fund=1#fund`), so you can add money and let it start trading. The same deep link opens **Fund more** when the agent is already running.
