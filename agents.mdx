@@ -35,6 +35,15 @@ Click any agent to open its page. You'll see:
 - **Track record** — how the strategy has performed, plus its recent trades and wins.
 - **Setup** — the minimum it needs to start, its fees, and any settings you can adjust.
 
+### Track record lists (before you deploy, or after you stop)
+
+Memecoin & copy-trade agents show extra lists on that page:
+
+- **Top picks** — the best calls in the **24H** or **7D** window. Five rows show first; **Show more** reveals the next five until every pick in that window is visible. Switching **24H** / **7D** resets the list to five again.
+- **Latest calls** — recent buy calls with the reason for each. Five rows show first. **Show more** reveals calls already on the page, then loads older pages from the server (you'll see **Loading…** while that runs). There is no fixed cap — keep clicking until every call is shown and the button disappears.
+
+Directional agents use **Show all** on closed trades when more than five closed rows are present (that list is already fully loaded on the page).
+
 <Info>
   **Strategies are fixed.** Each agent's strategy is built and maintained by Fere — you can't change its logic. If you want a custom agent or want to run your own strategy, [contact us](/support).
 </Info>
@@ -78,6 +87,21 @@ You can also choose **Fund later** — the agent waits until its wallet reaches 
 ## Welcome email after onboarding
 
 After you set up your first agent, Fere sends a welcome summary by email (and Telegram when you use that). The agent is **already deployed** — the primary button is **Fund**, not Deploy. That link opens the agent's page with the deposit panel ready (`/agents/{slug}?fund=1#fund`), so you can add money and let it start trading. The same deep link opens **Fund more** when the agent is already running.
+
+## Amounts in funding emails
+
+Emails about an agent that needs money quote the same numbers as its page:
+
+- **Suggested deposit** — the amount to send, for example "Send $60 to start trading." It is the minimum plus a small buffer, so a price move or a fee doesn't leave the agent just short.
+- **Minimum** — the least the agent can start with. On perps agents it also covers the cost of moving your deposit to the perps exchange and its one-time activation fee, so it can be a little higher than the agent's catalogue minimum.
+
+If a running agent can't place its next buy because its wallet is short, Fere emails you once — not again until the wallet is back above the minimum and drops short again. That email adds:
+
+- **Cash in its wallet** — the balance and when it was read.
+- **How much more to add** — the gap between that cash and the minimum. It's left out when the wallet already has the minimum, or when a number couldn't be read.
+- **Smallest buy** — the least the agent can spend on one trade. The agent stops buying because its Cash is below this amount, even when the wallet still holds some money.
+
+Add funds with the email's **Fund** button and the agent picks up again on its next trade.
 
 ## Your Agent's Wallet and Cash
 
