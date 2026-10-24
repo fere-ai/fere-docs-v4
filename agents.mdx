@@ -98,6 +98,21 @@ Follow is not shown while the agent is deployed.
 
 After you set up your first agent, Fere sends a welcome summary by email (and Telegram when you use that). The agent is **already deployed** — the primary button is **Fund**, not Deploy. That link opens the agent's page with the deposit panel ready (`/agents/{slug}?fund=1#fund`), so you can add money and let it start trading. The same deep link opens **Fund more** when the agent is already running.
 
+## Amounts in funding emails
+
+Emails about an agent that needs money quote the same numbers as its page:
+
+- **Suggested deposit** — the amount to send, for example "Send $60 to start trading." It is the minimum plus a small buffer, so a price move or a fee doesn't leave the agent just short.
+- **Minimum** — the least the agent can start with. On perps agents it also covers the cost of moving your deposit to the perps exchange and its one-time activation fee, so it can be a little higher than the agent's catalogue minimum.
+
+If a running agent can't place its next buy because its wallet is short, Fere emails you once — not again until the wallet is back above the minimum and drops short again. That email adds:
+
+- **Cash in its wallet** — the balance and when it was read.
+- **How much more to add** — the gap between that cash and the minimum. It's left out when the wallet already has the minimum, or when a number couldn't be read.
+- **Smallest buy** — the least the agent can spend on one trade. The agent stops buying because its Cash is below this amount, even when the wallet still holds some money.
+
+Add funds with the email's **Fund** button and the agent picks up again on its next trade.
+
 ## Your Agent's Wallet and Cash
 
 Every agent you start has its **own wallet**, secured by Coinbase. The agent can only trade with it — only you can withdraw. The money waiting to be traded shows as **Cash**, in US dollars. See [Wallet & Security](/wallet) for details.
