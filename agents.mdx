@@ -69,6 +69,16 @@ Some agents let you tune a few settings before you start them, and while they ru
 
 Other agents run with fixed settings and show nothing to adjust — that's by design. Settings change the size and exits of each trade, never how often the agent trades. Each setting shows its allowed range, and a value outside it is saved as the nearest allowed value.
 
+## Agents That Hold a Mix
+
+Some agents don't make individual trades. They hold a **mix**: a share of the wallet in each asset they follow, with the rest in Cash. For example, an agent can hold a third each in Bitcoin, a Nasdaq-100 fund, and gold, and drop any of them to zero when its trend turns down.
+
+- **The whole wallet follows the mix.** There's no amount per trade. Whatever you fund is split across the mix, and money you add later joins it.
+- **It trades only when the mix has drifted.** On each check the agent compares what the wallet holds with its target. It trades only when a holding is off target by more than the agent's band — for example, more than 5 percentage points — or when the wallet is all Cash and the target isn't. Otherwise it leaves the wallet alone until the next check.
+- **When it trades, it resets everything.** Every holding is brought back to its target: sales first, then purchases.
+- **An asset at zero is sold.** It's held as Cash until the agent wants it again.
+- **Agents with US stocks or funds follow the stock market's calendar.** They check on New York trading days, after the close. When a check lands on a market holiday, it runs at the same time on the next trading day, so the whole mix trades a day later. Their backtests use the exchange's closing prices, while live trades buy and sell tokenized shares, which trade around the clock, so live results can differ.
+
 ## Start an Agent
 
 <Steps>
