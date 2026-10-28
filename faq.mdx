@@ -36,6 +36,8 @@ Everything you need to know about using Fere AI — from starting an agent to tr
 
   <Accordion title="Why hasn't my agent traded yet?">
     Agents only trade when their strategy signals an opportunity, so quiet stretches are normal — some strategies trade rarely. Settings change the size and exits of each trade, never how often the agent trades.
+
+    A run can also skip a trade that is too small. Each trade has a minimum (for example, $15 to open or grow a Hyperliquid position). When the agent's share of your wallet is under it, the run says so, for example: *"This run did not trade: ETH needed $10.77, under the $15.00 minimum. Add funds to trade this strategy at its size."* The "add funds" hint appears only when more money would let the trade happen; a small trim or sale just quotes its own minimum.
   </Accordion>
 
   <Accordion title="Can I lose money?">

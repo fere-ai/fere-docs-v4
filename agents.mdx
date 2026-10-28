@@ -88,6 +88,12 @@ You can also choose **Fund later** — the agent waits until its wallet reaches 
 
 After you set up your first agent, Fere sends a welcome summary by email (and Telegram when you use that). The agent is **already deployed** — the primary button is **Fund**, not Deploy. That link opens the agent's page with the deposit panel ready (`/agents/{slug}?fund=1#fund`), so you can add money and let it start trading. The same deep link opens **Fund more** when the agent is already running.
 
+## When Agents Run
+
+Each agent runs on its own schedule, shown on its page — for example every 4 hours, daily after midnight UTC, or at **4:05 pm New York** on US market days for stock agents.
+
+A time set in a local time zone stays at that local time when clocks change: a 4:05 pm New York agent runs at 4:05 pm in summer and in winter. If a clock change skips the time (2:30 am on the spring-forward day), it runs that day just after the change (3:30 am). If the time happens twice (1:30 am on the fall-back day), it runs once. The same applies to tasks you schedule in chat.
+
 ## Your Agent's Wallet and Cash
 
 Every agent you start has its **own wallet**, secured by Coinbase. The agent can only trade with it — only you can withdraw. The money waiting to be traded shows as **Cash**, in US dollars. See [Wallet & Security](/wallet) for details.
