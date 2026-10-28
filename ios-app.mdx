@@ -1,0 +1,47 @@
+---
+title: "Fere on iPhone"
+sidebarTitle: "iOS app"
+description: "How the iOS app sign-in, funding, withdrawals, and revamp navigation work for customers."
+icon: "mobile-screen"
+---
+
+The iPhone app uses the same Fere account and agent wallets as the website. This page covers what changed in the **revamp shell** (Portfolio, Agents, Activity, Search).
+
+## Sign in
+
+- Use **Continue with Apple** or email on the welcome screen.
+- Your session is shared with the web app through the same Fere account.
+- Sign out from the account menu on Portfolio.
+
+## Main tabs
+
+| Tab | What you do there |
+| --- | --- |
+| **Portfolio** | Total balance, chart, recent trades, and your running agents |
+| **Agents** | Browse strategies, start or add money, open agent details |
+| **Activity** | Notifications and trade history |
+| **Search** | Find agents by name, thesis, or ticker |
+
+**Research** (from Portfolio or account) is where you describe a strategy in plain language and deploy it when you are signed in.
+
+## Fund an agent
+
+1. Pick a strategy and tap **Start** (or **Add money** on a running agent).
+2. Choose an amount and network.
+3. When your main wallet cannot send USDC in-app, the app shows a **deposit address and QR code**. Send USDC on the network you picked.
+4. The app watches the agent wallet until the transfer lands (up to about three minutes), then continues setup.
+
+There is no in-app card checkout in the revamp flow — funding is on-chain to the agent’s Coinbase-secured wallet.
+
+## Withdraw
+
+From a running agent, **Withdraw** sends USDC to an address you enter. You can optionally require **Face ID** before a withdrawal is sent. Stopping an agent first sells open positions to USDC, then sweeps cash to your destination.
+
+## Rules and widgets
+
+- **Rules** (each buy size, max position, take profit, cut loss) apply to **new buys**. On an empty wallet you set **USD per buy**; percent sliders unlock after the wallet is funded.
+- **Home Screen widgets** (where enabled) show portfolio or agent snapshots; open the app to refresh live balances.
+
+## Need the classic app layout?
+
+Some builds still expose the full web-style shell under account settings. The revamp tabs above are the default signed-in experience for new installs.
