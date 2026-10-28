@@ -196,9 +196,10 @@
       "robots": "index, follow"
     },
     "organization": {
+      "id": "https://www.fereai.xyz/#organization",
       "name": "Fere AI",
-      "url": "https://www.fereai.xyz",
-      "logo": "https://storage.googleapis.com/fere-assets/logo/logo-light.webp",
+      "url": "https://www.fereai.xyz/",
+      "logo": "https://cdn.fereai.xyz/logo/fere-standalone-logo.webp",
       "sameAs": [
         "https://x.com/fere_ai",
         "https://www.producthunt.com/products/fere-ai",
