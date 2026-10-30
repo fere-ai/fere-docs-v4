@@ -1,33 +1,112 @@
 ---
 title: "Wallet — Coinbase-Grade Security"
 sidebarTitle: "Wallet & Security"
-description: "Every Fere agent trades from its own wallet, secured by Coinbase CDP Server Wallets with keys in hardware-isolated TEE enclaves."
+description: "Your Fere Wallet holds your money and funds every agent. All wallets are Coinbase CDP Server Wallets with keys in hardware-isolated TEE enclaves."
 icon: "wallet"
-keywords: ["wallet security", "Coinbase CDP", "TEE", "agent wallet", "cash balance", "withdraw", "dust", "unverified tokens"]
+keywords: ["Fere Wallet", "wallet security", "Coinbase CDP", "TEE", "agent wallet", "cash balance", "deposit", "withdraw", "take money out", "dust", "unverified tokens"]
 canonical: "https://docs.fereai.xyz/wallet"
 ---
 
-Every agent you start trades from its **own wallet**. Under the hood, each one is powered by Coinbase's most advanced wallet infrastructure.
+Your money lives in one place: your **Fere Wallet**. You deposit into it, add money from it to the agents you start, and withdraw from it. Every wallet, including each agent's, is powered by Coinbase's most advanced wallet infrastructure.
 
-## Agent Wallets (Fere App)
+## How Money Moves
 
-In the Fere app, your money lives in the wallets of the agents you start — one wallet per agent. There's no separate personal wallet to manage.
+<Steps>
+  <Step title="Deposit into your Fere Wallet">
+    Send USDC to your Fere Wallet from an exchange or another wallet. It arrives as **Cash**, shown in US dollars.
+  </Step>
+  <Step title="Add money to an agent">
+    On an agent's page, choose **Add money**. The amount moves from your Fere Wallet to the agent's own wallet, and the agent trades with it.
+  </Step>
+  <Step title="Take money out of an agent">
+    **Take money out** sends an agent's Cash back to your Fere Wallet.
+  </Step>
+  <Step title="Withdraw from your Fere Wallet">
+    **Withdraw** sends Cash from your Fere Wallet to an address you paste. This is the only way money leaves Fere.
+  </Step>
+</Steps>
 
-- **Cash** — money waiting to be traded, shown in US dollars.
-- **Holdings** — whatever the agent currently holds from its trades.
-- **Activity** — every trade, deposit, and withdrawal for that wallet.
+## Your Fere Wallet
 
-You can see each agent's wallet on its page, and all of them together under **Portfolio** in the top navigation.
+Open **Portfolio** in the top navigation and choose **Fere Wallet**. You'll see its **Cash** and two buttons: **Deposit** and **Withdraw**.
 
-### Add funds
+- **Cash** — money that isn't in a trade, shown in US dollars. Behind the scenes it's USDC on the Base network, a digital dollar worth $1 each.
+- **Your Fere Wallet address** is the only address you ever send money to. Agents never show a deposit address of their own.
 
-Use **Fund** (or **Fund more**) on an agent's page. The funding screen shows the networks you can send from, the address to send to on each, and the agent's minimum. Deposits land as Cash.
+### Deposit
+
+<Steps>
+  <Step title="Choose Deposit">
+    In **Portfolio → Fere Wallet**, choose **Deposit**.
+  </Step>
+  <Step title="Pick the network you're sending on">
+    Pick the network your exchange or wallet will send on. The address shown is your Fere Wallet on that network, with a QR code.
+  </Step>
+  <Step title="Send USDC to the address">
+    Copy the address, paste it into your exchange or wallet, and send. Check that the first and last 4 characters match before you confirm.
+  </Step>
+  <Step title="Wait for it to land">
+    The screen updates as soon as your money arrives, and it shows as Cash.
+  </Step>
+</Steps>
+
+| Network | Coin to send | Usually arrives |
+| --- | --- | --- |
+| **Base** (recommended) | USDC | Under a minute |
+| Solana | USDC | Under a minute |
+| Arbitrum | USDC | Under a minute |
+| BNB Chain | USDC | Under a minute |
+| Polygon | USDC | 1 to 2 minutes |
+| Ethereum | USDC | 1 to 5 minutes |
+| Robinhood Chain | USDG | Under a minute |
+
+<Tip>
+  **On Coinbase? Send USDC on Base.** Base is the network your Cash lives on, so a Base deposit arrives in full with nothing to convert. Only have Bitcoin or another coin? Swap it for USDC in your exchange first.
+</Tip>
+
+**Deposits on other networks.** USDC sent on any network other than Base is converted to Cash automatically. The conversion has a small cost, so slightly less than you sent arrives as Cash. Send at least **$5** on these networks; smaller amounts aren't converted.
+
+<Warning>
+  **Only send the coin listed for the network you picked.** Sending a different coin, or sending on a different network than the one you picked, can lose the money. If it happens, [contact support](/support) right away.
+</Warning>
 
 ### Withdraw
 
-Choose **Withdraw** on the agent's page, enter an amount in USD, and the address to send it to. If the agent is holding positions rather than Cash, sell them back to Cash first. You can withdraw whether the agent is running or stopped.
+<Steps>
+  <Step title="Choose Withdraw">
+    In **Portfolio → Fere Wallet**, choose **Withdraw**.
+  </Step>
+  <Step title="Enter the amount and address">
+    Enter an amount in USD and paste the address to send it to. Withdrawals are sent as **USDC on Base**, so use an address that can receive USDC on Base, such as your Coinbase USDC address with Base selected.
+  </Step>
+  <Step title="Check the address and send">
+    Fere shows the address with its first and last 4 characters highlighted. Check they match where you're sending it, then confirm. A wrong address can't be undone.
+  </Step>
+</Steps>
 
-**Agents that trade on Hyperliquid.** When an agent's money is on Hyperliquid, Withdraw sends it straight from Hyperliquid to the address you paste, as **USDC on Arbitrum** — in one step, with nothing passing back through the agent's wallet. Use an EVM address you control that can receive on Arbitrum (not an exchange deposit address for another network). Hyperliquid takes a **$1** withdrawal fee from the amount.
+Only Cash can be withdrawn. If your money is in an agent, take it out of the agent first.
+
+## Agent Wallets
+
+Every agent you start trades from its **own wallet**. The agent can only trade with it, and only you can move money out of it.
+
+- **Cash** — money the agent hasn't put into a trade yet.
+- **Holdings** — whatever the agent currently holds from its trades.
+- **Activity** — every trade and money movement for that wallet.
+
+You can see each agent's wallet on its page, and all of them together under **Portfolio**.
+
+### Add money
+
+On the agent's page, choose **Add money** and enter a whole-dollar amount. It moves from your Fere Wallet Cash to the agent. If your Fere Wallet doesn't have enough Cash, Fere shows your deposit address first, then lets you add the money once your deposit lands.
+
+### Take money out
+
+On the agent's page, choose **Take money out**. The agent's Cash goes back to your Fere Wallet. It can't be sent anywhere else. From there, you can [withdraw](#withdraw) it.
+
+Only Cash can be taken out. If the agent is holding coins or open positions, sell or close them first. You can take money out whether the agent is running or stopped.
+
+**Agents that trade on Hyperliquid.** Money on Hyperliquid comes back to your Fere Wallet as USDC on Arbitrum and is converted to Cash. Hyperliquid charges a **$1** fee, so the smallest amount you can take out is **$6**.
 
 ### Dust and unverified tokens
 
@@ -59,7 +138,7 @@ If you trade through the [Fere MCP](/mcp) from your own AI client, each account 
 ## What Makes This Secure
 
 - **Keys never exposed** — Private keys are generated and stored inside hardware-isolated enclaves.
-- **Agents can only trade** — An agent can trade with its wallet, but only you can withdraw from it.
+- **Agents can only trade** — An agent can trade with its wallet, but only you can move money out of it, and only back to your Fere Wallet.
 - **Policy enforcement** — Transaction rules are enforced at the enclave level.
 - **Fast signing** — Wallet creation takes under 500ms. Transaction signing under 200ms.
 

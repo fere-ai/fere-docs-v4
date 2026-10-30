@@ -6,12 +6,13 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Get Started
 
-- [Welcome](https://docs.fereai.xyz/): Pick an agent, fund it, and it trades — or research and trade from your own AI with the Fere MCP.
+- [Welcome](https://docs.fereai.xyz/): Pick an agent, add money to it, and it trades — or research and trade from your own AI with the Fere MCP.
+- [New to Crypto](https://docs.fereai.xyz/new-to-crypto): Getting USDC, picking a network (Base recommended), your first deposit into the Fere Wallet, and a glossary.
 
 ## Agents
 
-- [Agents](https://docs.fereai.xyz/agents): The agents catalogue, how backtests are run and annualized, starting and funding an agent, settings, stopping, withdrawing, and fees.
-- [Wallet & Security](https://docs.fereai.xyz/wallet): Agent wallets, Cash in US dollars, dust and unverified tokens, MCP wallets, and Coinbase CDP security.
+- [Agents](https://docs.fereai.xyz/agents): The agents catalogue, how backtests are run and annualized, starting an agent and adding money from the Fere Wallet, settings, stopping, taking money out, and fees.
+- [Wallet & Security](https://docs.fereai.xyz/wallet): The Fere Wallet (deposit networks, withdrawals as USDC on Base), agent wallets, Cash in US dollars, dust and unverified tokens, MCP wallets, and Coinbase CDP security.
 
 ## Research & Trading via MCP
 
