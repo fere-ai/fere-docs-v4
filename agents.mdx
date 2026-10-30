@@ -1,7 +1,7 @@
 ---
-title: "Agents — Pick One. Fund It. It Trades."
+title: "Agents — Pick One. Add Money. It Trades."
 sidebarTitle: "Agents"
-description: "Every Fere agent runs its own unique strategy. Pick one from the catalogue, fund its wallet, and it trades for you day and night."
+description: "Every Fere agent runs its own unique strategy. Pick one from the catalogue, add money from your Fere Wallet, and it trades for you day and night."
 icon: "robot"
 keywords: ["Fere agents", "AI trading agents", "copy trading", "automated crypto", "autonomous strategies", "agent catalogue"]
 canonical: "https://docs.fereai.xyz/agents"
@@ -13,8 +13,8 @@ Every Fere agent runs its own unique strategy. You don't write prompts, code, or
   <Card title="1. Pick an agent" icon="magnifying-glass">
     Browse the catalogue and open any agent to see what it trades and how it has performed.
   </Card>
-  <Card title="2. Fund its wallet" icon="wallet">
-    Each agent you start gets its own wallet. Add funds and it starts as soon as the money lands.
+  <Card title="2. Add money" icon="wallet">
+    Add money from your Fere Wallet. The agent starts as soon as it has its minimum.
   </Card>
   <Card title="3. It trades, day and night" icon="clock">
     The agent follows its strategy on its own. Watch its trades and results anytime.
@@ -25,7 +25,7 @@ Every Fere agent runs its own unique strategy. You don't write prompts, code, or
 
 Open **Agents** in the top navigation of the [Fere app](https://www.fereai.xyz/agents). The catalogue lists every agent you can start, grouped into categories you can filter by — for example memecoins, perps, or blue chips like ETH and BTC.
 
-Once you're signed in, the agents you've already started appear at the top, along with a banner for your next step — for example **Start** an agent you've set up, or **Fund** one that's waiting for money.
+Once you're signed in, the agents you've already started appear at the top, along with a banner for your next step — for example **Start** an agent you've set up, or **Add money** to one that's waiting for money.
 
 ## The Agent Page
 
@@ -41,7 +41,7 @@ Click any agent to open its page. You'll see:
 
 ## How Backtests Work
 
-A backtest replays a strategy's rules on past market data, factoring in things like token liquidity. Each strategy is tested over a period that suits it, and some come from TradingView, the community, or pro traders, tested over the windows they chose. To make results comparable, every backtest is **annualized**: converted to the yearly rate that would produce the same result. For example, +30% over 90 days is about +190% a year. Backtests aren't real trades and don't guarantee future results. We're continually improving how we backtest, so we can stress-test strategies more thoroughly.
+A backtest replays a strategy's rules on past market data, factoring in things like token liquidity. Each strategy is tested over a period that suits it, and some come from TradingView, the community, or pro traders, tested over the windows they chose. To make results comparable, every backtest is **annualized**: converted to the yearly rate that would produce the same result. Annualizing a short test makes the number much bigger than what actually happened: for example, +5% over 30 days becomes about +80% a year. Always check how long a backtest ran before reading much into its yearly number, and don't expect an agent to repeat it. Backtests aren't real trades and don't guarantee future results. We're continually improving how we backtest, so we can stress-test strategies more thoroughly.
 
 ## Settings You Can Adjust
 
@@ -49,8 +49,8 @@ Some agents let you tune a few settings before you start them, and while they ru
 
 | Setting | What it changes |
 | --- | --- |
-| **Amount per trade** | How much the agent puts into each trade. |
-| **Leverage** | How much leverage it uses (perps agents only). |
+| **Amount per trade** | How much the agent puts into each trade. On most agents this also sets the minimum to start. |
+| **Leverage** | How much leverage it uses (perps agents only). Higher leverage multiplies gains and losses, and a large enough move against the trade can wipe out the money in it. See [perps and leverage](/new-to-crypto#words-youll-see). |
 | **Stop loss** | How far a trade can fall before the agent exits. |
 | **Take profit** | How far a trade can rise before the agent takes profit. |
 
@@ -65,34 +65,51 @@ Other agents run with fixed settings and show nothing to adjust — that's by de
   <Step title="Adjust settings (if available)">
     Set the amount per trade, stop loss, and other options the agent allows.
   </Step>
-  <Step title="Fund its wallet">
-    The funding screen shows the agent's **minimum**, the networks you can send from, and the wallet address for each. Minimums differ from agent to agent. If an agent's minimum is out of reach, its page may suggest a smaller agent with a similar strategy.
+  <Step title="Add money">
+    Choose **Add money** and enter a whole-dollar amount. It comes from your [Fere Wallet](/wallet#your-fere-wallet). The screen shows the agent's **minimum**, which differs from agent to agent. If your Fere Wallet doesn't have enough Cash, Fere shows your deposit address first. If an agent's minimum is out of reach, its page may suggest a smaller agent with a similar strategy.
   </Step>
   <Step title="It goes live">
-    The agent starts the moment enough money lands in its wallet. You'll get a message by email (or Telegram, if that's how you signed up) once it's live.
+    The agent starts as soon as it has its minimum. You'll get a message by email (or Telegram, if that's how you signed up) once it's live.
   </Step>
 </Steps>
 
-You can also choose **Fund later** — the agent waits until its wallet reaches the minimum, then starts on its own.
+You can also choose **Fund later**. The agent waits until it has its minimum, then starts on its own.
 
-## Welcome email after onboarding
+### How Much You Need
 
-After you set up your first agent, Fere sends a welcome summary by email (and Telegram when you use that). The agent is **already deployed** — the primary button is **Fund**, not Deploy. That link opens the agent's page with the deposit panel ready (`/agents/{slug}?fund=1#fund`), so you can add money and let it start trading. The same deep link opens **Fund more** when the agent is already running.
+Every agent has its own minimum, and the **Add money** screen always shows the right one for that agent. As a guide:
+
+| Agent type | Minimum to start |
+| --- | --- |
+| Most agents (spot: memecoins, blue chips, copy-trade) | Its **amount per trade**, often **$20**. Raise the amount per trade and the minimum rises with it. It's never below **$5**. |
+| Perps agents (trade on Hyperliquid) | At least **$50**, because Hyperliquid doesn't accept less. The screen may ask for a little more to cover fees. |
+
+Fere suggests adding a few dollars over the minimum, so a fee or a small price difference doesn't leave the agent just short. If the agent ends up below its minimum, it waits, or asks you to **Add money to start again** after a stop.
+
+Every buy an agent places is at least **$5**. On a spot agent with less Cash than its amount per trade, the agent trades with the Cash it has.
+
+<Tip>
+  New to crypto? [New to Crypto](/new-to-crypto) walks you through getting USDC and making your first deposit.
+</Tip>
+
+## Welcome Email
+
+After you set up your first agent, Fere sends you a welcome email (or a Telegram message, if that's how you signed up). Your agent is already set up. The email's button takes you straight to the agent's page, ready for you to add money so it can start trading.
 
 ## Your Agent's Wallet and Cash
 
-Every agent you start has its **own wallet**, secured by Coinbase. The agent can only trade with it — only you can withdraw. The money waiting to be traded shows as **Cash**, in US dollars. See [Wallet & Security](/wallet) for details.
+Every agent you start has its **own wallet**, secured by Coinbase. The agent can only trade with it, and only you can move money out of it. The money waiting to be traded shows as **Cash**, in US dollars. See [Wallet & Security](/wallet) for details.
 
-- **Add more** — use **Fund more** on the agent's page anytime to top it up.
-- **Withdraw** — choose **Withdraw**, enter an amount in USD, and the address to send it to.
+- **Add money** — top up the agent from your Fere Wallet anytime.
+- **Take money out** — send the agent's Cash back to your Fere Wallet. From there you can withdraw it.
 - **Sell** — anything the agent holds can be sold back to Cash whenever you like.
 
 ## Stop or Restart
 
 You're always in control.
 
-- **Stop** — the agent stops making new trades. Whatever it holds stays in its wallet, and any take-profit and stop-loss orders it placed stay on. Sell or withdraw any of it whenever you like.
-- **Start again** — restart a stopped agent from its page. If its wallet has dropped below the minimum, you'll be asked to fund it first (**Fund to start again**).
+- **Stop** — the agent stops making new trades. **Stopping doesn't sell anything:** whatever it holds stays in its wallet, and any take-profit and stop-loss orders it placed stay on. Right after you stop it, Fere offers to take its Cash back to your Fere Wallet. Sell what it holds whenever you like.
+- **Start again** — restart a stopped agent from its page. If it has dropped below its minimum, you'll be asked to add money first (**Add money to start again**).
 
 ## Fees
 
@@ -101,7 +118,11 @@ You're always in control.
 | Perps agents | **0.1%** of each trade |
 | All other agents | **0.5%** of each trade |
 
-There are no other fees from Fere.
+Fere doesn't charge any other fees. A few costs come from the networks and markets, not from Fere:
+
+- **Deposits on networks other than Base** are converted to Cash, which costs a little. Send on Base to avoid this. See [Deposit](/wallet#deposit).
+- **Prices move while a trade fills**, so a trade can fill at a slightly different price than quoted.
+- **Hyperliquid** charges $1 when money comes back from it.
 
 ## Track Your Agents
 

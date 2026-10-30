@@ -28,7 +28,8 @@
       {
         "group": "Get Started",
         "pages": [
-          "index"
+          "index",
+          "new-to-crypto"
         ]
       },
       {
@@ -97,6 +98,10 @@
       {
         "header": "Resources",
         "items": [
+          {
+            "label": "New to Crypto",
+            "href": "/new-to-crypto"
+          },
           {
             "label": "FAQ",
             "href": "/faq"

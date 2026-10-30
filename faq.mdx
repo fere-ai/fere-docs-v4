@@ -13,7 +13,7 @@ Everything you need to know about using Fere AI — from starting an agent to tr
 
 <AccordionGroup>
   <Accordion title="What is a Fere agent?">
-    An agent is an automated trader that runs one unique strategy. You pick an agent from the catalogue, fund its wallet, and it trades on its own, day and night. See [Agents](/agents).
+    An agent is an automated trader that runs one unique strategy. You pick an agent from the catalogue, add money to it from your Fere Wallet, and it trades on its own, day and night. See [Agents](/agents).
   </Accordion>
 
   <Accordion title="Can I change an agent's strategy?">
@@ -23,15 +23,15 @@ Everything you need to know about using Fere AI — from starting an agent to tr
   </Accordion>
 
   <Accordion title="How much do I need to start an agent?">
-    It depends on the agent — each one has its own minimum, shown on the funding screen. If an agent's minimum is out of reach, its page may suggest a smaller agent with a similar strategy.
+    It depends on the agent, and the **Add money** screen shows its exact minimum. Most agents need their amount per trade, often **$20** and never below $5. Perps agents that trade on Hyperliquid need at least **$50**. Fere suggests a few dollars more to cover fees. If an agent's minimum is out of reach, its page may suggest a smaller agent with a similar strategy. See [How much you need](/agents#how-much-you-need).
   </Accordion>
 
   <Accordion title="What does it cost?">
-    Fere charges **0.5% of each trade** (0.1% for perps agents). There are no other fees from Fere.
+    Fere charges **0.5% of each trade** (0.1% for perps agents), and no other fees. Some small costs come from the networks and markets rather than from Fere: converting deposits sent on networks other than Base, prices moving while a trade fills, and Hyperliquid's $1 fee when money comes back from it. See [Fees](/agents#fees).
   </Accordion>
 
   <Accordion title="How do I stop an agent?">
-    Open the agent's page and choose **Stop**. It stops making new trades right away. Whatever it holds stays in its wallet, and any take-profit and stop-loss orders it placed stay on. You can sell, withdraw, or **Start again** whenever you like.
+    Open the agent's page and choose **Stop**. It stops making new trades right away. **Stopping doesn't sell anything:** whatever it holds stays in its wallet, and any take-profit and stop-loss orders it placed stay on. Fere then offers to take its Cash back to your Fere Wallet. You can sell, take money out, or **Start again** whenever you like.
   </Accordion>
 
   <Accordion title="Why hasn't my agent traded yet?">
@@ -47,19 +47,43 @@ Everything you need to know about using Fere AI — from starting an agent to tr
 
 <AccordionGroup>
   <Accordion title="Where is my money held?">
-    Every agent you start has its own wallet, powered by Coinbase CDP Server Wallets. Private keys live inside hardware-isolated Trusted Execution Environments (TEEs). The agent can only trade with its wallet — only you can withdraw. See [Wallet & Security](/wallet).
+    In your **Fere Wallet**, and in the wallets of the agents you add money to. All of them are Coinbase CDP Server Wallets. Private keys live inside hardware-isolated Trusted Execution Environments (TEEs). An agent can only trade with its wallet, and only you can move money out of it. See [Wallet & Security](/wallet).
+  </Accordion>
+
+  <Accordion title="What is the Fere Wallet?">
+    Your Fere Wallet is where your money lives on Fere. You deposit into it, add money from it to agents, and withdraw from it. Find it under **Portfolio → Fere Wallet**. See [Your Fere Wallet](/wallet#your-fere-wallet).
   </Accordion>
 
   <Accordion title="What is Cash?">
-    **Cash** is the money in an agent's wallet that isn't currently in a trade, shown in US dollars. Deposits land as Cash, and Cash is what you withdraw.
+    **Cash** is money that isn't in a trade, shown in US dollars. Behind the scenes it's USDC on the Base network, a digital dollar worth $1 each. Deposits land as Cash, and Cash is what you withdraw.
   </Accordion>
 
-  <Accordion title="How do I add funds?">
-    Use **Fund** (or **Fund more**) on the agent's page. The funding screen shows which networks you can send from and the address to send to on each.
+  <Accordion title="I don't own any crypto. How do I start?">
+    Buy USDC on an exchange such as Coinbase, then send it to your Fere Wallet on the Base network. [New to Crypto](/new-to-crypto) walks you through it step by step.
+  </Accordion>
+
+  <Accordion title="How do I add money?">
+    First deposit USDC into your Fere Wallet: **Portfolio → Fere Wallet → Deposit**, pick the network you're sending on, and send to the address shown. Then choose **Add money** on an agent's page. See [Deposit](/wallet#deposit).
+  </Accordion>
+
+  <Accordion title="Which network should I send on?">
+    **Base**, if your exchange or wallet supports it. Your Cash lives on Base, so a Base deposit arrives in full and usually within a minute. Other networks work too, but they're converted to Cash at a small cost, and amounts under $5 aren't converted. See [Deposit](/wallet#deposit).
+  </Accordion>
+
+  <Accordion title="How long does a deposit take?">
+    Usually under a minute on Base, Solana, Arbitrum and BNB Chain, 1 to 2 minutes on Polygon, and 1 to 5 minutes on Ethereum. The deposit screen updates as soon as your money arrives.
+  </Accordion>
+
+  <Accordion title="I sent the wrong coin or used the wrong network. What now?">
+    [Contact support](/support) right away with the transaction details. Only send the coin listed for the network you picked: anything else can be lost, and we can't always recover it.
   </Accordion>
 
   <Accordion title="How do I withdraw?">
-    On the agent's page, choose **Withdraw**, enter an amount in USD, and the address to send it to. If the agent is holding positions, sell them back to Cash first. For an agent whose money is on Hyperliquid, the withdraw arrives as USDC on Arbitrum at the address you paste, less Hyperliquid's $1 fee — see [Withdraw](/wallet#withdraw).
+    Money leaves Fere only from your Fere Wallet. If it's in an agent, choose **Take money out** on the agent's page to send its Cash back to your Fere Wallet; sell or close what the agent holds first. Then go to **Portfolio → Fere Wallet → Withdraw**, enter an amount, and paste an address that can receive **USDC on Base**. See [Withdraw](/wallet#withdraw).
+  </Accordion>
+
+  <Accordion title="Do I have to pay tax?">
+    Fere doesn't give tax advice. In many countries, each trade an agent makes can count as a taxable event. Your full trade history is in **Portfolio**. Check the rules where you live, or ask a tax professional.
   </Accordion>
 
   <Accordion title="Why is a token missing from my wallet?">
@@ -111,7 +135,7 @@ Everything you need to know about using Fere AI — from starting an agent to tr
   </Accordion>
 
   <Accordion title="Is my trading data private?">
-    **Yes.** Your trading activity is encrypted at rest and never shared with third parties. Fere does not use your data to train AI models unless you explicitly opt in.
+    Your trading activity is encrypted at rest. We use a small number of service providers to run Fere, such as product analytics and email, and they process some data on our behalf. See the [Privacy Policy](/legal/privacy). Fere does not use your data to train AI models unless you explicitly opt in.
   </Accordion>
 
   <Accordion title="How do I contact support?">
