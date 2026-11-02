@@ -1,0 +1,76 @@
+---
+title: "Agent API authentication"
+sidebarTitle: "Agent API auth"
+description: "What to do when an AgentDoor client is blocked, rate limited, or the agent is suspended."
+icon: "key"
+keywords: ["AgentDoor", "API", "authentication", "rate limit", "suspended", "client_blocked", "agent_inactive"]
+canonical: "https://docs.fereai.xyz/api-auth"
+---
+
+Direct API clients sign in with AgentDoor: `POST /v1/auth/register`, `POST /v1/auth/verify`, then `POST /v1/auth/token`, and send `Authorization: Bearer agt_...` on later calls. The hosted MCP login in the browser is a different path. These three errors are only for AgentDoor.
+
+Every error body has the same shape. Read `detail.error.code`.
+
+```json
+{
+  "detail": {
+    "error": {
+      "code": "client_blocked",
+      "message": "This client is not allowed to call AgentDoor auth.",
+      "details": null
+    }
+  }
+}
+```
+
+## `client_blocked` — stop, and change the client
+
+**HTTP 403.** No `Retry-After` header.
+
+Sent only for `/v1/auth/register`, `/v1/auth/verify`, and `/v1/auth/token` when the `User-Agent` product token starts with `python-requests` (the default `requests` library string, for example `python-requests/2.32.3`). Other routes are not refused for this reason. `OPTIONS` is not refused.
+
+**What to do:** stop retrying with that User-Agent. Call the same endpoint again with a normal client. The official Python SDK uses HTTPX (`python-httpx/...`) and is not this block. Do not register again in a loop, and do not treat this as a suspended account.
+
+## `rate_limited` — wait, then retry once
+
+**HTTP 429.** The response includes `Retry-After`, a whole number of seconds (at least 1).
+
+```json
+{
+  "detail": {
+    "error": {
+      "code": "rate_limited",
+      "message": "Too many AgentDoor auth attempts.",
+      "details": null
+    }
+  }
+}
+```
+
+The limit is per client IP and per route, on the same three auth paths. Defaults are 10 registrations, 30 verifies, and 60 token mints per 60 seconds. Those defaults can change. `Retry-After` is the number to trust.
+
+**What to do:** wait at least `Retry-After` seconds, then send the same request once. Do not register a new key to get a fresh budget. Register, verify, and token are counted separately, but a tight loop on any one of them will hit the cap again.
+
+## `agent_inactive` — stop; the agent is not active
+
+The agent was suspended or revoked, or its status is anything other than `active`. A new registration with a new key creates a different agent. It does not turn the old one back on.
+
+**HTTP 401** when minting a token (`POST /v1/auth/token`) or when any later call presents `Authorization: Bearer agt_...`.
+
+**HTTP 403** when `POST /v1/auth/verify` finishes or replays a registration for an agent that is not active.
+
+```json
+{
+  "detail": {
+    "error": {
+      "code": "agent_inactive",
+      "message": "Agent is not active",
+      "details": null
+    }
+  }
+}
+```
+
+**What to do:** stop retrying. Do not mint again with the same key, and do not re-register that key. Wait until the agent is active again, then mint a new token (a token that was deleted must be minted again; one that was only left in place starts working on the next request).
+
+A websocket or server-sent stream that already connected can keep running until it disconnects. The next connection is refused with 401 `agent_inactive`.
