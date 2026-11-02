@@ -1,7 +1,7 @@
-// The deployed Mintlify build stores seo.organization in the page payload and
-// does not print a JSON-LD script. Ahrefs then reports the docs homepage as
-// missing Organization and /faq as missing FAQPage. Inject both from the
-// rendered page so the FAQ answers stay the accordion text.
+// inject-jsonld.mjs writes Organization and FAQPage into the exported HTML.
+// This file only fills the gap after a client-side navigation, which swaps
+// the page without a new document. It leaves a script that is already in the
+// HTML alone, so a full page load is not tagged twice.
 (function () {
   var ORG_ID = "https://www.fereai.xyz/#organization";
   var ORGANIZATION = {
@@ -36,11 +36,12 @@
     el.textContent = JSON.stringify(data);
   }
 
-  function hasNativeOrganization() {
+  function hasStaticType(type) {
     var blocks = document.querySelectorAll('script[type="application/ld+json"]');
+    var needle = '"@type":"' + type + '"';
     for (var i = 0; i < blocks.length; i++) {
-      if (blocks[i].id === "fere-org-jsonld") continue;
-      if (blocks[i].textContent.indexOf('"Organization"') !== -1) return true;
+      if (blocks[i].id === "fere-org-jsonld" || blocks[i].id === "fere-faq-jsonld") continue;
+      if (blocks[i].textContent.indexOf(needle) !== -1) return true;
     }
     return false;
   }
@@ -72,8 +73,8 @@
   }
 
   function run() {
-    upsert("fere-org-jsonld", hasNativeOrganization() ? null : ORGANIZATION);
-    upsert("fere-faq-jsonld", faqPage());
+    upsert("fere-org-jsonld", hasStaticType("Organization") ? null : ORGANIZATION);
+    upsert("fere-faq-jsonld", hasStaticType("FAQPage") ? null : faqPage());
   }
 
   run();
