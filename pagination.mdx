@@ -1,0 +1,25 @@
+---
+title: "Paged requests"
+sidebarTitle: "Paged requests"
+description: "Skip, offset, and limit bounds on public list routes, and the 422 returned when a page is out of range."
+icon: "list"
+keywords: ["pagination", "skip", "offset", "limit", "422", "chat threads", "schedule"]
+canonical: "https://docs.fereai.xyz/pagination"
+---
+
+Public list routes take a page size and, on most of them, a `skip`. A value outside the range for that route is rejected with **422** before the query runs.
+
+`skip` is an integer from **0** to **1000000**. A public route that takes `offset` uses that same range. `limit` is an integer from **1** up to the maximum for that route. Negative numbers, zero, and anything above the maximum all return **422**.
+
+| Request | Page parameters |
+| --- | --- |
+| `GET /v1/chat/threads` | `skip` 0–1000000, `limit` 1–100 |
+| `GET /v1/chat/threads/{thread_id}` | `limit` 1–100 when you set it. Omit `limit` for the full thread. This route has no `skip` or `offset`; pass `before` (a message id) for an older page. |
+| `GET /schedule-chat/list` | `skip` 0–1000000, `limit` 1–10 |
+| `GET /schedule-chat/schedule/{schedule_id}` | `skip` 0–1000000, `limit` 1–50 |
+| `GET /schedule-chat/schedule/{schedule_id}/executions` | `skip` 0–1000000, `limit` 1–50 |
+| `GET /schedule-chat/execution/{execution_id}/events` | `skip` 0–1000000, `limit` 1–50 |
+| `GET /schedule-chat/schedule/{schedule_id}/transactions` | `skip` 0–1000000, `limit` 1–50 |
+| `GET /polymarket/activity` | `limit` 1–500 |
+
+The same ranges are in the API skill file at [https://api.fereai.xyz/skill.md](https://api.fereai.xyz/skill.md). The in-app points leaderboard still shows the top 30, which is inside its 1–100 page size.

@@ -46,6 +46,12 @@
         ]
       },
       {
+        "group": "API",
+        "pages": [
+          "pagination"
+        ]
+      },
+      {
         "group": "Rewards",
         "pages": [
           "points",
