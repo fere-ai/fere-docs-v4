@@ -110,6 +110,13 @@ Everything you need to know about using Fere AI — from starting an agent to tr
     **Yes — talk to us.** If you're a KOL, influencer, or pro trader with a strategy you'd like to run as a Fere agent, or you want to use Fere AI for something custom, email **[aron@fereai.xyz](mailto:aron@fereai.xyz)** or DM **[@0xAron](https://x.com/0xAron)** on X.
   </Accordion>
 
+  <Accordion title="Why was my message rejected for containing a NUL (0x00) character?">
+    A NUL is an invisible control character (code 0x00). It sometimes comes along when you paste text copied from a file, a terminal, or binary data. Fere can't store it, so:
+
+    - **Chat messages, invite codes, and the IDs used to sign in an agent** (agent name, public key, registration ID, agent ID) that contain one are rejected with an error saying they must not contain NUL characters. Nothing is saved or charged. Remove the character — retyping the text usually does it — and send it again.
+    - **Saved answers and activity** — if an agent's answer or the output of code it ran contains a NUL, that one character is dropped and the rest is saved as normal.
+  </Accordion>
+
   <Accordion title="Is my trading data private?">
     **Yes.** Your trading activity is encrypted at rest and never shared with third parties. Fere does not use your data to train AI models unless you explicitly opt in.
   </Accordion>
