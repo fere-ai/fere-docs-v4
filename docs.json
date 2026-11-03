@@ -42,7 +42,8 @@
         "group": "Research & Trading via MCP",
         "pages": [
           "mcp",
-          "api-auth"
+          "api-auth",
+          "rate-limits"
         ]
       },
       {
