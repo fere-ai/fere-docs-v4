@@ -123,4 +123,14 @@ Everything you need to know about using Fere AI — from starting an agent to tr
   <Accordion title="How do I contact support?">
     Email **[aron@fereai.xyz](mailto:aron@fereai.xyz)**, or DM **[@0xAron](https://x.com/0xAron)** on X for the fastest response. See the [Support](/support) page for details.
   </Accordion>
+
+  <Accordion title="Why was my account deletion not accepted?">
+    The delete-account request answers with **HTTP 200** and `status: rejected`, plus a reason. That is a refusal, not a server error, and the app shows the reason.
+
+    - **Choose a valid reason for deleting your account.** Pick one of the reasons in the delete dialog.
+    - **Consent time is invalid. Accept the confirmations again.** Go back and accept the confirmations.
+    - An open billing dispute, money still on Hyperliquid or Polymarket, a missing wallet backup, or a deletion that is already scheduled each have their own message in that same response.
+
+    If you still cannot delete the account, email **[aron@fereai.xyz](mailto:aron@fereai.xyz)**.
+  </Accordion>
 </AccordionGroup>
