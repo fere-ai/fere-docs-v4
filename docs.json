@@ -41,7 +41,8 @@
       {
         "group": "Research & Trading via MCP",
         "pages": [
-          "mcp"
+          "mcp",
+          "api-auth"
         ]
       },
       {
@@ -91,6 +92,10 @@
           {
             "label": "MCP Support",
             "href": "/mcp"
+          },
+          {
+            "label": "Agent API auth",
+            "href": "/api-auth"
           }
         ]
       },

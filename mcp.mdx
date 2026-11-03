@@ -148,6 +148,8 @@ https://api.fereai.xyz/mcp
   **OAuth Is Handled By Your Client.** Fere never sees your client credentials. Each provider runs its own OAuth flow against your Fere account — the URL above is the only thing you ever paste. Revoke access anytime from your Fere account settings.
 </Warning>
 
+Clients that call the HTTP API with an AgentDoor token, instead of this browser login, should follow [Agent API authentication](/api-auth) when a call returns `client_blocked`, `rate_limited`, or `agent_inactive`.
+
 ## Want Fere AI for Something Custom?
 
 The MCP gives you Fere's tools inside your own AI. If you want to use Fere AI itself for custom work or to create your own strategies — or you're a KOL, influencer, or pro trader with a strategy you'd like to deploy as a Fere agent — [contact us](/support).
