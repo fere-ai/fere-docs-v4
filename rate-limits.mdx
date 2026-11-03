@@ -1,0 +1,56 @@
+---
+title: "Rate limits"
+sidebarTitle: "Rate limits"
+description: "How many signed-in API requests a Fere account can make per minute, and what to do when a call returns 429 rate_limited."
+icon: "gauge"
+keywords: ["rate limit", "429", "rate_limited", "Retry-After", "RateLimit-Limit", "API", "MCP", "AgentDoor"]
+canonical: "https://docs.fereai.xyz/rate-limits"
+---
+
+Signed-in requests to the Fere API are limited **per account**, not per IP address. A signed-in request is any call that sends `Authorization: Bearer ...`: an AgentDoor `agt_` token, an MCP or ChatGPT login, or a web app session. Every token that belongs to the same Fere account shares one budget. People on the same office or mobile network do not use up each other's budget.
+
+| | |
+| --- | --- |
+| **Default limit** | 600 requests per minute per account |
+| **Window** | Each clock minute, starting at second 0 |
+| **Counted** | Every signed-in HTTP request, whatever its result. An MCP tool call counts as the API requests it makes. A streamed response counts once. |
+| **Not counted** | Websocket connections and their messages |
+
+The default can change. When you are limited, `Retry-After` tells you how long to wait. Trust that number over the table.
+
+Tool calls made from inside a Fere code sandbox have their own budget, so they do not use up the account's budget.
+
+## `rate_limited`: wait, then continue
+
+**HTTP 429.** The response includes `Retry-After`, a whole number of seconds (at least 1) until the next window starts.
+
+```json
+{
+  "detail": {
+    "error": {
+      "code": "rate_limited",
+      "message": "Too many requests. Retry after 17 seconds.",
+      "details": { "limit_per_minute": 600 }
+    }
+  }
+}
+```
+
+The 429 response also carries these headers. Successful responses do not include them.
+
+| Header | Meaning |
+| --- | --- |
+| `Retry-After` | Seconds to wait before the next request |
+| `RateLimit-Limit` | Requests allowed per minute for this account |
+| `RateLimit-Remaining` | Requests left in this window (`0` on a 429) |
+| `RateLimit-Reset` | Seconds until the window resets |
+
+**What to do:**
+
+- Wait at least `Retry-After` seconds, then send the same request again. Retry once, not in a tight loop.
+- Do not register a new AgentDoor key or sign in again to get a new budget. Every token for the account shares the same budget.
+- If you poll prices, positions or PnL, poll less often.
+
+## Sign-up and token limits
+
+The AgentDoor sign-up and token routes (`/v1/auth/register`, `/v1/auth/verify` and `/v1/auth/token`) have their own limit, per client IP, because no account exists yet. See [Agent API authentication](/api-auth).
