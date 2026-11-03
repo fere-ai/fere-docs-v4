@@ -1,7 +1,7 @@
 ---
 title: "Fere AI Frequently Asked Questions"
 sidebarTitle: "FAQ"
-description: "Answers on Fere agents, funding and withdrawing, fees, wallet security, the Fere MCP, and points."
+description: "Answers on Fere agents, funding and withdrawing, fees, wallet security, the Fere MCP, safety limits, and points."
 icon: "circle-question"
 keywords: ["Fere FAQ", "AI trading agents", "fees", "withdraw", "MCP", "points", "agent wallet"]
 canonical: "https://docs.fereai.xyz/faq"
@@ -68,6 +68,28 @@ Everything you need to know about using Fere AI — from starting an agent to tr
 
   <Accordion title="Why isn't a token counted in my balance?">
     If it has an **Unverified** tag, its price can't be trusted, so we leave it out of your totals and the agent's minimum, even though its quoted value appears on its row. If it's worth more than $2.00 you can try to sell it, but low-liquidity trades may not always go through. See [Dust and unverified tokens](/wallet#dust-and-unverified-tokens).
+  </Accordion>
+</AccordionGroup>
+
+## Chat and scheduled runs
+
+<AccordionGroup>
+  <Accordion title="Why did a chat or scheduled run stop early?">
+    Fere stops a run that keeps repeating the same step, instead of calling tools or sending the same wallet action again. The reply is:
+
+    > I stopped early because this request kept repeating the same steps and hit a safety limit. I did not run any further actions. Please try a narrower question if you still need more detail.
+
+    Nothing further runs after that message. If you still need an answer, ask a narrower question.
+
+    In one chat or one scheduled run, by default:
+
+    - The same successful lookup runs at most **3** times.
+    - A call that already failed is not retried with the same inputs.
+    - The same wallet action (a swap, hook, transfer, or order) is not sent twice.
+    - At most **8** tool calls run at the same time. The rest are skipped with a short note, not a copy of the whole batch.
+    - The run stops after about **40** tool calls or **25** back-and-forth steps. Fere then tries once to answer from what it already has.
+
+    A step that is waiting on another step (for example, hooks that need your holdings first) is not treated as a failure. It can run after that earlier step succeeds.
   </Accordion>
 </AccordionGroup>
 
