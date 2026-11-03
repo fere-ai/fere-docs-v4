@@ -18,6 +18,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 - [MCP Support](https://docs.fereai.xyz/mcp): Research and trade with Fere from Claude, ChatGPT, Codex, Cursor, Hermes, OpenClaw, and other MCP clients.
 - [Agent API auth](https://docs.fereai.xyz/api-auth): AgentDoor errors `client_blocked` (403, stop and change User-Agent), `rate_limited` (429, wait for Retry-After), and `agent_inactive` (401 on token use, 403 on verify; stop retrying).
 - [Rate limits](https://docs.fereai.xyz/rate-limits): Signed-in API requests are limited per account (default 600 per minute, shared by every token). On 429 `rate_limited`, wait `Retry-After` seconds, then retry once.
+- [Paged requests](https://docs.fereai.xyz/pagination): Public `skip` and `offset` are integers 0–1000000. `limit` is 1 up to that route's maximum (chat threads and notifications 100, schedule list 10, schedule detail, executions, events, and transactions 50, Polymarket activity 500). Out-of-range values return 422 and are not queried. Omit `limit` on a chat thread for the full thread.
 
 ## Rewards
 
