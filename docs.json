@@ -43,7 +43,8 @@
         "pages": [
           "mcp",
           "api-auth",
-          "rate-limits"
+          "rate-limits",
+          "pagination"
         ]
       },
       {
