@@ -49,6 +49,8 @@ Sent only for `/v1/auth/register`, `/v1/auth/verify`, and `/v1/auth/token` when 
 
 The limit is per client IP and per route, on the same three auth paths. Defaults are 10 registrations, 30 verifies, and 60 token mints per 60 seconds. Those defaults can change. `Retry-After` is the number to trust. Calls made after sign-in have a separate per-account limit; see [Rate limits](/rate-limits).
 
+These three routes also have a per-IP limit at the edge, including a cap per hour on registrations. That 429 has a plain body, `{"message": "API rate limit exceeded", "request_id": "..."}`, with no `detail.error`. It still sends `Retry-After`, and you handle it the same way. See [Rate limits](/rate-limits#a-429-with-a-plain-message-body).
+
 **What to do:** wait at least `Retry-After` seconds, then send the same request once. Do not register a new key to get a fresh budget. Register, verify, and token are counted separately, but a tight loop on any one of them will hit the cap again.
 
 ## `agent_inactive` — stop; the agent is not active
