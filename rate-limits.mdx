@@ -36,7 +36,7 @@ Tool calls made from inside a Fere code sandbox have their own budget, so they d
 }
 ```
 
-The 429 response also carries these headers. Successful responses do not include them.
+The 429 response also carries these headers. The account limit does not add them to successful responses. (The per-IP limit below can, for its own budget.)
 
 | Header | Meaning |
 | --- | --- |
@@ -50,6 +50,21 @@ The 429 response also carries these headers. Successful responses do not include
 - Wait at least `Retry-After` seconds, then send the same request again. Retry once, not in a tight loop.
 - Do not register a new AgentDoor key or sign in again to get a new budget. Every token for the account shares the same budget.
 - If you poll prices, positions or PnL, poll less often.
+
+## A 429 with a plain `message` body
+
+The edge in front of the API also limits requests **per client IP**, whether or not they are signed in. It is set well above normal use and is there to stop floods. When you hit it, the 429 has a different body:
+
+```json
+{
+  "message": "API rate limit exceeded",
+  "request_id": "44d4d54ea077d428ed42ac3fd5c78932"
+}
+```
+
+`Retry-After` is still there, in whole seconds. Treat this response the same way as `rate_limited`: wait at least `Retry-After` seconds, then retry once.
+
+These responses also carry `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset`, `X-RateLimit-Limit-Minute` and `X-RateLimit-Remaining-Minute`. They describe the IP's budget, not the account's, and they can appear on successful responses too. On an account `rate_limited` response you may get two of each `RateLimit-*` header, one for the IP and one for the account, often joined into one value such as `600, 600`. `Retry-After` is only ever sent once. Use it to decide when to retry, and read `detail.error.code` only when the body has one.
 
 ## Sign-up and token limits
 
