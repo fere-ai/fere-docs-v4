@@ -1,0 +1,4 @@
+{
+  "buildCommand": "npx -y mint@latest export && unzip -o export.zip -d _site && node inject-jsonld.mjs",
+  "outputDirectory": "_site"
+}
