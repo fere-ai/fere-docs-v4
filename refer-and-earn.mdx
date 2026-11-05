@@ -32,9 +32,9 @@ An invite code applies only to the account you are signed in with.
 
 The accept request may include `user_id`. That id has to be the signed-in account. If you omit it, the signed-in account is used. A `user_id` for a different account is refused with **403** and the message `user_id does not match the signed-in user`. The code is not applied to the other account, and it is not repeated in the error.
 
-Failed attempts are limited. A successful accept does not use up an attempt. The limits are:
+Accept requests are limited in two ways:
 
-- **5** failed attempts per account every **15 minutes**, and **20** per account every **24 hours**
-- **60** failed attempts per client address every **15 minutes**, and **200** per client address every **24 hours**
+- **Per account, failed attempts only:** **5** every **15 minutes** and **20** every **24 hours**. A successful accept does not use up an attempt.
+- **Per client IP, every request:** **10** a minute, **60** an hour and **200** a day, counting accepted and refused codes alike.
 
-When a limit is reached, the API responds with **429** and a `Retry-After` header. The header is the number of seconds until that window allows another attempt. Wait at least that long before trying again.
+When a limit is reached, the API responds with **429** and a `Retry-After` header. The header is the number of seconds until that window allows another attempt. Wait at least that long before trying again. A per-IP 429 has the edge's body, `{"message": "API rate limit exceeded", ...}`; see [Rate limits](/rate-limits).

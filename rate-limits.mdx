@@ -116,3 +116,7 @@ If the account runs out of credits later, Fere stops all its schedules, and runs
 ## Sign-up and token limits
 
 The AgentDoor sign-up and token routes (`/v1/auth/register`, `/v1/auth/verify` and `/v1/auth/token`) have their own limit, per client IP, because no account exists yet. See [Agent API authentication](/api-auth).
+
+## Invite code limits
+
+`POST /accept_invite_code` has its own limits: failed attempts per account, and every request per client IP. See [Accepting an invite code](/refer-and-earn#accepting-an-invite-code).

@@ -109,7 +109,7 @@ Everything you need to know about using Fere AI — from starting an agent to tr
   <Accordion title="Why was my invite code refused?">
     A code applies only to the account you are signed in with. Sending another account's `user_id` returns **403** (`user_id does not match the signed-in user`).
 
-    Too many failed guesses return **429** with a `Retry-After` header (seconds to wait). The limits are 5 failures per account every 15 minutes and 20 per account every 24 hours, plus 60 per client address every 15 minutes and 200 per address every 24 hours. A code that is accepted does not count as a failure. See [Accepting an invite code](/refer-and-earn#accepting-an-invite-code).
+    Too many failed guesses return **429** with a `Retry-After` header (seconds to wait). Each account gets 5 failed attempts every 15 minutes and 20 every 24 hours; a code that is accepted does not count as a failure. Each client IP also gets 10 accept requests a minute, 60 an hour and 200 a day, whatever the result. See [Accepting an invite code](/refer-and-earn#accepting-an-invite-code).
   </Accordion>
 </AccordionGroup>
 
