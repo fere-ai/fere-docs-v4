@@ -59,7 +59,7 @@ Everything you need to know about using Fere AI — from starting an agent to tr
   </Accordion>
 
   <Accordion title="How do I withdraw?">
-    On the agent's page, choose **Withdraw**, enter an amount in USD, and the address to send it to. If the agent is holding positions, sell them back to Cash first. For an agent whose money is on Hyperliquid, the withdraw arrives as USDC on Arbitrum at the address you paste, less Hyperliquid's $1 fee — see [Withdraw](/wallet#withdraw).
+    On the agent's page, choose **Withdraw**, enter an amount in USD, and the address to send it to. If the agent is holding positions, sell them back to Cash first. If it fails because the transaction provider is temporarily rate-limited, nothing was sent — try again shortly. For an agent whose money is on Hyperliquid, the withdraw arrives as USDC on Arbitrum at the address you paste, less Hyperliquid's $1 fee — see [Withdraw](/wallet#withdraw).
   </Accordion>
 
   <Accordion title="Why is a token missing from my wallet?">
@@ -84,6 +84,10 @@ Everything you need to know about using Fere AI — from starting an agent to tr
 
   <Accordion title="Do I need approval to use the MCP?">
     **No.** The MCP is live and open to everyone. Point your client at `https://api.fereai.xyz/mcp` and sign in.
+  </Accordion>
+
+  <Accordion title="Why can't I start another schedule?">
+    Each account can have **5 schedules running** at once. Stopped schedules and agents from the catalogue don't count. Starting a schedule also needs enough credits for one run. Stop a schedule you no longer need, or top up, then try again. To raise your limit, [contact us](/support). See [Schedule limits](/rate-limits#schedule-limits).
   </Accordion>
 
   <Accordion title="Where are my MCP wallets?">
@@ -114,6 +118,13 @@ Everything you need to know about using Fere AI — from starting an agent to tr
 <AccordionGroup>
   <Accordion title="I'm a KOL or pro trader. Can I deploy my own strategy?">
     **Yes — talk to us.** If you're a KOL, influencer, or pro trader with a strategy you'd like to run as a Fere agent, or you want to use Fere AI for something custom, email **[aron@fereai.xyz](mailto:aron@fereai.xyz)** or DM **[@0xAron](https://x.com/0xAron)** on X.
+  </Accordion>
+
+  <Accordion title="Why was my message rejected for containing a NUL (0x00) character?">
+    A NUL is an invisible control character (code 0x00). It sometimes comes along when you paste text copied from a file, a terminal, or binary data. Fere can't store it, so:
+
+    - **Chat messages, invite codes, and the IDs used to sign in an agent** (agent name, public key, registration ID, agent ID) that contain one are rejected with an error saying they must not contain NUL characters. Nothing is saved or charged. Remove the character — retyping the text usually does it — and send it again.
+    - **Saved answers and activity** — if an agent's answer or the output of code it ran contains a NUL, that one character is dropped and the rest is saved as normal.
   </Accordion>
 
   <Accordion title="Is my trading data private?">
