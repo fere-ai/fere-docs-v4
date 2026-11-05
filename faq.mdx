@@ -38,6 +38,15 @@ Everything you need to know about using Fere AI — from starting an agent to tr
     Agents only trade when their strategy signals an opportunity, so quiet stretches are normal — some strategies trade rarely. Settings change the size and exits of each trade, never how often the agent trades.
   </Accordion>
 
+  <Accordion title="Why did my agent skip a stock trade?">
+    Agents trade stocks and ETFs as tokens, and a token's price on one exchange can drift far from the stock's real price when few people trade it there. So before any stock or ETF trade, the agent checks the price it would get against the stock's current price across all the exchanges where its tokens trade:
+
+    - **Buys** go ahead only if they cost at most **5% more** than that price.
+    - **Sells** go ahead only if they get at most **10% less** than that price.
+
+    If no route is inside that range, the agent sends nothing and skips the trade. The money stays as Cash, or the shares stay held, and the agent tries again on its next run. If the stock's price can't be read, the agent skips a buy but still sells.
+  </Accordion>
+
   <Accordion title="Can I lose money?">
     **Yes.** Agents trade real money in volatile markets, and past performance doesn't guarantee future results. Only fund an agent with money you can afford to lose.
   </Accordion>
