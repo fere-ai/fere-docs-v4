@@ -29,6 +29,8 @@ Choose **Withdraw** on the agent's page, enter an amount in USD, and the address
 
 **Agents that trade on Hyperliquid.** When an agent's money is on Hyperliquid, Withdraw sends it straight from Hyperliquid to the address you paste, as **USDC on Arbitrum** — in one step, with nothing passing back through the agent's wallet. Use an EVM address you control that can receive on Arbitrum (not an exchange deposit address for another network). Hyperliquid takes a **$1** withdrawal fee from the amount.
 
+**Agents that trade on Polymarket.** Withdraw moves USDC off the Polymarket wallet and back to the agent's own wallet (`POST /polymarket/withdraw`). The amount is a decimal string with at most 6 decimal places — `1`, `1.00`, or `12.345678`. Extra zeros that don't change the value are fine (`1.2300000` is 1.23). An amount that isn't a positive number of millionths of a dollar (blank, not a number, zero, negative, or more precision than USDC has) is refused immediately with **422**, and nothing is queued. If a withdrawal for that agent is already in progress, the new request is refused with **409** until the first one finishes.
+
 ### Dust and unverified tokens
 
 To keep your wallet easy to read, Fere hides two kinds of tokens by default. They're still in your wallet. Nothing is moved or deleted.
