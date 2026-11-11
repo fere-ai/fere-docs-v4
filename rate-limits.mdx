@@ -3,7 +3,7 @@ title: "Rate limits"
 sidebarTitle: "Rate limits"
 description: "How many signed-in API requests a Fere account can make per minute, how many schedules it can run at once, and what to do when a call is refused."
 icon: "gauge"
-keywords: ["rate limit", "429", "rate_limited", "Retry-After", "RateLimit-Limit", "API", "MCP", "AgentDoor", "schedule limit", "schedule_limit_reached", "insufficient_credits"]
+keywords: ["rate limit", "429", "rate_limited", "Retry-After", "RateLimit-Limit", "API", "MCP", "AgentDoor", "schedule limit", "schedule_limit_reached", "insufficient_credits", "pnl history"]
 canonical: "https://docs.fereai.xyz/rate-limits"
 ---
 
@@ -65,6 +65,14 @@ The edge in front of the API also limits requests **per client IP**, whether or 
 `Retry-After` is still there, in whole seconds. Treat this response the same way as `rate_limited`: wait at least `Retry-After` seconds, then retry once.
 
 These responses also carry `RateLimit-Limit`, `RateLimit-Remaining`, `RateLimit-Reset`, `X-RateLimit-Limit-Minute` and `X-RateLimit-Remaining-Minute`. They describe the IP's budget, not the account's, and they can appear on successful responses too. On an account `rate_limited` response you may get two of each `RateLimit-*` header, one for the IP and one for the account, often joined into one value such as `600, 600`. `Retry-After` is only ever sent once. Use it to decide when to retry, and read `detail.error.code` only when the body has one.
+
+## PnL history backpressure
+
+`GET /agent/{agent_id}/pnl/history` can return **HTTP 429** with `Retry-After: 1`. This is history backpressure for that one agent. It is not the 600-request account budget.
+
+An agent may have three history builds at once: the open page, a refresh, and one other filter. A fourth build is refused. A second build of the same page, while that page is still loading, is refused too. The response code is `rate_limited`, and the message says PnL history is already loading. It does not include `limit_per_minute`.
+
+**What to do:** wait `Retry-After` seconds (1), then send the same history request again. This does not stop other agents or the rest of the account.
 
 ## Schedule limits
 
