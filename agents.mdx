@@ -81,6 +81,17 @@ You can also choose **Fund later** — the agent waits until its wallet reaches 
 
 After you set up your first agent, Fere sends a welcome summary by email (and Telegram when you use that). The agent is **already deployed** — the primary button is **Fund**, not Deploy. That link opens the agent's page with the deposit panel ready (`/agents/{slug}?fund=1#fund`), so you can add money and let it start trading. The same deep link opens **Fund more** when the agent is already running.
 
+## When a Fair Price Isn't Available
+
+Some agents hold a basket of several stocks or tokens. Before each buy, the agent checks that it can get a fair price: for stocks and ETFs, close to the last market close, with a way to sell back out. If no market offers that, the agent skips that buy rather than overpay.
+
+- **The money stays in Cash.** The agent doesn't pile the skipped amount into the other names. The rest of the basket keeps its intended weights, so the agent runs the same strategy with less of your money invested.
+- **What it already holds stays.** If the agent already owns some of a skipped name, it keeps it and simply buys no more.
+- **It tries again daily.** Skipped buys are retried once a day (stocks and ETFs during US market hours) until they fill or the strategy next rebalances. A retry only buys the skipped names; it never sells anything else.
+- **You'll see why.** The run's details say how much is held in Cash and which names had no fair price, for example *"40.0% held in USDC: no fair price for CRM, WMT."*
+
+Because an agent's track record assumes every buy filled, your agent can trail it a little on days when buys are skipped.
+
 ## Your Agent's Wallet and Cash
 
 Every agent you start has its **own wallet**, secured by Coinbase. The agent can only trade with it — only you can withdraw. The money waiting to be traded shows as **Cash**, in US dollars. See [Wallet & Security](/wallet) for details.
