@@ -38,6 +38,10 @@ Everything you need to know about using Fere AI — from starting an agent to tr
     Agents only trade when their strategy signals an opportunity, so quiet stretches are normal — some strategies trade rarely. Settings change the size and exits of each trade, never how often the agent trades.
   </Accordion>
 
+  <Accordion title="Why is some of my agent's money still in Cash after it traded?">
+    If the agent couldn't buy a name at a fair price, it skips that buy and leaves the money in Cash instead of putting it into the other names. It tries the skipped buy again once a day until it fills or the strategy next rebalances. The run's details say how much is held in Cash and why. See [When a Fair Price Isn't Available](/agents#when-a-fair-price-isnt-available).
+  </Accordion>
+
   <Accordion title="Can I lose money?">
     **Yes.** Agents trade real money in volatile markets, and past performance doesn't guarantee future results. Only fund an agent with money you can afford to lose.
   </Accordion>
