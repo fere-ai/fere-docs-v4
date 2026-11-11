@@ -87,7 +87,7 @@ Some agents hold a basket of several stocks or tokens. Before each buy, the agen
 
 - **The money stays in Cash.** The agent doesn't pile the skipped amount into the other names. The rest of the basket keeps its intended weights, so the agent runs the same strategy with less of your money invested.
 - **What it already holds stays.** If the agent already owns some of a skipped name, it keeps it and simply buys no more.
-- **It tries again daily.** Skipped buys are retried once a day (stocks and ETFs during US market hours) until they fill or the strategy next rebalances. A retry only buys the skipped names; it never sells anything else.
+- **It tries again daily.** Skipped buys are retried once a day (stocks and ETFs during US market hours), up to 10 times, until they fill or the strategy next rebalances. A retry only buys the skipped names; it never sells anything else. If a name still can't be bought after the last retry, its money stays in Cash until the strategy's next rebalance.
 - **You'll see why.** The run's details say how much is held in Cash and which names had no fair price, for example *"40.0% held in USDC: no fair price for CRM, WMT."*
 
 Because an agent's track record assumes every buy filled, your agent can trail it a little on days when buys are skipped.
