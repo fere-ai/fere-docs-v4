@@ -60,11 +60,21 @@ Other agents run with fixed settings and show nothing to adjust — that's by de
 
 On a perps agent with leverage, the stop loss and take profit are set on the coin's price, not on your money. Leverage multiplies that move. At 4×, a 5% price move against you is a 20% loss on the money in that position, and a 10% move in your favor is a 40% gain.
 
-When an agent has a leverage setting, the line under its stop loss and take profit says what each one means for your money at the leverage you chose, and it updates as you change leverage. It uses the values that will be saved, so a leverage above the maximum is shown at the maximum.
+When an agent has a leverage setting, the line under its stop loss and take profit says what each one means for your money at the leverage you chose, and it updates as you change leverage. It uses the values that will be saved, so a leverage above the maximum is shown at the maximum, and on an agent whose leverage is a whole number, decimals are dropped (4.9× is saved and shown as 4×).
 
 - **Stop loss at 100% or more of your money.** If the stop loss times the leverage reaches 100% (for example, 5% at 20×), the line says the position could be liquidated before the stop is reached.
 - **Set to 0.** A stop loss or take profit of 0 is off, and no line is shown for it.
 - **No leverage setting.** Spot agents show no line, because the percent already is the change in your money.
+
+### How Stop Loss and Take Profit Follow a Perps Position
+
+On a perps agent, the stop loss and take profit are placed on Hyperliquid when a position opens, measured from the price it opened at. They then follow the position as the agent trades:
+
+- **The agent adds to a position.** The stop loss and take profit grow to cover the whole position, including what was just added. Their prices stay where they were.
+- **The agent turns a long into a short (or the reverse).** The old stop loss and take profit are removed, and the new position gets its own, measured from the price it opened at.
+- **The agent reduces a position.** The stop loss and take profit stay in place for what is left.
+- **The agent closes a position.** Its stop loss and take profit are removed.
+- **A stop loss or take profit closes a coin.** The agent leaves that coin out until its strategy gives a new signal for it, so it doesn't buy straight back into the same trade.
 
 ## Start an Agent
 
