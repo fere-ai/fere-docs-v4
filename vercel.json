@@ -1,0 +1,21 @@
+{
+  "buildCommand": "npx -y mint@latest export && unzip -o export.zip -d _site && node inject-jsonld.mjs",
+  "outputDirectory": "_site",
+  "redirects": [
+    { "source": "/src/_props/:slug*", "destination": "/:slug*", "permanent": true },
+    { "source": "/src/_props", "destination": "/", "permanent": true },
+    { "source": "/market-pulse", "destination": "/", "permanent": true },
+    { "source": "/discover", "destination": "/", "permanent": true },
+    { "source": "/polymarket", "destination": "/", "permanent": true },
+    { "source": "/hyperliquid", "destination": "/", "permanent": true },
+    { "source": "/recipes", "destination": "/agents", "permanent": true },
+    { "source": "/recipes/", "destination": "/agents", "permanent": true },
+    { "source": "/strategies", "destination": "/agents", "permanent": true },
+    { "source": "/strategies/", "destination": "/agents", "permanent": true },
+    { "source": "/agent", "destination": "/agents", "permanent": true },
+    { "source": "/strategy-tools", "destination": "/agents", "permanent": true },
+    { "source": "/cross-chain", "destination": "/mcp", "permanent": true },
+    { "source": "/credits", "destination": "/agents", "permanent": true },
+    { "source": "/subscriptions", "destination": "/agents", "permanent": true }
+  ]
+}
