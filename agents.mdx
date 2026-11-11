@@ -56,6 +56,24 @@ Some agents let you tune a few settings before you start them, and while they ru
 
 Other agents run with fixed settings and show nothing to adjust — that's by design. Settings change the size and exits of each trade, never how often the agent trades. Each setting shows its allowed range, and a value outside it is saved as the nearest allowed value.
 
+### Change Settings While It Runs
+
+On the web, open the agent's page and choose **Edit** on the settings line under its wallet value. That line shows the amount per trade (if the agent has one), its leverage on perps agents, and its exits.
+
+<Frame>
+  <img src="/images/agent-settings-edit.png" alt="The settings line on a running agent's page: 1x, closes when the trend flips, with an Edit link" />
+</Frame>
+
+Set the values you want and choose **Save settings**. **Reset to defaults** puts back the agent's original settings. On a perps agent, the line under the stop loss and take profit shows what each one means for your money at the leverage you chose.
+
+<Frame>
+  <img src="/images/agent-settings-form.png" alt="An agent's settings form with leverage 4, stop loss 3% and take profit 4%, and the lines explaining a 12% loss and a 16% gain at 4×" />
+</Frame>
+
+In the app, open the agent and choose **Manage**, then **Settings**.
+
+Changes apply from the agent's next trade. A stop loss or take profit of 0 is off and shows as **Off**.
+
 ### Stop Loss and Take Profit With Leverage
 
 On a perps agent with leverage, the stop loss and take profit are set on the coin's price, not on your money. Leverage multiplies that move. At 4×, a 5% price move against you is a 20% loss on the money in that position, and a 10% move in your favor is a 40% gain.
