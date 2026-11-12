@@ -17,7 +17,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 - [MCP Support](https://docs.fereai.xyz/mcp): Research and trade with Fere from Claude, ChatGPT, Codex, Cursor, Hermes, OpenClaw, and other MCP clients.
 - [Agent API auth](https://docs.fereai.xyz/api-auth): AgentDoor errors `client_blocked` (403, stop and change User-Agent), `rate_limited` (429, wait for Retry-After), and `agent_inactive` (401 on token use, 403 on verify; stop retrying).
-- [Rate limits](https://docs.fereai.xyz/rate-limits): Signed-in API requests are limited per account (default 600 per minute, shared by every token). On 429 `rate_limited`, wait `Retry-After` seconds, then retry once. An account can run 5 schedules at once (agents from the catalogue don't count): 409 `schedule_limit_reached` means stop one first, 402 `insufficient_credits` means top up first.
+- [Rate limits](https://docs.fereai.xyz/rate-limits): Signed-in API requests are limited per account (default 600 per minute, shared by every token). On 429 `rate_limited`, wait `Retry-After` seconds, then retry once. Wallet reads (holdings, PnL history, venue summary) also have per-account budgets per minute, per hour and in flight; their 429 names the `budget` and `window`. An account can run 5 schedules at once (agents from the catalogue don't count): 409 `schedule_limit_reached` means stop one first, 402 `insufficient_credits` means top up first.
 
 ## Rewards
 

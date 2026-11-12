@@ -1,9 +1,9 @@
 ---
 title: "Rate limits"
 sidebarTitle: "Rate limits"
-description: "How many signed-in API requests a Fere account can make per minute, how many schedules it can run at once, and what to do when a call is refused."
+description: "How many signed-in API requests a Fere account can make per minute, the extra limits on wallet reads, how many schedules it can run at once, and what to do when a call is refused."
 icon: "gauge"
-keywords: ["rate limit", "429", "rate_limited", "Retry-After", "RateLimit-Limit", "API", "MCP", "AgentDoor", "schedule limit", "schedule_limit_reached", "insufficient_credits"]
+keywords: ["rate limit", "429", "rate_limited", "holdings", "pnl history", "in flight", "Retry-After", "RateLimit-Limit", "API", "MCP", "AgentDoor", "schedule limit", "schedule_limit_reached", "insufficient_credits"]
 canonical: "https://docs.fereai.xyz/rate-limits"
 ---
 
@@ -50,6 +50,45 @@ The 429 response also carries these headers. The account limit does not add them
 - Wait at least `Retry-After` seconds, then send the same request again. Retry once, not in a tight loop.
 - Do not register a new AgentDoor key or sign in again to get a new budget. Every token for the account shares the same budget.
 - If you poll prices, positions or PnL, poll less often.
+
+## Limits on wallet reads
+
+Three wallet reads are expensive to serve, so each has its own budget per account, on top of the 600-a-minute account limit. Each budget has three limits: how many requests can be **in flight** at once, how many per minute, and how many per hour.
+
+| Budget | Routes (counted together) | In flight | Per minute | Per hour |
+| --- | --- | --- | --- | --- |
+| `holdings` | `GET /v1/holdings`, `GET /agent/{agent_id}/holdings` | 4 | 60 | 600 |
+| `pnl_history` | `GET /agent/{agent_id}/pnl/history` | 2 | 20 | 120 |
+| `venue_summary` | `GET /v1/pnl/venue-summary` | 2 | 20 | 200 |
+
+The MCP holdings tool calls `/v1/holdings`, so it uses the `holdings` budget. Every token for the account shares each budget, as with the account limit. The defaults can change; trust `Retry-After` over the table.
+
+- **Minute and hour** are clock windows. Every request counts, including ones refused for being over the in-flight limit.
+- **In flight:** a request over the in-flight limit waits up to 8 seconds for an earlier one to finish, then runs. If none finishes in time, or too many of your requests are already waiting, it gets a 429 with `Retry-After: 1`.
+
+### `rate_limited` on a wallet read
+
+**HTTP 429**, the same `rate_limited` error as the account limit. `details` names the budget and the limit that was hit:
+
+```json
+{
+  "detail": {
+    "error": {
+      "code": "rate_limited",
+      "message": "Too many requests. Retry after 1 seconds.",
+      "details": { "budget": "pnl_history", "window": "in_flight", "limit": 2 }
+    }
+  }
+}
+```
+
+`window` is `in_flight`, `minute` or `hour`, and `limit` is that window's limit. The response carries `Retry-After`, `RateLimit-Limit` (the same limit), `RateLimit-Remaining` (`0`) and `RateLimit-Reset`.
+
+**What to do:**
+
+- Wait at least `Retry-After` seconds, then send the same request once. An `hour` 429 can ask you to wait many minutes; do not retry sooner.
+- Don't fire many reads at once. Send at most the in-flight limit in parallel, and start the next one when one returns.
+- Poll holdings and PnL history less often. Re-reading PnL history every few seconds will use up the hourly budget.
 
 ## A 429 with a plain `message` body
 
