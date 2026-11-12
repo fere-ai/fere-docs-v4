@@ -121,7 +121,9 @@ After you set up your first agent, Fere sends a welcome summary by email (and Te
 
 ## When a Fair Price Isn't Available
 
-Some agents hold a basket of several stocks or tokens. Before each buy, the agent checks that it can get a fair price: for stocks and ETFs, close to the last market close, with a way to sell back out. If no market offers that, the agent skips that buy rather than overpay.
+Some agents hold a basket of several stocks or tokens. Before each buy, the agent checks that it can get a fair price: for stocks and ETFs, close to the last market close, with a way to sell back out that wouldn't lose more than 5% right away. A small buy is priced at its own size, since the fixed cost of moving money between networks weighs more on a small order. If no market offers that, the agent skips that buy rather than overpay.
+
+If the price moves past the limit between that check and the trade, the trade is cancelled before anything is sent, and its notification says how far the best quote was from the market price.
 
 - **The money stays in Cash.** The agent doesn't pile the skipped amount into the other names. The rest of the basket keeps its intended weights, so the agent runs the same strategy with less of your money invested.
 - **What it already holds stays.** If the agent already owns some of a skipped name, it keeps it and simply buys no more.
