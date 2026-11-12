@@ -19,6 +19,14 @@ In the Fere app, your money lives in the wallets of the agents you start — one
 
 You can see each agent's wallet on its page, and all of them together under **Portfolio** in the top navigation.
 
+### If holdings say temporarily unavailable
+
+Balances come from live on-chain providers. When those providers are slow or overloaded, Portfolio and agent wallets show **Holdings temporarily unavailable** (or **Temporarily unavailable** on the compact balance row) instead of inventing a $0 balance.
+
+- Your funds are not moved or lost.
+- The app does **not** keep hammering a failing holdings request in the background.
+- Use **Retry** on the holdings panel, refresh holdings from Portfolio, or leave the page and come back when the network is quieter.
+
 ### Add funds
 
 Use **Fund** (or **Fund more**) on an agent's page. The funding screen shows the networks you can send from, the address to send to on each, and the agent's minimum. Deposits land as Cash.
