@@ -1,0 +1,37 @@
+---
+title: "Share pages"
+sidebarTitle: "Share pages"
+description: "How Fere AI public research share pages work, including what search engines index and automated feed pages."
+icon: "link"
+keywords: ["share", "share link", "noindex", "public research", "SEO slug"]
+canonical: "https://docs.fereai.xyz/share-pages"
+---
+
+Fere AI can publish **public research share pages** at `/share/{id}/…`. These pages show a question and an AI research answer with sources. They are meant for discovery (search and social), not as a substitute for your private chats.
+
+## The URL slug
+
+The link looks like `/share/{id}/{slug}`. The slug comes from your question.
+
+If Fere asked a clarifying question and you answered it, sharing that clarifying turn still uses your **original question** in the URL slug, not the clarification text. The page shows the full shared answer.
+
+## What search engines index
+
+Public share links are crawlable when the answer has enough substance — roughly **80 words** of real prose. Code blocks and chart placeholders do not count. Short replies such as "Done, bought $1 of ETH" stay out of the search index (`noindex, follow`).
+
+Longer answers in any language, including Chinese or Japanese without spaces between words, are counted with word segmentation and can still be indexed. Unresolved chart placeholders (`chart_0`, `chart_1`, and so on) are stripped from the crawler HTML.
+
+Links in an answer open the real website in a new tab, even when the answer wrote the address without `https://`. A token address, a file name, or a chart reference stays plain text.
+
+## Automated share feed
+
+When enabled by Fere AI ops (a feature flag on the Friday backend), a scheduled job may:
+
+1. Collect recent crypto news and market signals
+2. Write research-style questions
+3. Answer them with the same research agent stack used in chat
+4. Quality-check the answer, then list the page publicly
+
+Automated pages are published under a system account. They are research summaries with sources — not personalized portfolio advice, and not a signal that Fere executed a trade for you.
+
+This feed is **off by default**. Turning it on is an environment and ops change, not a user setting in the app.

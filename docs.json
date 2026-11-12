@@ -57,6 +57,7 @@
         "group": "Help",
         "pages": [
           "faq",
+          "share-pages",
           "support"
         ]
       },
@@ -187,6 +188,58 @@
     },
     {
       "source": "/subscriptions",
+      "destination": "/agents"
+    },
+    {
+      "source": "/recipes/",
+      "destination": "/agents"
+    },
+    {
+      "source": "/strategies/",
+      "destination": "/agents"
+    },
+    {
+      "source": "/docs/product/0xMONK",
+      "destination": "/agents"
+    },
+    {
+      "source": "/docs/product/0xMONK/",
+      "destination": "/agents"
+    },
+    {
+      "source": "/docs/product/0xmonk",
+      "destination": "/agents"
+    },
+    {
+      "source": "/docs/product/:slug*",
+      "destination": "/agents"
+    },
+    {
+      "source": "/docs/api/api_access",
+      "destination": "/mcp"
+    },
+    {
+      "source": "/docs/api/api-access",
+      "destination": "/mcp"
+    },
+    {
+      "source": "/docs/api/authentication",
+      "destination": "/mcp"
+    },
+    {
+      "source": "/docs/api/:slug*",
+      "destination": "/mcp"
+    },
+    {
+      "source": "/docs/:slug*",
+      "destination": "/"
+    },
+    {
+      "source": "/0xmonk",
+      "destination": "/agents"
+    },
+    {
+      "source": "/0xMONK",
       "destination": "/agents"
     }
   ],
