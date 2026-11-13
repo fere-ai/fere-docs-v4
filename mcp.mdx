@@ -150,6 +150,12 @@ https://api.fereai.xyz/mcp
 
 Clients that call the HTTP API with an AgentDoor token, instead of this browser login, should follow [Agent API authentication](/api-auth) when a call returns `client_blocked`, `rate_limited`, or `agent_inactive`.
 
+## Trading tools and wait time
+
+Write tools — swaps, limit orders, earn deposit, withdraw, and enable, perp open, close, fund, and withdraw, and spot buy and sell — **wait up to 90 seconds** for the on-chain result. You do not pass a timeout. The server uses 90 seconds, the longest the API will hold a request open.
+
+The matching REST call is `?wait=true&timeout=` with a **5–90 second** range (default 60). A value outside that range is refused with **422** before the body is parsed. For a longer wait, call the REST API with `wait=false` and poll the task. Read-only tools, such as wallets, holdings, and open orders, return immediately.
+
 ## Want Fere AI for Something Custom?
 
 The MCP gives you Fere's tools inside your own AI. If you want to use Fere AI itself for custom work or to create your own strategies — or you're a KOL, influencer, or pro trader with a strategy you'd like to deploy as a Fere agent — [contact us](/support).

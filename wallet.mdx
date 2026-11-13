@@ -1,23 +1,37 @@
 ---
 title: "Wallet — Coinbase-Grade Security"
 sidebarTitle: "Wallet & Security"
-description: "Every Fere agent trades from its own wallet, secured by Coinbase CDP Server Wallets with keys in hardware-isolated TEE enclaves."
+description: "Your Fere Wallet and each agent's wallet, secured by Coinbase CDP Server Wallets with keys in hardware-isolated TEE enclaves."
 icon: "wallet"
 keywords: ["wallet security", "Coinbase CDP", "TEE", "agent wallet", "cash balance", "withdraw", "dust", "unverified tokens"]
 canonical: "https://docs.fereai.xyz/wallet"
 ---
 
-Every agent you start trades from its **own wallet**. Under the hood, each one is powered by Coinbase's most advanced wallet infrastructure.
+Your money starts in your **Fere Wallet**. Each agent you start then trades from its **own wallet**, funded from there. Under the hood, each one is powered by Coinbase's most advanced wallet infrastructure.
+
+## Your Fere Wallet
+
+The Fere Wallet is the cash you hold before it is assigned to an agent. Add money there, then use **Fund** on an agent to move cash into that agent's wallet. Taking money out of a stopped or archived agent sends it back to the Fere Wallet.
 
 ## Agent Wallets (Fere App)
 
-In the Fere app, your money starts in your **Fere Wallet**, and you fund agents from there. Each agent you start then trades from its own wallet: one wallet per agent.
+In the Fere app, your money starts in your **Fere Wallet**, and you fund agents from there. Each agent you start then trades from its own wallet: one wallet per agent. The agent can only trade with its wallet — only you can withdraw.
 
 - **Cash** — money waiting to be traded, shown in US dollars.
 - **Holdings** — whatever the agent currently holds from its trades.
 - **Activity** — every trade, deposit, and withdrawal for that wallet.
 
 You can see each agent's wallet on its page, and all of them together under **Portfolio**: in the top navigation on a computer, or the first tab on a phone. See [On Your Phone](/phone) for the phone layout, including **Hide balances**.
+### If holdings say temporarily unavailable
+
+Balances come from live on-chain providers. When those providers are slow or overloaded, Portfolio and agent wallets show **Holdings temporarily unavailable** instead of a $0 balance.
+
+- Your funds are not moved or lost.
+- Use **Retry** on the holdings panel, or refresh holdings from Portfolio, and try again in a minute.
+
+### Archived strategies
+
+A strategy you have closed can still hold funds. Those wallets appear under **Archived strategies** until you take the money out, which sends it back to your Fere Wallet. Empty ones disappear on their own.
 
 ### Add funds
 
@@ -43,15 +57,15 @@ Choose **Withdraw** on the agent's page, enter an amount in USD, and the address
 
 To keep your wallet easy to read, Fere hides two kinds of tokens by default. They're still in your wallet. Nothing is moved or deleted.
 
-- **Dust**: any token worth less than **$2.00**. Small leftovers from trades and rounding build up over time, so we hide them.
+- **Dust**: any token worth less than **$2.00**. Small leftovers from trades and rounding build up over time, so we hide them. A holding quoted under **$0.10** is never listed, even when Hide dust is off.
 - **Unverified**: a token flagged as a likely scam, or one with less than **$10,000** of trading liquidity. Anyone can send any token to any wallet, so unverified tokens are often "airdrops" you never asked for. Their price is also unreliable: a thin or fake market can show a value you could never actually sell for.
 
-**To see them**, turn off **Hide dust** at the top of the holdings list in your wallet or in **Portfolio**. Unverified tokens then appear with an **Unverified** tag next to their quoted value.
+**To see them**, turn off **Hide dust** at the top of the holdings list in your wallet or in **Portfolio**. Unverified tokens then appear with an **Unverified** tag next to their quoted value. Anything quoted under **$0.10** stays hidden.
 
 **What this means for your balance:**
 
 - Unverified tokens are **never counted** in your totals or toward an agent's minimum, even when they're visible. The value on their row is a quote, not money you can count on.
-- While **Hide dust** is on, your total only includes what you see, so tiny dust amounts are left out. Turn it off to include them.
+- While **Hide dust** is on, your total only includes what you see, so dust of **$0.10** or more is left out. Turn it off to include those. Anything quoted under **$0.10** stays off the list.
 - If an unverified token is worth more than **$2.00**, you can try to **Sell** it from the agent's page. Because these tokens have little liquidity, the trade may not always go through, and when it does you may get less than the quoted value. Some scam tokens can't be sold at all.
 
 <Warning>
