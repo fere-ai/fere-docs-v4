@@ -129,6 +129,20 @@ Everything you need to know about using Fere AI — from starting an agent to tr
     **Yes.** Your trading activity is encrypted at rest and never shared with third parties. Fere does not use your data to train AI models unless you explicitly opt in.
   </Accordion>
 
+  <Accordion title="Why is some text in an answer not a link?">
+    Links in Fere answers and shared answers open the real website in a new tab, even when the answer wrote the address without `https://` (for example `swapzone.io`). If a "link" points at something that isn't a website — a token address, a file name like `app.js`, or a chart reference — it shows as plain text instead, so you never land on a broken page. Copy a token address straight from the text.
+  </Accordion>
+
+  <Accordion title="When I share a chat, will Google index it?">
+    Public share links (`/share/...`) are crawlable when the answer has enough substance — roughly **80 words** of real prose (code blocks and chart placeholders do not count). Short replies like "Done, bought $1 of ETH" stay out of the search index (`noindex, follow`) so thin pages do not dilute Fere's sitewide quality signals.
+
+    Longer answers in any language — including Chinese or Japanese without spaces between words — are counted with proper word segmentation and can still be indexed. Unresolved chart placeholders (`chart_0`, `chart_1`, …) are stripped from the crawler HTML so search bots never chase a redirect loop. See [Share pages](/share-pages).
+  </Accordion>
+
+  <Accordion title="What does the share link URL use as its title?">
+    Public share links use a short slug from your question. If you shared a turn where Fere asked for clarification (and you answered), the slug still comes from your **original** question in that thread — not from the clarifying Q&amp;A text — so the link stays readable. See [Share pages](/share-pages).
+  </Accordion>
+
   <Accordion title="How do I contact support?">
     Email **[aron@fereai.xyz](mailto:aron@fereai.xyz)**, or DM **[@0xAron](https://x.com/0xAron)** on X for the fastest response. See the [Support](/support) page for details.
   </Accordion>
