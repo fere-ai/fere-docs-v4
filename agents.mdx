@@ -128,6 +128,10 @@ You can also choose **Fund later** — the agent waits until its wallet reaches 
 
 After you set up your first agent, Fere sends a welcome summary by email (and Telegram when you use that). The agent is **already deployed** — the primary button is **Fund**, not Deploy. That link opens the agent's page with the deposit panel ready (`/agents/{slug}?fund=1#fund`), so you can add money and let it start trading. The same deep link opens **Fund more** when the agent is already running.
 
+## Trade emails
+
+When an agent completes a trade, you get an email with what it traded, the amount, and its wallet balance. Several trades a few minutes apart may arrive as one email. When it sells a token, or closes or trims a Hyperliquid position, the email also shows the profit or loss on that sale, for example **+3.6% (+$2.90)**, measured against what the sold tokens cost, fees included. If the result is not final yet when the email goes out, the email leaves it out.
+
 ## When a Fair Price Isn't Available
 
 Some agents hold a basket of several stocks or tokens. Before each buy, the agent checks that it can get a fair price: for stocks and ETFs, close to the last market close, with a way to sell back out that wouldn't lose more than 5% right away. A small buy is priced at its own size, since the fixed cost of moving money between networks weighs more on a small order. If no market offers that, the agent skips that buy rather than overpay.
