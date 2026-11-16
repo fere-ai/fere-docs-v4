@@ -113,6 +113,7 @@ This is not your account limit. When Hyperliquid rate-limits a perp read, or the
 | --- | --- |
 | `GET /v1/perp/orders` | Open perp orders, including take-profit and stop-loss triggers, could not be read |
 | `GET /agent/{agent_id}/perp/orders` | The same read, for that agent |
+| `GET /v1/perp/markets` | The perp markets list could not be read |
 
 ```json
 {
@@ -135,7 +136,7 @@ This is not your account limit. When Hyperliquid rate-limits a perp read, or the
 
 **What to do:** wait at least `Retry-After` seconds, then send the same request once. Do not retry in a tight loop. Polling open orders faster while Hyperliquid is refusing reads makes the pause longer.
 
-The perp market snapshot is cached for **30 seconds**. A successful snapshot is reused for that long, including while Hyperliquid is rate-limiting. A failed read is not cached, so the next request tries Hyperliquid again and returns this same 503 when the venue is still unavailable. The funding-rate read is not cached; a rate limit or timeout on it returns this 503 as well.
+`GET /v1/perp/markets` is cached for **30 seconds**. A successful list is reused for that long, including while Hyperliquid is rate-limiting. A failed read is not cached, so the next request tries Hyperliquid again and returns this same 503 when the venue is still unavailable.
 
 ## Schedule limits
 
