@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Fere AI",
-  "description": "Official Fere AI documentation: AI trading agents that each run a unique strategy, agent wallets and security, the Fere MCP for research and trading, points, and FAQ.",
+  "description": "Official Fere AI documentation: AI trading agents that each run a unique strategy, agent wallets and security, the Fere MCP for research and trading, Earn, and FAQ.",
   "colors": {
     "primary": "#EBCB8B",
     "light": "#EBCB8B",
@@ -50,7 +50,6 @@
       {
         "group": "Rewards",
         "pages": [
-          "points",
           "refer-and-earn"
         ]
       },
@@ -245,6 +244,10 @@
     {
       "source": "/share-pages",
       "destination": "/faq"
+    },
+    {
+      "source": "/points",
+      "destination": "/refer-and-earn"
     }
   ],
   "seo": {

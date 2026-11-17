@@ -28,6 +28,7 @@
     { "source": "/docs/:slug*", "destination": "/", "permanent": true },
     { "source": "/0xmonk", "destination": "/agents", "permanent": true },
     { "source": "/0xMONK", "destination": "/agents", "permanent": true },
-    { "source": "/share-pages", "destination": "/faq", "permanent": true }
+    { "source": "/share-pages", "destination": "/faq", "permanent": true },
+    { "source": "/points", "destination": "/refer-and-earn", "permanent": true }
   ]
 }

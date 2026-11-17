@@ -145,7 +145,7 @@ https://api.fereai.xyz/mcp
 ```
 
 <Warning>
-  **OAuth Is Handled By Your Client.** Fere never sees your client credentials. Each provider runs its own OAuth flow against your Fere account — the URL above is the only thing you ever paste. Revoke access anytime from your Fere account settings.
+  **OAuth Is Handled By Your Client.** Fere never sees your client credentials. Each provider runs its own OAuth flow against your Fere account — the URL above is the only thing you ever paste. To stop a client from using Fere, remove the connector in that client. To cut off access everywhere, [contact support](/support).
 </Warning>
 
 Clients that call the HTTP API with an AgentDoor token, instead of this browser login, should follow [Agent API authentication](/api-auth) when a call returns `client_blocked`, `rate_limited`, or `agent_inactive`.
