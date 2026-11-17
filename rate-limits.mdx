@@ -57,14 +57,14 @@ Three wallet reads are expensive to serve, so each has its own budget per accoun
 
 | Budget | Routes (counted together) | In flight | Per minute | Per hour |
 | --- | --- | --- | --- | --- |
-| `holdings` | `GET /v1/holdings`, `GET /agent/{agent_id}/holdings` | 4 | 60 | 600 |
+| `holdings` | `GET /v1/holdings`, `GET /agent/{agent_id}/holdings` | 4 | 300 | 2400 |
 | `pnl_history` | `GET /agent/{agent_id}/pnl/history` | 2 | 20 | 120 |
-| `venue_summary` | `GET /v1/pnl/venue-summary` | 2 | 20 | 200 |
+| `venue_summary` | `GET /v1/pnl/venue-summary` | 2 | 120 | 1200 |
 
 The MCP holdings tool calls `/v1/holdings`, so it uses the `holdings` budget. Every token for the account shares each budget, as with the account limit. The defaults can change; trust `Retry-After` over the table.
 
 - **Minute and hour** are clock windows. Every request counts, including ones refused for being over the in-flight limit.
-- **In flight:** a request over the in-flight limit waits up to 8 seconds for an earlier one to finish, then runs. If none finishes in time, or too many of your requests are already waiting, it gets a 429 with `Retry-After: 1`.
+- **In flight:** a request over the in-flight limit waits up to 25 seconds for an earlier one to finish, then runs. If none finishes in time, or too many of your requests are already waiting, it gets a 429 with `Retry-After: 1`.
 
 ### `rate_limited` on a wallet read
 
