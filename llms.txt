@@ -12,7 +12,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 - [Agents](https://docs.fereai.xyz/agents): The agents catalogue, how backtests are run and annualized, starting an agent and adding money from the Fere Wallet (minimum plus $5), settings, stock and ETF trades kept within 5% on buys and 10% on sells of the last close, skipped buys held in Cash and retried daily, stopping, withdrawing, and fees.
 - [Wallet & Security](https://docs.fereai.xyz/wallet): The Fere Wallet, agent wallets, Cash in US dollars, dust under $2 and a $0.10 display floor, holdings temporarily unavailable, archived strategies, MCP wallets, and Coinbase CDP security.
-- [On Your Phone](https://docs.fereai.xyz/phone): The phone layout on the web and in the iOS app: Portfolio, Agents and Activity tabs, the account menu, the Fere Wallet screen, an agent's page, and Hide balances.
+- [On Your Phone](https://docs.fereai.xyz/phone): The phone layout on the web and in the iOS app: Portfolio, Agents, Activity and Earn tabs, the account menu, the Fere Wallet screen, an agent's page, and Hide balances.
 
 ## Research & Trading via MCP
 
@@ -23,7 +23,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 ## Rewards
 
 - [Points & Leaderboard](https://docs.fereai.xyz/points): Points from on-chain trading volume, with a weekly leaderboard.
-- [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): New fee-share referral program with tiers — coming soon.
+- [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): Live fee-share referral program. Invite friends from the Earn tab and get a share of the fees Fere collects from them.
 
 ## Help & Legal
 

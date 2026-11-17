@@ -23,11 +23,22 @@ Every Fere agent runs its own unique strategy. You don't write prompts, code, or
 
 ## The Agents Catalogue
 
-Open **Agents** in the [Fere app](https://www.fereai.xyz/agents). On a computer, **Agents**, **Portfolio**, and **Points** sit in the top navigation, and **Research** is under **More**. On a phone, the bottom bar is **Agents**, **Portfolio**, and **More**. **More** includes Research, Points, Build with MCP, and API Docs.
+Open **Agents** in the [Fere app](https://www.fereai.xyz/agents). On a computer, the top navigation has **Agents**, **Portfolio**, and **Earn**, and **More** holds **Research** and **API Docs**. On a phone, the bottom bar has **Portfolio**, **Agents**, **Activity**, and **Earn**. See [On Your Phone](/phone).
 
-The catalogue lists every agent you can start, grouped into categories you can filter by — for example memecoins, perps, or blue chips like ETH and BTC.
+The catalogue lists every agent you can start, grouped by what they trade:
 
-Once you're signed in, the agents you've already started appear at the top, along with a banner for your next step — for example **Start** an agent you've set up, or **Fund** one that's waiting for money.
+| Category | What it trades |
+| --- | --- |
+| **Perps** | Long or short perpetual futures on Hyperliquid |
+| **Crypto** | Spot BTC, ETH, SOL and more |
+| **US stocks** | Tokenized US stocks, for example AI-chip momentum or copies of public filings |
+| **ETFs** | Tokenized ETFs such as QQQ, SPY and leveraged ETFs |
+| **Multi-asset** | Crypto and stocks in one book |
+| **Memecoins** | Copies the hottest memecoin calls |
+
+Sort the list by **Recommended** or **Best**, or search by name.
+
+Once you're signed in, the agents you've already started appear at the top, along with a banner for your next step — for example **Start** an agent you've set up, or **Add money** to one that's waiting for money.
 
 ## The Agent Page
 
@@ -130,9 +141,9 @@ You can also choose **Fund later** — the agent waits until its wallet reaches 
 
 Adding money to a Hyperliquid agent that is already running works the same way: a top-up is moved to Hyperliquid only once the Cash in its wallet reaches the agent's minimum. Smaller top-ups wait as Cash until they add up. See [Topping up an agent that trades on Hyperliquid](/wallet#add-funds).
 
-## Welcome email after onboarding
+## Welcome Email
 
-After you set up your first agent, Fere sends a welcome summary by email (and Telegram when you use that). The agent is **already deployed** — the primary button is **Fund**, not Deploy. That link opens the agent's page with the deposit panel ready (`/agents/{slug}?fund=1#fund`), so you can add money and let it start trading. The same deep link opens **Fund more** when the agent is already running.
+After you set up your first agent, Fere sends you a welcome email (or a Telegram message, if that's how you signed up). Your agent is already set up. The email's button opens the agent's page, ready for you to add money so it can start trading. If the agent is already running, the same button lets you add more.
 
 ## Trade emails
 
@@ -170,8 +181,8 @@ Because an agent's track record assumes every buy filled, your agent can trail i
 
 Every agent you start has its **own wallet**, funded from your Fere Wallet and secured by Coinbase. The agent can only trade with it — only you can withdraw. The money waiting to be traded shows as **Cash**, in US dollars. See [Wallet & Security](/wallet) for details.
 
-- **Add more** — use **Fund more** on the agent's page anytime to top it up.
-- **Withdraw** — choose **Withdraw**, enter an amount in USD, and the address to send it to.
+- **Add money** — top the agent up from your Fere Wallet anytime.
+- **Take money out** — send the agent's Cash back to your Fere Wallet. From there you can withdraw it. See [Withdraw](/wallet#withdraw).
 - **Sell** — anything the agent holds can be sold back to Cash whenever you like.
 
 ## Stop or Restart
@@ -179,7 +190,7 @@ Every agent you start has its **own wallet**, funded from your Fere Wallet and s
 You're always in control.
 
 - **Stop** — the agent stops making new trades. Whatever it holds stays in its wallet, and any take-profit and stop-loss orders it placed stay on. Sell or withdraw any of it whenever you like.
-- **Start again** — restart a stopped agent from its page. If its wallet has dropped below the minimum, you'll be asked to fund it first (**Fund to start again**).
+- **Start again** — restart a stopped agent from its page. If its wallet has dropped below the minimum, you'll be asked to add money first (**Add money to start again**).
 
 ## Fees
 
