@@ -33,6 +33,14 @@ Balances come from live on-chain providers. When those providers are slow or ove
 
 A strategy you have closed can still hold funds. Those wallets appear under **Archived strategies** until you take the money out, which sends it back to your Fere Wallet. Empty ones disappear on their own.
 
+### If holdings say temporarily unavailable
+
+Balances come from live on-chain providers. When those providers are slow or overloaded, Portfolio and agent wallets show **Holdings temporarily unavailable** (or **Temporarily unavailable** on the compact balance row) instead of inventing a $0 balance.
+
+- Your funds are not moved or lost.
+- The app does **not** keep hammering a failing holdings request in the background.
+- Use **Retry** on the holdings panel, refresh holdings from Portfolio, or leave the page and come back when the network is quieter.
+
 ### Add funds
 
 Money comes into Fere through your Fere Wallet. On the add-money screen you can:
