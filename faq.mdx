@@ -23,7 +23,7 @@ Everything you need to know about using Fere AI — from starting an agent to tr
   </Accordion>
 
   <Accordion title="How much do I need to start an agent?">
-    It depends on the agent — each one has its own minimum, shown on the funding screen. If an agent's minimum is out of reach, its page may suggest a smaller agent with a similar strategy.
+    It depends on the agent. The funding screen asks for the **minimum plus $5**, and shows the minimum underneath. A Hyperliquid minimum also includes the **$1** activation fee and about **1%** to move the money onto Hyperliquid. If an agent's minimum is out of reach, its page may suggest a smaller agent with a similar strategy. See [Start an Agent](/agents#start-an-agent).
   </Accordion>
 
   <Accordion title="I added money to my Hyperliquid agent. Why didn't it trade more?">
@@ -43,7 +43,7 @@ Everything you need to know about using Fere AI — from starting an agent to tr
   </Accordion>
 
   <Accordion title="Why is some of my agent's money still in Cash after it traded?">
-    If the agent couldn't buy a name at a fair price, it skips that buy and leaves the money in Cash instead of putting it into the other names. It tries the skipped buy again once a day, up to 10 times, until it fills or the strategy next rebalances; after that the money waits in Cash for the next rebalance. The run's details say how much is held in Cash and why. See [When a Fair Price Isn't Available](/agents#when-a-fair-price-isnt-available).
+    If the agent couldn't buy a name at a fair price, it skips that buy and leaves the money in Cash instead of putting it into the other names. For a stock or ETF, a buy has to be within **5%** of the last market close, and a sell within **10%**. It tries the skipped buy again once a day, up to 10 times, until it fills or the strategy next rebalances; after that the money waits in Cash for the next rebalance. The run's details say how much is held in Cash and why. See [When a Fair Price Isn't Available](/agents#when-a-fair-price-isnt-available).
   </Accordion>
 
   <Accordion title="Can I lose money?">
@@ -55,7 +55,7 @@ Everything you need to know about using Fere AI — from starting an agent to tr
 
 <AccordionGroup>
   <Accordion title="Where is my money held?">
-    Every agent you start has its own wallet, powered by Coinbase CDP Server Wallets. Private keys live inside hardware-isolated Trusted Execution Environments (TEEs). The agent can only trade with its wallet — only you can withdraw. See [Wallet & Security](/wallet).
+    Deposits land in your **Fere Wallet**. Each agent you start then has its own wallet, funded from there, powered by Coinbase CDP Server Wallets. Private keys live inside hardware-isolated Trusted Execution Environments (TEEs). The agent can only trade with its wallet — only you can withdraw. See [Wallet & Security](/wallet).
   </Accordion>
 
   <Accordion title="What is Cash?">
@@ -63,7 +63,7 @@ Everything you need to know about using Fere AI — from starting an agent to tr
   </Accordion>
 
   <Accordion title="How do I add funds?">
-    Use **Fund** (or **Fund more**) on the agent's page. The funding screen shows which networks you can send from and the address to send to on each.
+    Deposit into your **Fere Wallet** first: send crypto to its address, send from a connected wallet, or pay with card or bank. Then choose **Add money** on the agent's page. See [Add funds](/wallet#add-funds).
   </Accordion>
 
   <Accordion title="How do I withdraw?">
@@ -71,7 +71,11 @@ Everything you need to know about using Fere AI — from starting an agent to tr
   </Accordion>
 
   <Accordion title="Why is a token missing from my wallet?">
-    It's most likely dust (worth under $2.00) or unverified (flagged as a scam, or very low liquidity). Both are hidden by default. Turn off **Hide dust** at the top of your holdings to see everything. See [Dust and unverified tokens](/wallet#dust-and-unverified-tokens).
+    It's most likely dust (worth under $2.00) or unverified (flagged as a scam, or very low liquidity). Both are hidden by default. Turn off **Hide dust** at the top of your holdings to see the rest. A holding quoted under **$0.10** is never listed. See [Dust and unverified tokens](/wallet#dust-and-unverified-tokens).
+  </Accordion>
+
+  <Accordion title="Why do holdings say temporarily unavailable?">
+    Portfolio and agent wallets read live balances from on-chain providers. When those providers are slow or overloaded, Fere shows **Holdings temporarily unavailable** instead of a wrong $0 total. Your funds are unchanged. Tap **Retry**, or refresh holdings from Portfolio, and try again in a minute. See [If holdings say temporarily unavailable](/wallet#if-holdings-say-temporarily-unavailable).
   </Accordion>
 
   <Accordion title="Why isn't a token counted in my balance?">
@@ -82,8 +86,11 @@ Everything you need to know about using Fere AI — from starting an agent to tr
 ## MCP & Research
 
 <AccordionGroup>
-  <Accordion title="Where did Research go?">
-    Research now runs through the **Fere MCP**. Connect it to Claude, ChatGPT, Codex, Hermes, OpenClaw, or any other MCP client to research markets with Fere's tools. See [MCP Support](/mcp).
+  <Accordion title="Where did Research go? Can I build my own agent?">
+    **Research** (also **Build your agent** at the top of the app) now offers two ways to build:
+
+    - **Your own AI** — connect the **Fere MCP** to Claude, ChatGPT, Codex, Hermes, OpenClaw, or any other MCP client to research, swap, bridge, trade perps and prediction markets, and earn yield. See [MCP Support](/mcp).
+    - **Agent Builder** (invite only) — open **Research**, choose **Agent Builder**, and choose **Request access**. Describe an agent in plain language. When you are in, Fere builds it, backtests it, and trades it for you around the clock.
   </Accordion>
 
   <Accordion title="Can I trade through the MCP?">
@@ -135,16 +142,6 @@ Everything you need to know about using Fere AI — from starting an agent to tr
 
   <Accordion title="Why is some text in an answer not a link?">
     Links in Fere answers and shared answers open the real website in a new tab, even when the answer wrote the address without `https://` (for example `swapzone.io`). If a "link" points at something that isn't a website — a token address, a file name like `app.js`, or a chart reference — it shows as plain text instead, so you never land on a broken page. Copy a token address straight from the text.
-  </Accordion>
-
-  <Accordion title="When I share a chat, will Google index it?">
-    Public share links (`/share/...`) are crawlable when the answer has enough substance — roughly **80 words** of real prose (code blocks and chart placeholders do not count). Short replies like "Done, bought $1 of ETH" stay out of the search index (`noindex, follow`) so thin pages do not dilute Fere's sitewide quality signals.
-
-    Longer answers in any language — including Chinese or Japanese without spaces between words — are counted with proper word segmentation and can still be indexed. Unresolved chart placeholders (`chart_0`, `chart_1`, …) are stripped from the crawler HTML so search bots never chase a redirect loop. See [Share pages](/share-pages).
-  </Accordion>
-
-  <Accordion title="What does the share link URL use as its title?">
-    Public share links use a short slug from your question. If you shared a turn where Fere asked for clarification (and you answered), the slug still comes from your **original** question in that thread — not from the clarifying Q&amp;A text — so the link stays readable. See [Share pages](/share-pages).
   </Accordion>
 
   <Accordion title="How do I contact support?">

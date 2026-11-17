@@ -58,7 +58,6 @@
         "group": "Help",
         "pages": [
           "faq",
-          "share-pages",
           "support"
         ]
       },
@@ -242,6 +241,10 @@
     {
       "source": "/0xMONK",
       "destination": "/agents"
+    },
+    {
+      "source": "/share-pages",
+      "destination": "/faq"
     }
   ],
   "seo": {

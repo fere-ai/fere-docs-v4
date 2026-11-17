@@ -37,7 +37,7 @@ Once connected, just ask your AI in plain language. It calls Fere's tools for yo
 </Info>
 
 <Tip>
-  **Research in the Fere app now lives here.** The Research section of the Fere app points to this MCP — connect your own AI to research and trade with Fere's tools.
+  **Build your agent from the Fere app.** **Research** (or **Build your agent**) in the Fere app offers two paths: **Your own AI**, which is this MCP, and **Agent Builder** (invite only), where you describe an agent and Fere builds, backtests and runs it.
 </Tip>
 
 ## Pick Your Client
@@ -149,6 +149,12 @@ https://api.fereai.xyz/mcp
 </Warning>
 
 Clients that call the HTTP API with an AgentDoor token, instead of this browser login, should follow [Agent API authentication](/api-auth) when a call returns `client_blocked`, `rate_limited`, or `agent_inactive`.
+
+## Trading tools and wait time
+
+Write tools — swaps, limit orders, earn deposit, withdraw, and enable, perp open, close, fund, and withdraw, and spot buy and sell — **wait up to 90 seconds** for the on-chain result. You do not pass a timeout. The server uses 90 seconds, the longest the API will hold a request open.
+
+The matching REST call is `?wait=true&timeout=` with a **5–90 second** range (default 60). A value outside that range is refused with **422** before the body is parsed. For a longer wait, call the REST API with `wait=false` and poll the task. Read-only tools, such as wallets, holdings, and open orders, return immediately.
 
 ## Want Fere AI for Something Custom?
 

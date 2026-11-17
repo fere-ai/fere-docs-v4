@@ -138,6 +138,14 @@ This is not your account limit. When Hyperliquid rate-limits a perp read, or the
 
 `GET /v1/perp/markets` is cached for **30 seconds**. A successful list is reused for that long, including while Hyperliquid is rate-limiting. A failed read is not cached, so the next request tries Hyperliquid again and returns this same 503 when the venue is still unavailable.
 
+## PnL history is already loading
+
+`GET /agent/{agent_id}/pnl/history` can return **HTTP 429** with `Retry-After: 1` and the message "PnL history is already loading for this agent. Retry shortly." The API reports this as `rate_limited`. It is not the 600-request account budget, and the body does not include `limit_per_minute`.
+
+One agent can have three history builds at once: the open page, a refresh, and one other filter. A fourth build is refused. A second build of the same page, while that page is still loading, is refused too.
+
+**What to do:** wait `Retry-After` seconds, then send the same request again. Other agents on the account are not affected.
+
 ## Schedule limits
 
 A schedule runs a chat query or strategy for you on a timer, for example "every morning at 8, summarise BTC news". You can create one from chat, through the MCP or over the API. Each account can have a limited number of schedules **running** at once.
