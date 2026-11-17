@@ -23,6 +23,14 @@ You can see each agent's wallet on its page, and all of them together under **Po
 
 Use **Fund** (or **Fund more**) on an agent's page. The funding screen shows the networks you can send from, the address to send to on each, and the agent's minimum. Deposits land as Cash.
 
+**Topping up an agent that trades on Hyperliquid.** An agent that trades on Hyperliquid can only use money that is on Hyperliquid. Money you add lands as Cash in the agent's wallet first, and Fere moves it to Hyperliquid only once that Cash reaches the agent's **minimum** (the amount on the funding screen):
+
+- **At or above the minimum**: Fere moves all of the Cash to Hyperliquid, and the agent grows its open positions in proportion. For example, an agent with $50 on Hyperliquid that holds a $48 short and gets $60 grows the short to about $105.
+- **Below the minimum**: the money stays as Cash in the agent's wallet. The agent does not grow its positions with it, because that Cash can't back a trade until it is on Hyperliquid.
+- **Small top-ups add up.** Once the Cash waiting in the wallet reaches the minimum, the next deposit or the agent's next trade moves all of it to Hyperliquid. For example, a $20 top-up waits as Cash; add $40 more and the full $60 is moved.
+
+To put a small amount to work sooner, add enough to bring the Cash up to the minimum. The deposit email for a top-up that waits tells you how much Cash is waiting, the minimum that moves it, and how much more to add.
+
 ### Withdraw
 
 Choose **Withdraw** on the agent's page, enter an amount in USD, and the address to send it to. If the agent is holding positions rather than Cash, sell them back to Cash first. You can withdraw whether the agent is running or stopped.
