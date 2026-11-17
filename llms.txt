@@ -23,7 +23,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 ## Rewards
 
 - [Points & Leaderboard](https://docs.fereai.xyz/points): Points from on-chain trading volume, with a weekly leaderboard.
-- [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): Invite friends from Earn. You get 20–50% of their trading fees (Base 20%, Silver 30%, Gold 40%, Partner 50%), paid to your Cash every Monday. Someone who joins with your code gets 10% of their own fees back.
+- [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): The Earn tab: your invite link and code, fee-share tiers (20–50% of referees' fees), weekly Monday payouts to Cash, cashback, and adding an invite code before your first deposit (10% of your fees back).
 
 ## Help & Legal
 
