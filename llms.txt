@@ -1,6 +1,6 @@
 # Fere AI Documentation
 
-> Official docs for Fere AI — AI trading agents that each run a unique strategy, agent wallets, the Fere MCP for research and trading, and points.
+> Official docs for Fere AI — AI trading agents that each run a unique strategy, agent wallets, the Fere MCP for research and trading, and Earn.
 
 Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
@@ -22,12 +22,11 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Rewards
 
-- [Points & Leaderboard](https://docs.fereai.xyz/points): Points from on-chain trading volume, with a weekly leaderboard.
 - [Refer & Earn](https://docs.fereai.xyz/refer-and-earn): The Earn tab: your invite link and code, fee-share tiers (20–50% of referees' fees), weekly Monday payouts to Cash, cashback, and adding an invite code before your first deposit (10% of your fees back).
 
 ## Help & Legal
 
-- [FAQ](https://docs.fereai.xyz/faq): Agents, funding and withdrawing, fees, wallet security, the MCP, and points.
+- [FAQ](https://docs.fereai.xyz/faq): Agents, funding and withdrawing, fees, wallet security, the MCP, and Earn.
 - [Support](https://docs.fereai.xyz/support): Email aron@fereai.xyz or DM @0xAron on X — including custom agents and deploying your own strategy.
 - [Terms of Service](https://docs.fereai.xyz/legal/terms): Terms of Use for the FereAI service.
 - [Privacy Policy](https://docs.fereai.xyz/legal/privacy): GDPR-aligned privacy practices.
