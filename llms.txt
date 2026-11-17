@@ -6,7 +6,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Get Started
 
-- [Welcome](https://docs.fereai.xyz/): Pick an agent, fund it, and it trades — or research and trade from your own AI with the Fere MCP.
+- [Welcome](https://docs.fereai.xyz/): Sign in with Google, Discord, a wallet, or email, then pick an agent and fund it — or research and trade from your own AI with the Fere MCP.
 
 ## Agents
 
@@ -27,8 +27,7 @@ Product context for AI crawlers also lives at: https://www.fereai.xyz/llms.txt
 
 ## Help & Legal
 
-- [FAQ](https://docs.fereai.xyz/faq): Agents, funding and withdrawing, fees, wallet security, the MCP, points, and how public share pages are indexed.
-- [Share pages](https://docs.fereai.xyz/share-pages): Public `/share/{id}/{slug}` pages, the question slug, thin-answer noindex, and the automated research feed (off unless ops enables it).
+- [FAQ](https://docs.fereai.xyz/faq): Agents, funding and withdrawing, fees, wallet security, the MCP, and points.
 - [Support](https://docs.fereai.xyz/support): Email aron@fereai.xyz or DM @0xAron on X — including custom agents and deploying your own strategy.
 - [Terms of Service](https://docs.fereai.xyz/legal/terms): Terms of Use for the FereAI service.
 - [Privacy Policy](https://docs.fereai.xyz/legal/privacy): GDPR-aligned privacy practices.
