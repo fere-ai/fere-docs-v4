@@ -37,6 +37,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://docs.fereai.xyz/phone</loc>
+    <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://docs.fereai.xyz/refer-and-earn</loc>
     <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
